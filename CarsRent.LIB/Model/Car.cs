@@ -29,7 +29,7 @@ namespace CarsRent.LIB.Model
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна названия цвета автомобиля, должна быть в диапазоне от 1 до 20 символов")]
         public string Color { get; set; }
         [Required(ErrorMessage = "Необходимо год выпуска автомобиля")]
-        [CarYearAttribute(ErrorMessage = "Некорректный годы выпуска автомобиля")]
+        [CarYear(ErrorMessage = "Некорректный годы выпуска автомобиля")]
         public int Year { get; set; }
         [Required(ErrorMessage = "Необходимо ввести номер двигателя автомобиля")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна номера двигателя автомобиля, должна быть в диапазоне от 1 до 20 символов")]

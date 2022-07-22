@@ -18,7 +18,7 @@ namespace CarsRent.LIB.Model
         public string IssuingOrganization { get; set; }
         [Required(ErrorMessage = "Не введена дата выдачи паспорта")]
         [Date(ErrorMessage = "Некорректная дата выдачи паспорта")]
-        public DateTime IssuingDate { get; set; }
+        public string IssuingDate { get; set; }
         [Required(ErrorMessage = "Вы не ввели место регистрации")] 
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки должна быть не меньше 3 и не больше 50 символов")]
         public string RegistrationPlace { get; set; }

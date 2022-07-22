@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using CarsRent.LIB.DataBase;
@@ -18,6 +17,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
             if (renter == null)
                 return;
 
+            FillField(renter);
+        }
+
+        private void FillField(Human renter)
+        {
             tbxSurname.Text = renter.Surname;
             tbxName.Text = renter.Name;
             tbxPatronymic.Text = renter.Patronymic;
@@ -30,59 +34,48 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            
-            var surname = tbxSurname.Text;
-            var name = tbxName.Text;
-            var patronymic = tbxPatronymic.Text;
-            var birthDate = tbxBirthDate.Text;
-            var passportNumber = tbxPassportNumber.Text;
-            var issuingOrganization = tbxIssuingOrganization.Text;
-            var issuingDate = tbxIssuingDate.Text;
-            var registrationPlace = tbxRegistrationPlace.Text;
-
-            // TODO: DevExpress
-
             var renter = new Human();
-            renter.Name = name;
-            renter.Surname = surname;
-            renter.Patronymic = patronymic;
-            renter.BirthDate = birthDate;
+            renter.Name = tbxName.Text;
+            renter.Surname = tbxSurname.Text;
+            renter.Patronymic = tbxPatronymic.Text;
+            renter.BirthDate = tbxBirthDate.Text;
+            renter.PhoneNumber = tbxPhone.Text;
 
             var passport = new Passport();
-            passport.IdentityNumber = passportNumber;
-            passport.IssuingOrganization = issuingOrganization;
-            DateTime.TryParse(issuingDate, out var date);
-            passport.IssuingDate = date;
-            passport.RegistrationPlace = registrationPlace;
-
-            renter.PhoneNumber = "89039328345";
+            passport.IdentityNumber = tbxPassportNumber.Text;
+            passport.IssuingOrganization = tbxIssuingOrganization.Text;
+            passport.IssuingDate = tbxIssuingDate.Text;
+            passport.RegistrationPlace = tbxRegistrationPlace.Text;
+            
             renter.Passport = passport;
 
-            var passportValidation = new ValidationContext(passport);
-            var renterValidation = new ValidationContext(renter);
+            var passportResults = Validate(passport);
+            var renterResults = Validate(renter);
 
-            var passportResults = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
-            var renterResults = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+            // TODO: заменить MessageBox на что-то более удобное
 
-            if (Validator.TryValidateObject(passport, passportValidation, passportResults, true))
-                MessageBox.Show("OK");
+            if (passportResults.Count > 0)
+                MessageBox.Show(passportResults.First().ToString());
+            else if (renterResults.Count > 0)
+                MessageBox.Show(renterResults.First().ToString());
             else
             {
-                var errors = "";
-                foreach (var res in passportResults)
-                    errors += $"{res.ErrorMessage}\n";
-                MessageBox.Show(errors);
+                AddRenter(renter);
+                MessageBox.Show("Арендатор успешно добавлен");
             }
+        }
 
-            if (Validator.TryValidateObject(renter, renterValidation, renterResults, true))
-                MessageBox.Show("OK");
-            else
-            {
-                var errors = "";
-                foreach (var res in renterResults)
-                    errors += $"{res.ErrorMessage}\n";
-                MessageBox.Show(errors);
-            }
+        private static List<System.ComponentModel.DataAnnotations.ValidationResult> Validate<T>(T obj)
+        {
+            var validationContext = new ValidationContext(obj); ;
+            var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+            Validator.TryValidateObject(obj, validationContext, results, true);
+            return results;
+        }
+
+        private void AddRenter(Human renter)
+        {
+            Commands<Human>.Add(renter);
         }
     }
 }

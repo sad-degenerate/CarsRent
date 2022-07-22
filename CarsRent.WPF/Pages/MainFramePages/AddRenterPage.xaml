@@ -54,6 +54,9 @@
                 <Label Content="Место регистрации:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxRegistrationPlace" Style="{StaticResource Prop}"/>
 
+                <Label Content="Телефон:" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxPhone" Style="{StaticResource Prop}"/>
+
                 <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>
         </ScrollViewer>

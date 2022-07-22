@@ -17,10 +17,10 @@ namespace CarsRent.LIB.Model
         public RideType RideType { get; set; }
         [Required(ErrorMessage = "Вы не ввели дату заключения договора")]
         [Date(ErrorMessage = "Некорректная дата заключения договора")]
-        public DateTime ConclusionDate { get; set; }
+        public string ConclusionDate { get; set; }
         [Required(ErrorMessage = "Вы не ввели дату расторжения договора")]
         [Date(ErrorMessage = "Некорректная дата расторжения договора")]
-        public DateTime EndDate { get; set; }
+        public string EndDate { get; set; }
 
         public int? CarId { get; set; }
         [Required(ErrorMessage = "Вы не выбрали автомобиль, используемый в этой поездке")]

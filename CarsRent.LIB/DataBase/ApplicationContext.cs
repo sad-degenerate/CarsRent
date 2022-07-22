@@ -12,8 +12,7 @@ namespace CarsRent.LIB.DataBase
         public DbSet<Passport> Passports { get; set; }
         public DbSet<ContractDetails> ContractDetails { get; set; }
 
-        // Может конфликтовать с Entity Framework-ом
-        protected ApplicationContext() { }
+        public ApplicationContext() { }
 
         public static ApplicationContext Instance()
         {
