@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:CarsRent.WPF.Pages.MainFramePages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Renters">
+      Title="Renters" Loaded="Page_Loaded">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,9 +20,9 @@
             <RowDefinition Height="70*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="btnDelete" Content="Удалить" Grid.Column="1" Grid.Row="2"/>
+        <Button x:Name="btnDelete" Content="Удалить" Grid.Column="1" Grid.Row="2" Click="btnDelete_Click"/>
         <Button x:Name="btnAdd" Content="Добавить" Grid.Column="1" Grid.Row="0" Click="btnAdd_Click"/>
-        <Button x:Name="btnEdit" Content="Изменить" Grid.Column="1" Grid.Row="1"/>
+        <Button x:Name="btnEdit" Content="Изменить" Grid.Column="1" Grid.Row="1" Click="btnEdit_Click"/>
 
         <DataGrid x:Name="dgRenters" Grid.Row="0" Grid.RowSpan="10" Grid.Column="0" AutoGenerateColumns="False">
             <DataGrid.Columns>

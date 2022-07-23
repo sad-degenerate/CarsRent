@@ -8,7 +8,6 @@ namespace CarsRent.LIB.DataBase
         private static ApplicationContext _instance;
         public DbSet<Car> Cars { get; set; }
         public DbSet<Human> Humans { get; set; }
-        public DbSet<Passport> Passports { get; set; }
         public DbSet<ContractDetails> ContractDetails { get; set; }
 
         public ApplicationContext() { }

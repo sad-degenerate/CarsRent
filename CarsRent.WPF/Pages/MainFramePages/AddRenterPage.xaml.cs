@@ -10,6 +10,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class AddRenterPage : Page
     {
+        private Human _renter;
         public AddRenterPage(Human renter = null)
         {
             InitializeComponent();
@@ -18,6 +19,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 return;
 
             FillField(renter);
+            _renter = renter;
         }
 
         private void FillField(Human renter)
@@ -26,42 +28,37 @@ namespace CarsRent.WPF.Pages.MainFramePages
             tbxName.Text = renter.Name;
             tbxPatronymic.Text = renter.Patronymic;
             tbxBirthDate.Text = renter.BirthDate.ToString();
-            tbxPassportNumber.Text = renter.Passport.IdentityNumber;
-            tbxIssuingOrganization.Text = renter.Passport.IssuingOrganization;
-            tbxIssuingDate.Text = renter.Passport.IssuingDate.ToString();
-            tbxRegistrationPlace.Text = renter.Passport.RegistrationPlace;
+            tbxPassportNumber.Text = renter.IdentityNumber;
+            tbxIssuingOrganization.Text = renter.IssuingOrganization;
+            tbxIssuingDate.Text = renter.IssuingDate.ToString();
+            tbxRegistrationPlace.Text = renter.RegistrationPlace;
+            tbxPhone.Text = renter.PhoneNumber;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            var renter = new Human();
-            renter.Name = tbxName.Text;
-            renter.Surname = tbxSurname.Text;
-            renter.Patronymic = tbxPatronymic.Text;
-            renter.BirthDate = tbxBirthDate.Text;
-            renter.PhoneNumber = tbxPhone.Text;
+            if (_renter == null)
+                _renter = new Human();
 
-            var passport = new Passport();
-            passport.IdentityNumber = tbxPassportNumber.Text;
-            passport.IssuingOrganization = tbxIssuingOrganization.Text;
-            passport.IssuingDate = tbxIssuingDate.Text;
-            passport.RegistrationPlace = tbxRegistrationPlace.Text;
-            
-            renter.Passport = passport;
-            passport.Human = renter;
+            _renter.Name = tbxName.Text;
+            _renter.Surname = tbxSurname.Text;
+            _renter.Patronymic = tbxPatronymic.Text;
+            _renter.BirthDate = tbxBirthDate.Text;
+            _renter.PhoneNumber = tbxPhone.Text;
+            _renter.IdentityNumber = tbxPassportNumber.Text;
+            _renter.IssuingOrganization = tbxIssuingOrganization.Text;
+            _renter.IssuingDate = tbxIssuingDate.Text;
+            _renter.RegistrationPlace = tbxRegistrationPlace.Text;
 
-            var passportResults = Validate(passport);
-            var renterResults = Validate(renter);
+            var renterResults = Validate(_renter);
 
-            if (passportResults.Count > 0)
-                lblError.Content = passportResults.First().ToString();
-            else if (renterResults.Count > 0)
+            if (renterResults.Count > 0)
                 lblError.Content = renterResults.First().ToString();
             else
             {
-                AddRenter(renter, passport);
+                AddEditRenter(_renter);
                 lblError.Content = "";
-                MessageBox.Show("Арендатор добавлен");
+                NavigationService.GoBack();
             }
         }
 
@@ -73,11 +70,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
             return results;
         }
 
-        private void AddRenter(Human renter, Passport passport)
+        private void AddEditRenter(Human renter)
         {
-            Commands<Human>.Add(renter);
-            passport.Human = renter;
-            Commands<Passport>.Add(passport);
+            if (_renter.Id == 0)
+                Commands<Human>.Add(renter);
+            else
+                Commands<Human>.Modify(renter);
         }
     }
 }

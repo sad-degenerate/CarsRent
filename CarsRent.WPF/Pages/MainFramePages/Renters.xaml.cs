@@ -14,37 +14,44 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             InitializeComponent();
 
-            _renters = Commands<Human>.Select(1, 1).ToList();
-            
-            AddRentersToView(_renters);
+            UpdateDataGrid();
         }
 
-        private void AddRentersToView(List<Human> renters)
+        private void UpdateDataGrid()
         {
-            var context = ApplicationContext.Instance();
-            var data = context.Humans.Join(
-                context.Passports,
-                human => human.Id,
-                passport => passport.Human.Id,
-                (human, passport) => new
-                {
-                    human.Surname,
-                    human.Name,
-                    human.Patronymic,
-                    human.BirthDate,
-
-                    passport.IdentityNumber,
-                    passport.IssuingDate,
-                    passport.IssuingOrganization,
-                    passport.RegistrationPlace,
-                }).ToList();
-
-            dgRenters.ItemsSource = data;
+            _renters = Commands<Human>.Select(1, 10).ToList();
+            dgRenters.ItemsSource = _renters;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new AddRenterPage());
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var renters = dgRenters.SelectedItems as List<Human>;
+            
+            if (renters == null)
+                return;
+
+            NavigationService.Navigate(new AddRenterPage(renters.First()));
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateDataGrid();
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var renters = dgRenters.SelectedItems as List<Human>;
+            
+            if (renters == null)
+                return;
+
+            foreach (var renter in renters)
+                Commands<Human>.Delete(renter);
         }
     }
 }
