@@ -48,6 +48,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             passport.RegistrationPlace = tbxRegistrationPlace.Text;
             
             renter.Passport = passport;
+            passport.Human = renter;
 
             var passportResults = Validate(passport);
             var renterResults = Validate(renter);
@@ -60,7 +61,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 MessageBox.Show(renterResults.First().ToString());
             else
             {
-                AddRenter(renter);
+                AddRenter(renter, passport);
                 MessageBox.Show("Арендатор успешно добавлен");
             }
         }
@@ -73,9 +74,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
             return results;
         }
 
-        private void AddRenter(Human renter)
+        private void AddRenter(Human renter, Passport passport)
         {
             Commands<Human>.Add(renter);
+            passport.Human = renter;
+            Commands<Passport>.Add(passport);
         }
     }
 }

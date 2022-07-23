@@ -1,7 +1,6 @@
 ﻿using CarsRent.WPF.Pages.Settings;
 using CarsRent.WPF.Pages.MainFramePages;
 using System.Windows;
-using CarsRent.LIB.DataBase;
 
 namespace CarsRent.WPF
 {
@@ -10,8 +9,6 @@ namespace CarsRent.WPF
         public MainWindow()
         {
             InitializeComponent();
-
-            var context = ApplicationContext.Instance();
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)

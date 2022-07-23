@@ -6,7 +6,6 @@ namespace CarsRent.LIB.DataBase
     public class ApplicationContext : DbContext
     {
         private static ApplicationContext _instance;
-
         public DbSet<Car> Cars { get; set; }
         public DbSet<Human> Humans { get; set; }
         public DbSet<Passport> Passports { get; set; }
@@ -17,7 +16,11 @@ namespace CarsRent.LIB.DataBase
         public static ApplicationContext Instance()
         {
             if (_instance == null)
+            {
                 _instance = new ApplicationContext();
+                _instance.Database.EnsureCreated();
+            }
+
             return _instance;
         }
 

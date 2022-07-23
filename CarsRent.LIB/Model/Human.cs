@@ -23,7 +23,6 @@ namespace CarsRent.LIB.Model
         [Phone(ErrorMessage = "Некорректный номер телефона")]
         public string PhoneNumber { get; set; }
 
-        [Required]
         public virtual Passport Passport { get; set; }
 
         public virtual ICollection<ContractDetails> ContractDetails { get; set; }

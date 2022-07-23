@@ -6,8 +6,6 @@ namespace CarsRent.LIB.Model
 {
     public class Passport : IBaseModel
     {
-        [Key]
-        [ForeignKey("Human")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Вы не ввели серию/номер паспорта")]
@@ -22,6 +20,9 @@ namespace CarsRent.LIB.Model
         [Required(ErrorMessage = "Вы не ввели место регистрации")] 
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки должна быть не меньше 3 и не больше 50 символов")]
         public string RegistrationPlace { get; set; }
+
+        public int? HumanId { get; set; }
+        public virtual Human Human { get; set; }
 
         public Passport() { }
     }
