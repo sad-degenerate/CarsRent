@@ -53,16 +53,15 @@ namespace CarsRent.WPF.Pages.MainFramePages
             var passportResults = Validate(passport);
             var renterResults = Validate(renter);
 
-            // TODO: заменить MessageBox на что-то более удобное
-
             if (passportResults.Count > 0)
-                MessageBox.Show(passportResults.First().ToString());
+                lblError.Content = passportResults.First().ToString();
             else if (renterResults.Count > 0)
-                MessageBox.Show(renterResults.First().ToString());
+                lblError.Content = renterResults.First().ToString();
             else
             {
                 AddRenter(renter, passport);
-                MessageBox.Show("Арендатор успешно добавлен");
+                lblError.Content = "";
+                MessageBox.Show("Арендатор добавлен");
             }
         }
 

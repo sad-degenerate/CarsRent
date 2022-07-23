@@ -24,8 +24,17 @@
         <Button x:Name="btnAdd" Content="Добавить" Grid.Column="1" Grid.Row="0" Click="btnAdd_Click"/>
         <Button x:Name="btnEdit" Content="Изменить" Grid.Column="1" Grid.Row="1"/>
 
-        <DataGrid x:Name="dgRenters" Grid.Row="0" Grid.RowSpan="10" Grid.Column="0">
-
+        <DataGrid x:Name="dgRenters" Grid.Row="0" Grid.RowSpan="10" Grid.Column="0" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname}" Width="15*"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" Width="15*"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic}" Width="15*"/>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate}" Width="10*"/>
+                <DataGridTextColumn Header="Серия/номер паспорта" Binding="{Binding Path=IdentityNumber}" Width="10*"/>
+                <DataGridTextColumn Header="Дата выдачи паспорта" Binding="{Binding Path=IssuingDate}" Width="10*"/>
+                <DataGridTextColumn Header="Кем выдан паспорт" Binding="{Binding Path=IssuingOrganization}" Width="20*"/>
+                <DataGridTextColumn Header="Место регистрации" Binding="{Binding Path=RegistrationPlace}" Width="20*"/>
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </Page>

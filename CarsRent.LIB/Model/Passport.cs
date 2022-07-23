@@ -12,13 +12,13 @@ namespace CarsRent.LIB.Model
         [PassportNumber(ErrorMessage = "Некорректно введены серия/номер паспорта")]
         public string IdentityNumber { get; set; }
         [Required(ErrorMessage = "Вы не ввели кем выдан паспорт")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Длинна строки должна быть не меньше 3 и не больше 50 символов")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Длинна строки \"кем выдан паспорт\" должна быть не меньше 3 и не больше 50 символов")]
         public string IssuingOrganization { get; set; }
         [Required(ErrorMessage = "Не введена дата выдачи паспорта")]
         [Date(ErrorMessage = "Некорректная дата выдачи паспорта")]
         public string IssuingDate { get; set; }
         [Required(ErrorMessage = "Вы не ввели место регистрации")] 
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки должна быть не меньше 3 и не больше 50 символов")]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки \"место регистрации\" должна быть не меньше 3 и не больше 50 символов")]
         public string RegistrationPlace { get; set; }
 
         public int? HumanId { get; set; }
