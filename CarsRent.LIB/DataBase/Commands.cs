@@ -26,10 +26,16 @@ namespace CarsRent.LIB.DataBase
             context.SaveChanges();
         }
 
-        public static IEnumerable<T> Select(int startPoint, int count)
+        public static IEnumerable<T> SelectGroup(int startPoint, int count)
         {
             var context = ApplicationContext.Instance();
             return context.Set<T>().Skip(startPoint - 1).Take(count);
+        }
+
+        public static IEnumerable<T> SelectAll()
+        {
+            var context = ApplicationContext.Instance();
+            return context.Set<T>();
         }
 
         public static T SelectById(int id)

@@ -14,17 +14,20 @@
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="5*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="70*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="btnDelete" Content="Удалить" Grid.Column="1" Grid.Row="2" Click="btnDelete_Click"/>
-        <Button x:Name="btnAdd" Content="Добавить" Grid.Column="1" Grid.Row="0" Click="btnAdd_Click"/>
-        <Button x:Name="btnEdit" Content="Изменить" Grid.Column="1" Grid.Row="1" Click="btnEdit_Click"/>
+        <Button x:Name="btnDelete" Content="Удалить" Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
+        <Button x:Name="btnAdd" Content="Добавить" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Click="btnAdd_Click"/>
+        <Button x:Name="btnEdit" Content="Изменить" Grid.Column="1" Grid.Row="2" Click="btnEdit_Click"/>
 
-        <DataGrid x:Name="dgRenters" Grid.Row="0" Grid.RowSpan="10" Grid.Column="0" AutoGenerateColumns="False">
+        <TextBox x:Name="tbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
+
+        <DataGrid x:Name="dgRenters" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname}" Width="15*"/>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" Width="15*"/>

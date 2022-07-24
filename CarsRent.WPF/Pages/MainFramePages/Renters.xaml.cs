@@ -1,5 +1,6 @@
 ﻿using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -19,7 +20,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void UpdateDataGrid()
         {
-            _renters = Commands<Human>.Select(1, 10).ToList();
+            if (tbxSearch.Text == "")
+                _renters = Commands<Human>.SelectAll().ToList();
+            else
+                _renters = FindHuman(tbxSearch.Text);
+
             dgRenters.ItemsSource = _renters;
         }
 
@@ -30,12 +35,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            var renters = dgRenters.SelectedItems as List<Human>;
+            var renter = dgRenters.SelectedItem as Human;
             
-            if (renters == null)
+            if (renter == null)
                 return;
 
-            NavigationService.Navigate(new AddRenterPage(renters.First()));
+            NavigationService.Navigate(new AddRenterPage(renter));
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -45,13 +50,48 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var renters = dgRenters.SelectedItems as List<Human>;
+            // TODO: Множественное удаление
+            var renter = dgRenters.SelectedItem as Human;
             
-            if (renters == null)
+            if (renter == null)
                 return;
 
+            Commands<Human>.Delete(renter);
+
+            UpdateDataGrid();
+        }
+
+        private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateDataGrid();
+        }
+
+        private List<Human> FindHuman(string text)
+        {
+            var renters = Commands<Human>.SelectAll();
+            var resultRenters = new List<Human>();
+
             foreach (var renter in renters)
-                Commands<Human>.Delete(renter);
+            {
+                var fullName = $"{renter.Surname} {renter.Name} {renter.Patronymic}";
+
+                if (fullName.Contains(text))
+                    resultRenters.Add(renter);
+                else if (renter.BirthDate.Contains(text))
+                    resultRenters.Add(renter);
+                else if (renter.PhoneNumber.Contains(text))
+                    resultRenters.Add(renter);
+                else if (renter.IdentityNumber.Contains(text))
+                    resultRenters.Add(renter);
+                else if (renter.IssuingDate.Contains(text))
+                    resultRenters.Add(renter);
+                else if (renter.IssuingOrganization.Contains(text))
+                    resultRenters.Add(renter);
+                else if (renter.RegistrationPlace.Contains(text))
+                    resultRenters.Add(renter);
+            }
+
+            return resultRenters;
         }
     }
 }
