@@ -41,7 +41,7 @@ namespace CarsRent.LIB.Model
         public Human() { }
 
         [NotMapped]
-        public string FullName { get { return $"{Surname} {Name} {Patronymic}"; } }
+        public string FullName => $"{Surname} {Name} {Patronymic}";
 
         public override string ToString()
         {

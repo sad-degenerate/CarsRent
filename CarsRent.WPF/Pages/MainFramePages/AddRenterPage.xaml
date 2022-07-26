@@ -33,20 +33,20 @@
     <Grid>
         <ScrollViewer Grid.Row="1">
             <StackPanel>
-                <Label Content="Данные о арендодателе:" Style="{StaticResource Header}"/>
+                <Label Content="Данные о арендаторе:" Style="{StaticResource Header}"/>
 
                 <Label x:Name="lblError" Content="" Style="{StaticResource error}"/>
 
-                <Label Content="Фамилия арендодателя:" Style="{StaticResource Prop}"/>
+                <Label Content="Фамилия арендатора:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxSurname" Style="{StaticResource Prop}"/>
 
-                <Label Content="Имя арендодателя:" Style="{StaticResource Prop}"/>
+                <Label Content="Имя арендатора:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxName" Style="{StaticResource Prop}"/>
 
-                <Label Content="Отчество арендодателя:" Style="{StaticResource Prop}"/>
+                <Label Content="Отчество арендатора:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxPatronymic" Style="{StaticResource Prop}"/>
 
-                <Label Content="Дата рождения арендодателя:" Style="{StaticResource Prop}"/>
+                <Label Content="Дата рождения арендатора:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxBirthDate" Style="{StaticResource Prop}"/>
 
                 <Label Content="Серия/номер паспорта:" Style="{StaticResource Prop}"/>

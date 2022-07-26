@@ -1,5 +1,6 @@
 ﻿using CarsRent.LIB.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarsRent.LIB.Model
 {
@@ -32,6 +33,7 @@ namespace CarsRent.LIB.Model
 
         public ContractDetails() { }
 
+        [NotMapped]
         public string RideTypeText 
         { 
             get 

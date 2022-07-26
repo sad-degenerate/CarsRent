@@ -30,7 +30,7 @@ namespace CarsRent.LIB.Model
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна названия цвета автомобиля, должна быть в диапазоне от 1 до 20 символов")]
         public string Color { get; set; }
         [Required(ErrorMessage = "Необходимо год выпуска автомобиля")]
-        [CarYear(ErrorMessage = "Некорректный годы выпуска автомобиля")]
+        [CarYear(ErrorMessage = "Некорректный год выпуска автомобиля")]
         public string Year { get; set; }
         [Required(ErrorMessage = "Необходимо ввести номер двигателя автомобиля")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна номера двигателя автомобиля, должна быть в диапазоне от 1 до 20 символов")]
@@ -44,7 +44,7 @@ namespace CarsRent.LIB.Model
         public Car() { }
 
         [NotMapped]
-        public string FullName { get { return $"{Color} {Brand} {Model}"; } }
+        public string FullCarName => $"{Color} {Brand} {Model}";
 
         public override string ToString()
         {

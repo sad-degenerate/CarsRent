@@ -57,8 +57,14 @@ namespace CarsRent.WPF.Pages.MainFramePages
             _contractDetails.EndDate = tbxEndDate.Text;
 
             _contractDetails.RideType = _rideType[cbxRideType.Text];
-            _contractDetails.Renter = cbxRenter.SelectedItem as Human;
-            _contractDetails.Car = cbxCar.SelectedItem as Car;
+
+            var renter = cbxRenter.SelectedItem as Human;
+            var car = cbxCar.SelectedItem as Car;
+
+            _contractDetails.Renter = renter;
+            _contractDetails.Car = car;
+            _contractDetails.CarId = car.Id;
+            _contractDetails.RenterId = renter.Id;
 
             var contractResult = ModelValidation.Validate(_contractDetails);
 
