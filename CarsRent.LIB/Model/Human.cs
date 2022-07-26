@@ -1,5 +1,6 @@
 ﻿using CarsRent.LIB.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarsRent.LIB.Model
 {
@@ -38,6 +39,9 @@ namespace CarsRent.LIB.Model
         public virtual ICollection<ContractDetails> ContractDetails { get; set; }
 
         public Human() { }
+
+        [NotMapped]
+        public string FullName { get { return $"{Surname} {Name} {Patronymic}"; } }
 
         public override string ToString()
         {

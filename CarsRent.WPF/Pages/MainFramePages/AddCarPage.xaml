@@ -33,7 +33,7 @@
     <Grid>
         <ScrollViewer Grid.Row="1">
             <StackPanel>
-                <Label Content="Данные о арендодателе:" Style="{StaticResource Header}"/>
+                <Label Content="Данные о автомобиле:" Style="{StaticResource Header}"/>
 
                 <Label x:Name="lblError" Content="" Style="{StaticResource error}"/>
 

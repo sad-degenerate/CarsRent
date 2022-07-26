@@ -21,7 +21,7 @@
         <Button x:Name="btnSettings" Content="SET" Grid.Column="10" Grid.Row="0" Click="btnSettings_Click"/>
         <Button x:Name="btnRenters" Content="Арендодатели" Grid.Row="0" Grid.Column="0" Click="btnRenters_Click"/>
         <Button x:Name="btnCars" Content="Машины" Grid.Row="0" Grid.Column="1" Click="btnCars_Click"/>
-        <Button x:Name="btnContracts" Content="Договора" Grid.Row="0" Grid.Column="2"/>
+        <Button x:Name="btnContracts" Content="Договора" Grid.Row="0" Grid.Column="2" Click="btnContracts_Click"/>
         <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="10" x:Name="mainFrame" ContentRendered="mainFrame_ContentRendered"/>
     </Grid>
 </Window>

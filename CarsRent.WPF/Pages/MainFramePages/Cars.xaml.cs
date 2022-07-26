@@ -13,8 +13,6 @@ namespace CarsRent.WPF.Pages.MainFramePages
         public Cars()
         {
             InitializeComponent();
-
-            UpdateDataGrid();
         }
 
         private void btnDelete_Click(object sender, System.Windows.RoutedEventArgs e)

@@ -9,10 +9,10 @@ namespace CarsRent.LIB.Model
 
         [Required(ErrorMessage = "Вы не ввели сумму залога")]
         [Price(ErrorMessage = "Некорректная сумма залога")]
-        public int Deposit { get; set; }
+        public string Deposit { get; set; }
         [Required(ErrorMessage = "Вы не ввели стоимость поездки")]
         [Price(ErrorMessage = "Некорректная стоимость поездки")]
-        public int Price { get; set; }
+        public string Price { get; set; }
         [Required(ErrorMessage = "Вы не выбрали тип поездки")]
         public RideType RideType { get; set; }
         [Required(ErrorMessage = "Вы не ввели дату заключения договора")]
@@ -27,10 +27,26 @@ namespace CarsRent.LIB.Model
         public Car Car { get; set; }
 
         public int? RenterId { get; set; }
-        [Required(ErrorMessage = "Вы не выбрали арендатора, учавствующего в этой поездке")]
+        [Required(ErrorMessage = "Вы не выбрали арендатора, участвующего в этой поездке")]
         public Human Renter { get; set; }
 
         public ContractDetails() { }
+
+        public string RideTypeText 
+        { 
+            get 
+            {
+                if (RideType == RideType.InTheCity)
+                    return "по городу";
+                else
+                    return "за городом";
+            } 
+        }
+
+        public override string ToString()
+        {          
+            return $"{Deposit} {Price} {RideTypeText} {ConclusionDate} {EndDate} {Car} {Renter}";
+        }
     }
 
     public enum RideType

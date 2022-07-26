@@ -38,5 +38,10 @@ namespace CarsRent.WPF
         {
             mainFrame.Content = new Cars();
         }
+
+        private void btnContracts_Click(object sender, RoutedEventArgs e)
+        {
+            mainFrame.Content = new Contracts();
+        }
     }
 }

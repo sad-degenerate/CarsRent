@@ -14,8 +14,6 @@ namespace CarsRent.WPF.Pages.MainFramePages
         public Renters()
         {
             InitializeComponent();
-
-            UpdateDataGrid();
         }
 
         private void UpdateDataGrid()

@@ -1,0 +1,65 @@
+﻿<Page x:Class="CarsRent.WPF.Pages.MainFramePages.AddContractPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CarsRent.WPF.Pages.MainFramePages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AddContractPage">
+
+    <Page.Resources>
+        <Style x:Key="Header">
+            <Setter Property="Control.HorizontalAlignment" Value="Center"/>
+            <Setter Property="Control.VerticalAlignment" Value="Center"/>
+            <Setter Property="Control.FontSize" Value="20"/>
+        </Style>
+        <Style x:Key="Prop">
+            <Setter Property="Control.FontSize" Value="15"/>
+            <Setter Property="Control.Margin" Value="20, 5"/>
+        </Style>
+        <Style x:Key="saveButtonStyle">
+            <Setter Property="Control.HorizontalAlignment" Value="Right"/>
+            <Setter Property="Control.Height" Value="40"/>
+            <Setter Property="Control.Width" Value="150"/>
+            <Setter Property="Control.Margin" Value="20, 5"/>
+        </Style>
+        <Style x:Key="error">
+            <Setter Property="Control.FontSize" Value="15"/>
+            <Setter Property="Control.Margin" Value="20, 5"/>
+            <Setter Property="TextElement.Foreground" Value="Red"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <Label Content="Данные договора:" Style="{StaticResource Header}"/>
+
+                <Label x:Name="lblError" Content="" Style="{StaticResource error}"/>
+
+                <Label Content="Сумма залога:" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxDeposit" Style="{StaticResource Prop}"/>
+
+                <Label Content="Стоимость поездки в сутки:" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxPrice" Style="{StaticResource Prop}"/>
+
+                <Label Content="Тип поездки:" Style="{StaticResource Prop}"/>
+                <ComboBox x:Name="cbxRideType" Style="{StaticResource Prop}" IsEditable="False"/>
+
+                <Label Content="Дата заключения договора:" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxConclusionDate" Style="{StaticResource Prop}"/>
+
+                <Label Content="Дата расторжения договора:" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxEndDate" Style="{StaticResource Prop}"/>
+
+                <Label Content="Выберите арендатора:" Style="{StaticResource Prop}"/>
+                <ComboBox x:Name="cbxRenter" Style="{StaticResource Prop}"/>
+
+                <Label Content="Выберите машину:" Style="{StaticResource Prop}"/>
+                <ComboBox x:Name="cbxCar" Style="{StaticResource Prop}"/>
+
+                <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click"  Style="{StaticResource saveButtonStyle}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
