@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
+using CarsRent.LIB.Validation;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
@@ -50,32 +49,24 @@ namespace CarsRent.WPF.Pages.MainFramePages
             _renter.IssuingDate = tbxIssuingDate.Text;
             _renter.RegistrationPlace = tbxRegistrationPlace.Text;
 
-            var renterResults = Validate(_renter);
+            var renterResults = ModelValidation.Validate(_renter);
 
             if (renterResults.Count > 0)
                 lblError.Content = renterResults.First().ToString();
             else
             {
-                AddEditRenter(_renter);
+                AddEditRenter();
                 lblError.Content = "";
                 NavigationService.GoBack();
             }
         }
 
-        private static List<System.ComponentModel.DataAnnotations.ValidationResult> Validate<T>(T obj)
-        {
-            var validationContext = new ValidationContext(obj); ;
-            var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
-            Validator.TryValidateObject(obj, validationContext, results, true);
-            return results;
-        }
-
-        private void AddEditRenter(Human renter)
+        private void AddEditRenter()
         {
             if (_renter.Id == 0)
-                Commands<Human>.Add(renter);
+                Commands<Human>.Add(_renter);
             else
-                Commands<Human>.Modify(renter);
+                Commands<Human>.Modify(_renter);
         }
     }
 }

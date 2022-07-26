@@ -38,5 +38,10 @@ namespace CarsRent.LIB.Model
         public virtual ICollection<ContractDetails> ContractDetails { get; set; }
 
         public Human() { }
+
+        public override string ToString()
+        {
+            return $"{Surname} {Name} {Patronymic} {BirthDate} {PhoneNumber} {IdentityNumber} {IssuingOrganization} {IssuingDate} {RegistrationPlace}";
+        }
     }
 }

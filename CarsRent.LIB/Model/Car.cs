@@ -18,7 +18,7 @@ namespace CarsRent.LIB.Model
         public string PassportNumber { get; set; }
         [Required(ErrorMessage = "Необходимо ввести дату выдачи паспорта автомобиля")]
         [Date(ErrorMessage = "Некорректная дата выдачи паспорта автомобиля")]
-        public DateTime PassportIssuingDate { get; set; }
+        public string PassportIssuingDate { get; set; }
         [Required(ErrorMessage = "Необходимо VIN автомобиля")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна VIN автомобиля, должна быть в диапазоне от 1 до 20 символов")]
         public string VIN { get; set; }
@@ -30,16 +30,21 @@ namespace CarsRent.LIB.Model
         public string Color { get; set; }
         [Required(ErrorMessage = "Необходимо год выпуска автомобиля")]
         [CarYear(ErrorMessage = "Некорректный годы выпуска автомобиля")]
-        public int Year { get; set; }
+        public string Year { get; set; }
         [Required(ErrorMessage = "Необходимо ввести номер двигателя автомобиля")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна номера двигателя автомобиля, должна быть в диапазоне от 1 до 20 символов")]
         public string EngineNumber { get; set; }
         [Required(ErrorMessage = "Вы не ввели стоимость автомобиля")]
         [Price(ErrorMessage = "Некорректная стоимость автомобиля")]
-        public int Price { get; set; }
+        public string Price { get; set; }
 
         public virtual ICollection<ContractDetails> ContractDetails { get; set; }
 
         public Car() { }
+
+        public override string ToString()
+        {
+            return $"{Brand} {Model} {PassportNumber} {PassportIssuingDate} {VIN} {BodyNumber} {Color} {Year} {EngineNumber} {Price}";
+        }
     }
 }

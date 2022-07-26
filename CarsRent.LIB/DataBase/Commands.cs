@@ -41,7 +41,7 @@ namespace CarsRent.LIB.DataBase
         public static T SelectById(int id)
         {
             var context = ApplicationContext.Instance();
-            return context.Set<T>().Where(x => x.Id == id).Single();
+            return context.Set<T>().Where(x => x.Id == id).SingleOrDefault();
         }
     }
 }

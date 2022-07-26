@@ -1,6 +1,5 @@
 ﻿using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -11,6 +10,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
     public partial class Renters : Page
     {
         private List<Human> _renters;
+
         public Renters()
         {
             InitializeComponent();
@@ -50,7 +50,6 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Множественное удаление
             var renter = dgRenters.SelectedItem as Human;
             
             if (renter == null)
@@ -69,29 +68,28 @@ namespace CarsRent.WPF.Pages.MainFramePages
         private List<Human> FindHuman(string text)
         {
             var renters = Commands<Human>.SelectAll();
-            var resultRenters = new List<Human>();
+            var renterResult = new List<Human>();
+            var words = text.Split(' ');
 
             foreach (var renter in renters)
             {
-                var fullName = $"{renter.Surname} {renter.Name} {renter.Patronymic}";
+                var renterText = renter.ToString();
 
-                if (fullName.Contains(text))
-                    resultRenters.Add(renter);
-                else if (renter.BirthDate.Contains(text))
-                    resultRenters.Add(renter);
-                else if (renter.PhoneNumber.Contains(text))
-                    resultRenters.Add(renter);
-                else if (renter.IdentityNumber.Contains(text))
-                    resultRenters.Add(renter);
-                else if (renter.IssuingDate.Contains(text))
-                    resultRenters.Add(renter);
-                else if (renter.IssuingOrganization.Contains(text))
-                    resultRenters.Add(renter);
-                else if (renter.RegistrationPlace.Contains(text))
-                    resultRenters.Add(renter);
+                var addToResult = true;
+                foreach (var word in words)
+                {
+                    if (renterText.Contains(word) == false)
+                    {
+                        addToResult = false;
+                        break;
+                    }
+                }
+
+                if (addToResult == true)
+                    renterResult.Add(renter);
             }
 
-            return resultRenters;
+            return renterResult;
         }
     }
 }
