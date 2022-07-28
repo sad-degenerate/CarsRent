@@ -3,6 +3,7 @@ using CarsRent.WPF.Pages.MainFramePages;
 using System.Windows;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.DataBase;
+using System.Linq;
 
 namespace CarsRent.WPF
 {
@@ -14,7 +15,7 @@ namespace CarsRent.WPF
 
             // первое соединение с базой данных происходит долго,
             // в начале приложения проще это оставить
-            var load = Commands<Car>.SelectById(1);
+            var load1 = Commands<Car>.SelectById(1);
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
@@ -42,6 +43,13 @@ namespace CarsRent.WPF
         private void btnContracts_Click(object sender, RoutedEventArgs e)
         {
             mainFrame.Content = new Contracts();
+        }
+
+        private void mainFrame_Loaded(object sender, RoutedEventArgs e)
+        {
+            // TODO: костыль
+            Commands<Car>.SelectAll().ToList();
+            Commands<Human>.SelectAll().ToList();
         }
     }
 }

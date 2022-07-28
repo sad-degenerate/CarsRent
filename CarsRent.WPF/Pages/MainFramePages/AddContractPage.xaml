@@ -53,10 +53,12 @@
                 <TextBox x:Name="tbxEndDate" Style="{StaticResource Prop}"/>
 
                 <Label Content="Выберите арендатора:" Style="{StaticResource Prop}"/>
-                <ComboBox x:Name="cbxRenter" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxSearchRenter" Style="{StaticResource Prop}" TextChanged="tbxSearchRenter_TextChanged"/>
+                <ListBox x:Name="lbxRenter" Style="{StaticResource Prop}"/>
 
                 <Label Content="Выберите машину:" Style="{StaticResource Prop}"/>
-                <ComboBox x:Name="cbxCar" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxSearchCar" Style="{StaticResource Prop}" TextChanged="tbxSearchCar_TextChanged"/>
+                <ListBox x:Name="lbxCar" Style="{StaticResource Prop}"/>
 
                 <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click"  Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>
