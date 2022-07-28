@@ -65,6 +65,9 @@
                 <Label Content="Путь к образцу уведомления:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxNotificationSample" Style="{StaticResource Prop}"/>
 
+                <Label Content="Путь для созданных договоров:" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxOutputFolder" Style="{StaticResource Prop}"/>
+
                 <Button x:Name="btnSave" Content="Сохранить изменения" Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>
         </ScrollViewer>

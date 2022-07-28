@@ -1,6 +1,6 @@
 ﻿using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
-using System;
+using CarsRent.LIB.Word;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -19,8 +19,6 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void UpdateDataGrid()
         {
-            // TODO: одновременно не работают: вывод русской версии типа поездки и вывод ФИО арендатора
-
             if (tbxSearch.Text == "")
                 _contractDetails = Commands<ContractDetails>.SelectAll().ToList();
             else
@@ -96,6 +94,17 @@ namespace CarsRent.WPF.Pages.MainFramePages
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateDataGrid();
+        }
+
+        private void btnExportToWord_Click(object sender, RoutedEventArgs e)
+        {
+            var contract = dgContracts.SelectedItem as ContractDetails;
+
+            if (contract == null)
+                return;
+
+            var replace = new ReplaceWordsInContract();
+            replace.Replace(contract);
         }
     }
 }

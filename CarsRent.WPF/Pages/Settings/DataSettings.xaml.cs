@@ -30,6 +30,7 @@ namespace CarsRent.WPF.Pages.Settings
                 tbxActSample.Text = dataSettings.ActSample;
                 tbxContractSample.Text = dataSettings.ContractSample;
                 tbxNotificationSample.Text = dataSettings.NotificationSample;
+                tbxOutputFolder.Text = dataSettings.OutputFolder;
             }
         }
 
@@ -47,9 +48,10 @@ namespace CarsRent.WPF.Pages.Settings
             var actSample = tbxActSample.Text;
             var contractSample = tbxContractSample.Text;
             var notificationSample = tbxNotificationSample.Text;
+            var outputFolder = tbxOutputFolder.Text;
 
             var dataSettings = new TemplatesSettings(surname, name, patronymic, birthDate, passportNumber, issuingOrganization
-                                                        , issuingDate, registrationPlace, actSample, contractSample, notificationSample);
+                                               , issuingDate, registrationPlace, actSample, contractSample, notificationSample, outputFolder);
 
             var settingsSerializator = new SettingsSerializator<TemplatesSettings>();
             settingsSerializator.Serialize(dataSettings);

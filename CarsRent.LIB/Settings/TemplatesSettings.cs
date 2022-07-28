@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CarsRent.LIB.Settings
+﻿namespace CarsRent.LIB.Settings
 {
     [Serializable]
     public class TemplatesSettings : SettingsBase
@@ -17,14 +15,17 @@ namespace CarsRent.LIB.Settings
         public string ActSample { get; set; }
         public string ContractSample { get; set; }
         public string NotificationSample { get; set; }
+        public string OutputFolder { get; set; }
 
         // Нужен для сериализации/десиреализации
         public TemplatesSettings() { }
 
         public TemplatesSettings(string surname, string name, string patronymic, string birthDate, string passportNumber,
                             string issuingOrganization, string issuingDate, string registrationPlace, string actSample,
-                            string contractSample, string notificationSample)
+                            string contractSample, string notificationSample, string outputFolder)
         {
+            // TODO: Тут проверки
+
             Surname = surname;
             Name = name;
             Patronymic = patronymic;
@@ -36,6 +37,7 @@ namespace CarsRent.LIB.Settings
             ActSample = actSample;
             ContractSample = contractSample;
             NotificationSample = notificationSample;
+            OutputFolder = outputFolder;
         }
     }
 }
