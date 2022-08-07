@@ -4,7 +4,7 @@ using TemplateDocs.LIB;
 
 namespace CarsRent.LIB.Word
 {
-    public class ReplaceWordsInContract
+    public class ReplacerWordsInContract
     {
         public void Replace(ContractDetails contract)
         {
@@ -16,12 +16,13 @@ namespace CarsRent.LIB.Word
 
             var replaceWordsGenerator = new ReplaceWordsGenerator(settings, contract);
 
-            var documentReplacer = new DocumentReplacer(settings.ContractSample, outputFolder);
-            documentReplacer.Replace(replaceWordsGenerator.GetWords(), $"{documentName} договор");
-            documentReplacer = new DocumentReplacer(settings.ActSample, outputFolder);
-            documentReplacer.Replace(replaceWordsGenerator.GetWords(), $"{documentName} акт");
-            documentReplacer = new DocumentReplacer(settings.NotificationSample, outputFolder);
-            documentReplacer.Replace(replaceWordsGenerator.GetWords(), $"{documentName} уведомление");
+            
+            var actReplacer = new DocumentReplacer(settings.ActSample, outputFolder);
+            actReplacer.Replace(replaceWordsGenerator.GetWords(), $"{documentName} договор");
+            var contractReplacer = new DocumentReplacer(settings.ContractSample, outputFolder);
+            contractReplacer.Replace(replaceWordsGenerator.GetWords(), $"{documentName} акт");
+            var notificationReplacer = new DocumentReplacer(settings.NotificationSample, outputFolder);
+            notificationReplacer.Replace(replaceWordsGenerator.GetWords(), $"{documentName} уведомление");
         }
     }
 }

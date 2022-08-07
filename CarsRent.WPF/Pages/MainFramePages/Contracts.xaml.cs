@@ -1,7 +1,10 @@
 ﻿using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
+using CarsRent.LIB.Settings;
 using CarsRent.LIB.Word;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -96,15 +99,43 @@ namespace CarsRent.WPF.Pages.MainFramePages
             UpdateDataGrid();
         }
 
-        private void btnExportToWord_Click(object sender, RoutedEventArgs e)
+        private void btnOpenFolder_Click(object sender, RoutedEventArgs e)
         {
             var contract = dgContracts.SelectedItem as ContractDetails;
 
             if (contract == null)
                 return;
 
-            var replace = new ReplaceWordsInContract();
-            replace.Replace(contract);
+            var dir = GetDocumentFolder(contract);
+
+            if (Directory.Exists(dir))
+                Process.Start("explorer.exe", dir);
+            else
+                MessageBox.Show("Не удалось открыть директорию. Попробуйте заново сохранить договор.");
+        }
+
+        private string GetDocumentFolder(ContractDetails contract)
+        {
+            var settingsSerializator = new SettingsSerializator<TemplatesSettings>();
+            var settings = settingsSerializator.Deserialize();
+            return Path.Combine(settings.OutputFolder, $"{contract.Car.Color} {contract.Car.Brand} {contract.Car.Model}");
+        }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            var contract = dgContracts.SelectedItem as ContractDetails;
+
+            if (contract == null)
+                return;
+
+            var outputFolder = GetDocumentFolder(contract);
+            var documentName = $"{contract.ConclusionDate} {contract.Renter.Surname} {contract.Renter.Name[0]}.{contract.Renter.Patronymic[0]}.";
+
+            var filesPath = Path.Combine(outputFolder, documentName);
+
+            ContractPrinter.Print($"{filesPath} договор.docx", 2);
+            ContractPrinter.Print($"{filesPath} акт.docx", 2);
+            ContractPrinter.Print($"{filesPath} уведомление.docx", 1);
         }
     }
 }

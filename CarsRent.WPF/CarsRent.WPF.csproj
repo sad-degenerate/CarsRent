@@ -26,10 +26,4 @@
     <ProjectReference Include="..\CarsRent.LIB\CarsRent.LIB.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="TemplateDocs.LIB">
-      <HintPath>D:\_projects\C#\TemplateDocs\TemplateDocs.LIB\bin\Release\TemplateDocs.LIB.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
