@@ -2,6 +2,7 @@
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
 using CarsRent.LIB.Word;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -106,7 +107,18 @@ namespace CarsRent.WPF.Pages.MainFramePages
             if (contract == null)
                 return;
 
-            var dir = GetDocumentFolder(contract);
+            var dir = string.Empty;
+
+            try
+            {
+                dir = GetDocumentFolder(contract);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+                return;
+            }
+            
 
             if (Directory.Exists(dir))
                 Process.Start("explorer.exe", dir);
@@ -117,7 +129,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
         private string GetDocumentFolder(ContractDetails contract)
         {
             var settingsSerializator = new SettingsSerializator<TemplatesSettings>();
+
             var settings = settingsSerializator.Deserialize();
+            if (settings == null)
+                throw new Exception("Введите в настройках первичные данные.");
+
             return Path.Combine(settings.OutputFolder, $"{contract.Car.Color} {contract.Car.Brand} {contract.Car.Model}");
         }
 
@@ -128,7 +144,17 @@ namespace CarsRent.WPF.Pages.MainFramePages
             if (contract == null)
                 return;
 
-            var outputFolder = GetDocumentFolder(contract);
+            var outputFolder = string.Empty;
+            try
+            {
+                outputFolder = GetDocumentFolder(contract);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+                return;
+            }
+
             var documentName = $"{contract.ConclusionDate} {contract.Renter.Surname} {contract.Renter.Name[0]}.{contract.Renter.Patronymic[0]}.";
 
             var filesPath = Path.Combine(outputFolder, documentName);

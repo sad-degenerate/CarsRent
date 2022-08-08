@@ -2,8 +2,10 @@
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Validation;
 using CarsRent.LIB.Word;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace CarsRent.WPF.Pages.MainFramePages
@@ -87,7 +89,15 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 Commands<ContractDetails>.Modify(_contractDetails);
 
             var replace = new ReplacerWordsInContract();
-            replace.Replace(_contractDetails);
+
+            try
+            {
+                replace.Replace(_contractDetails);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+            }
         }
 
         private void tbxSearchRenter_TextChanged(object sender, TextChangedEventArgs e)
