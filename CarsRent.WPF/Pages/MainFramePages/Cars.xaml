@@ -56,9 +56,9 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btnPageLeft" Content="Назад" Grid.RowSpan="2" Grid.Column="1"/>
-            <Button x:Name="btnPageRight" Content="Вперед" Grid.RowSpan="2" Grid.Column="3"/>
-            <Button x:Name="btnGoto" Content="Перейти" Grid.Row="1"  Grid.Column="2"/>
+            <Button x:Name="btnPageLeft" Content="Назад" Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
+            <Button x:Name="btnPageRight" Content="Вперед" Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
+            <Button x:Name="btnGoto" Content="Перейти" Grid.Row="1"  Grid.Column="2" Click="btnGoto_Click"/>
             <TextBox x:Name="tbxPageNumber" Grid.Row="0" Grid.Column="2" FontSize="20"/>
         </Grid>
     </Grid>

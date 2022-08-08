@@ -1,5 +1,6 @@
 ﻿using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
+using CarsRent.LIB.Settings;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
@@ -9,10 +10,20 @@ namespace CarsRent.WPF.Pages.MainFramePages
     public partial class Cars : Page
     {
         private List<Car> _cars;
+        private int _currentPage = 1;
+        private int _pageSize = 10;
 
         public Cars()
         {
             InitializeComponent();
+
+            var serializator = new SettingsSerializator<DisplaySettings>();
+            var settings = serializator.Deserialize();
+
+            if (settings != null)
+                _pageSize = settings.TableOnePageElementsCount;
+
+            tbxPageNumber.Text = _currentPage.ToString();
         }
 
         private void btnDelete_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -49,12 +60,22 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void UpdateDataGrid()
         {
-            if (tbxSearch.Text == "")
-                _cars = Commands<Car>.SelectAll().ToList();
+            int startIndex;
+            if (_currentPage == 1)
+                startIndex = _currentPage;
             else
+                startIndex = _currentPage * _pageSize;
+
+            if (tbxSearch.Text == "")
+                _cars = Commands<Car>.SelectGroup(startIndex, _pageSize).ToList();
+            else
+            {
                 _cars = FindCar(tbxSearch.Text);
+                _cars = _cars.Skip(startIndex).Take(_pageSize).ToList();
+            }
 
             dgCars.ItemsSource = _cars;
+            tbxPageNumber.Text = _currentPage.ToString();
         }
 
         private List<Car> FindCar(string text)
@@ -86,6 +107,29 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            UpdateDataGrid();
+        }
+
+        private void btnPageLeft_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (_currentPage > 0)
+                _currentPage--;
+
+            UpdateDataGrid();
+        }
+
+        private void btnPageRight_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _currentPage++;
+            UpdateDataGrid();
+        }
+
+        private void btnGoto_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (int.TryParse(tbxPageNumber.Text, out int pageNumber) == false)
+                return;
+
+            _currentPage = pageNumber;
             UpdateDataGrid();
         }
     }
