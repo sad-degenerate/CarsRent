@@ -18,7 +18,8 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="10*"/>
-            <RowDefinition Height="70*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
         <Button x:Name="btnDelete" Content="Удалить" Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
@@ -27,7 +28,7 @@
 
         <TextBox x:Name="tbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
 
-        <DataGrid x:Name="dgCars" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single">
+        <DataGrid x:Name="dgCars" Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Марка" Binding="{Binding Path=Brand}" Width="20*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Path=Model}" Width="10*"/>
@@ -41,5 +42,24 @@
                 <DataGridTextColumn Header="Стоимость" Binding="{Binding Path=Price}" Width="10*"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <Grid Grid.Column="0" Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="45*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="btnPageLeft" Content="Назад" Grid.RowSpan="2" Grid.Column="1"/>
+            <Button x:Name="btnPageRight" Content="Вперед" Grid.RowSpan="2" Grid.Column="3"/>
+            <Button x:Name="btnGoto" Content="Перейти" Grid.Row="1"  Grid.Column="2"/>
+            <TextBox x:Name="tbxPageNumber" Grid.Row="0" Grid.Column="2" FontSize="20"/>
+        </Grid>
     </Grid>
 </Page>
