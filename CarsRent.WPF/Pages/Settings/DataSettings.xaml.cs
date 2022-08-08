@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Windows.Controls;
+using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
 
 namespace CarsRent.WPF.Pages.Settings
@@ -18,14 +21,15 @@ namespace CarsRent.WPF.Pages.Settings
 
             if (dataSettings != null)
             {
-                tbxSurname.Text = dataSettings.Surname;
-                tbxName.Text = dataSettings.Name;
-                tbxPatronymic.Text = dataSettings.Patronymic;
-                tbxBirthDate.Text = dataSettings.BirthDate;
-                tbxPassportNumber.Text = dataSettings.PassportNumber;
-                tbxIssuingOrganization.Text = dataSettings.IssuingOrganization;
-                tbxIssuingDate.Text = dataSettings.IssuingDate;
-                tbxRegistrationPlace.Text = dataSettings.RegistrationPlace;
+                tbxSurname.Text = dataSettings.Landlord.Surname;
+                tbxName.Text = dataSettings.Landlord.Name;
+                tbxPatronymic.Text = dataSettings.Landlord.Patronymic;
+                tbxBirthDate.Text = dataSettings.Landlord.BirthDate;
+                tbxPassportNumber.Text = dataSettings.Landlord.IdentityNumber;
+                tbxIssuingOrganization.Text = dataSettings.Landlord.IssuingOrganization;
+                tbxIssuingDate.Text = dataSettings.Landlord.IssuingDate;
+                tbxRegistrationPlace.Text = dataSettings.Landlord.RegistrationPlace;
+                tbxPhone.Text = dataSettings.Landlord.PhoneNumber;
 
                 tbxActSample.Text = dataSettings.ActSample;
                 tbxContractSample.Text = dataSettings.ContractSample;
@@ -36,25 +40,39 @@ namespace CarsRent.WPF.Pages.Settings
 
         private void Save()
         {
-            var surname = tbxSurname.Text;
-            var name = tbxName.Text;
-            var patronymic = tbxPatronymic.Text;
-            var birthDate = tbxBirthDate.Text;
-            var passportNumber = tbxPassportNumber.Text;
-            var issuingOrganization = tbxIssuingOrganization.Text;
-            var issuingDate = tbxIssuingDate.Text;
-            var registrationPlace = tbxRegistrationPlace.Text;
-            
-            var actSample = tbxActSample.Text;
-            var contractSample = tbxContractSample.Text;
-            var notificationSample = tbxNotificationSample.Text;
-            var outputFolder = tbxOutputFolder.Text;
+            var dataSettings = new TemplatesSettings();
+            var landlord = new Human();
 
-            var dataSettings = new TemplatesSettings(surname, name, patronymic, birthDate, passportNumber, issuingOrganization
-                                               , issuingDate, registrationPlace, actSample, contractSample, notificationSample, outputFolder);
+            landlord.Surname = tbxSurname.Text;
+            landlord.Name = tbxName.Text;
+            landlord.Patronymic = tbxPatronymic.Text;
+            landlord.BirthDate = tbxBirthDate.Text;
+            landlord.IdentityNumber = tbxPassportNumber.Text;
+            landlord.IssuingOrganization = tbxIssuingOrganization.Text;
+            landlord.IssuingDate = tbxIssuingDate.Text;
+            landlord.RegistrationPlace = tbxRegistrationPlace.Text;
+            landlord.PhoneNumber = tbxPhone.Text;
 
-            var settingsSerializator = new SettingsSerializator<TemplatesSettings>();
-            settingsSerializator.Serialize(dataSettings);
+            dataSettings.Landlord = landlord;
+
+            dataSettings.ActSample = tbxActSample.Text;
+            dataSettings.ContractSample = tbxContractSample.Text;
+            dataSettings.NotificationSample = tbxNotificationSample.Text;
+            dataSettings.OutputFolder = tbxOutputFolder.Text;
+
+            var context = new ValidationContext(dataSettings);
+            var errors = dataSettings.Validate(context);
+
+            if (errors.Any() == true)
+            {
+                lblError.Content = errors.First();
+            }
+            else
+            {
+                lblError.Content = string.Empty;
+                var settingsSerializator = new SettingsSerializator<TemplatesSettings>();
+                settingsSerializator.Serialize(dataSettings);
+            }
         }
 
         private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)

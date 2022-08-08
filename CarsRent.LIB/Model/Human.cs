@@ -1,6 +1,7 @@
 ﻿using CarsRent.LIB.Attributes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 
 namespace CarsRent.LIB.Model
 {
@@ -36,6 +37,7 @@ namespace CarsRent.LIB.Model
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки \"место регистрации\" должна быть не меньше 3 и не больше 50 символов")]
         public string RegistrationPlace { get; set; }
 
+        [XmlIgnore]
         public virtual ICollection<ContractDetails> ContractDetails { get; set; }
 
         public Human() { }

@@ -24,6 +24,11 @@
             <Setter Property="Control.Width" Value="150"/>
             <Setter Property="Control.Margin" Value="20, 5"/>
         </Style>
+        <Style x:Key="error">
+            <Setter Property="Control.FontSize" Value="15"/>
+            <Setter Property="Control.Margin" Value="20, 5"/>
+            <Setter Property="TextElement.Foreground" Value="Red"/>
+        </Style>
     </Page.Resources>
     <Grid>
         <ScrollViewer Grid.Row="1">
@@ -54,6 +59,9 @@
                 <Label Content="Место регистрации:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxRegistrationPlace" Style="{StaticResource Prop}"/>
 
+                <Label Content="Номер телефона:" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxPhone" Style="{StaticResource Prop}"/>
+
                 <Label Content="Пути к образцам договоров:" Style="{StaticResource Header}"/>
 
                 <Label Content="Путь к образцу акта:" Style="{StaticResource Prop}"/>
@@ -67,6 +75,8 @@
 
                 <Label Content="Путь для созданных договоров:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxOutputFolder" Style="{StaticResource Prop}"/>
+
+                <Label Content="" x:Name="lblError" Style="{StaticResource error}"/>
 
                 <Button x:Name="btnSave" Content="Сохранить изменения" Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>

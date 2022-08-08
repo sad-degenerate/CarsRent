@@ -11,14 +11,14 @@ namespace CarsRent.LIB.Word
         {
             _words = new Dictionary<string, string>()
             {
-                { "llsurname", settings.Surname },
-                { "llname", settings.Name },
-                { "llpatronymic", settings.Patronymic },
-                { "llinitials", $"{settings.Name[0]}.{settings.Patronymic[0]}." },
-                { "llpassportNumbers", settings.PassportNumber },
-                { "llissuingOrganization", settings.IssuingOrganization },
-                { "llissuingDate", settings.IssuingDate },
-                { "llregistrationPlace", settings.RegistrationPlace },
+                { "llsurname", settings.Landlord.Surname },
+                { "llname", settings.Landlord.Name },
+                { "llpatronymic", settings.Landlord.Patronymic },
+                { "llinitials", $"{settings.Landlord.Name[0]}.{settings.Landlord.Patronymic[0]}." },
+                { "llpassportNumbers", settings.Landlord.IdentityNumber },
+                { "llissuingOrganization", settings.Landlord.IssuingOrganization },
+                { "llissuingDate", settings.Landlord.IssuingDate },
+                { "llregistrationPlace", settings.Landlord.RegistrationPlace },
                 { "surname", contract.Renter.Surname },
                 { "name", contract.Renter.Name },
                 { "patronymic", contract.Renter.Patronymic },

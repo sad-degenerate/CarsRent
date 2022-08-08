@@ -1,43 +1,50 @@
-﻿namespace CarsRent.LIB.Settings
+﻿using CarsRent.LIB.Model;
+using CarsRent.LIB.Validation;
+using System.ComponentModel.DataAnnotations;
+
+namespace CarsRent.LIB.Settings
 {
     [Serializable]
-    public class TemplatesSettings : SettingsBase
+    public class TemplatesSettings : SettingsBase, IValidatableObject
     {
-        public string Surname { get; set; }
-        public string Name { get; set; }
-        public string Patronymic { get; set; }
-        public string BirthDate { get; set; }
-        public string PassportNumber { get; set; }
-        public string IssuingOrganization { get; set; }
-        public string IssuingDate { get; set; }
-        public string RegistrationPlace { get; set; }
+        public Human Landlord { get; set; }
 
         public string ActSample { get; set; }
         public string ContractSample { get; set; }
         public string NotificationSample { get; set; }
         public string OutputFolder { get; set; }
 
-        // Нужен для сериализации/десиреализации
         public TemplatesSettings() { }
 
-        public TemplatesSettings(string surname, string name, string patronymic, string birthDate, string passportNumber,
-                            string issuingOrganization, string issuingDate, string registrationPlace, string actSample,
-                            string contractSample, string notificationSample, string outputFolder)
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            // TODO: Тут проверки
+            var errors = new List<ValidationResult>();
 
-            Surname = surname;
-            Name = name;
-            Patronymic = patronymic;
-            BirthDate = birthDate;
-            PassportNumber = passportNumber;
-            IssuingOrganization = issuingOrganization;
-            IssuingDate = issuingDate;
-            RegistrationPlace = registrationPlace;
-            ActSample = actSample;
-            ContractSample = contractSample;
-            NotificationSample = notificationSample;
-            OutputFolder = outputFolder;
+            var landlordErrors = ModelValidation.Validate(Landlord);
+
+            if (landlordErrors.Count > 0)
+                errors.AddRange(landlordErrors);
+
+            if (Path.GetExtension(ActSample) != ".docx")
+                errors.Add(new ValidationResult("Расширение не \".docx\"."));
+            if (Path.GetExtension(ContractSample) != ".docx")
+                errors.Add(new ValidationResult("Расширение не \".docx\"."));
+            if (Path.GetExtension(NotificationSample) != ".docx")
+                errors.Add(new ValidationResult("Расширение не \".docx\"."));
+
+            if (Directory.Exists(OutputFolder) == false)
+            {
+                try
+                {
+                    Directory.CreateDirectory(OutputFolder);
+                }
+                catch (Exception)
+                {
+                    errors.Add(new ValidationResult("Не удалось найти/создать директорию для вывода."));
+                }
+            }
+
+            return errors;
         }
     }
 }
