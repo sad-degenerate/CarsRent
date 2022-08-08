@@ -16,13 +16,12 @@ namespace CarsRent.LIB.Word
 
             var replaceWordsGenerator = new ReplaceWordsGenerator(settings, contract);
 
-            
             var actReplacer = new DocumentReplacer(settings.ActSample, outputFolder);
-            actReplacer.Replace(replaceWordsGenerator.GetWords(), $"{documentName} договор");
+            actReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} договор");
             var contractReplacer = new DocumentReplacer(settings.ContractSample, outputFolder);
-            contractReplacer.Replace(replaceWordsGenerator.GetWords(), $"{documentName} акт");
+            contractReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} акт");
             var notificationReplacer = new DocumentReplacer(settings.NotificationSample, outputFolder);
-            notificationReplacer.Replace(replaceWordsGenerator.GetWords(), $"{documentName} уведомление");
+            notificationReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} уведомление");
         }
     }
 }

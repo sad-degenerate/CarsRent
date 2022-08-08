@@ -7,7 +7,7 @@ namespace CarsRent.LIB.Word
         public static void Print(string filePath, int copies)
         {
             var printer = new DocumentPrinter(filePath);
-            printer.Print(copies);
+            printer.PrintAsync(copies);
         }
     }
 }
