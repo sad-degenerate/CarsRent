@@ -65,11 +65,13 @@ namespace CarsRent.WPF.Pages.Settings
 
             if (errors.Any() == true)
             {
+                lblDone.Content = string.Empty;
                 lblError.Content = errors.First();
             }
             else
             {
                 lblError.Content = string.Empty;
+                lblDone.Content = "Успешно изменено/добавлено";
                 var settingsSerializator = new SettingsSerializator<TemplatesSettings>();
                 settingsSerializator.Serialize(dataSettings);
             }

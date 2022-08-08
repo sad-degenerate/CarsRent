@@ -29,6 +29,11 @@
             <Setter Property="Control.Margin" Value="20, 5"/>
             <Setter Property="TextElement.Foreground" Value="Red"/>
         </Style>
+        <Style x:Key="noerror">
+            <Setter Property="Control.FontSize" Value="15"/>
+            <Setter Property="Control.Margin" Value="20, 5"/>
+            <Setter Property="TextElement.Foreground" Value="Green"/>
+        </Style>
     </Page.Resources>
     <Grid>
         <ScrollViewer Grid.Row="1">
@@ -77,6 +82,7 @@
                 <TextBox x:Name="tbxOutputFolder" Style="{StaticResource Prop}"/>
 
                 <Label Content="" x:Name="lblError" Style="{StaticResource error}"/>
+                <Label Content="" x:Name="lblDone" Style="{StaticResource noerror}"/>
 
                 <Button x:Name="btnSave" Content="Сохранить изменения" Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>
