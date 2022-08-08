@@ -9,31 +9,32 @@ namespace CarsRent.WPF.Pages.Settings
         public SettingsWindow()
         {
             InitializeComponent();
-
-            // TODO: Прятать или делать неактивным главное окно, когда открыто окно настроек
-            //this.Owner.Hide();
         }
 
-        private void btnDataSettings_Click(object sender, RoutedEventArgs e)
+        private void SettingsType_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
             EnableAllButtonsButPressed(btn);
 
-            Page frame;
+            Page page;
 
             switch (btn.Name)
             {
                 case "btnDataSettings":
-                    frame = new DataSettings();
+                    page = new DataSettings();
+                    break;
+
+                case "btnDisplaySettings":
+                    page = new DisplaySettingsPage();
                     break;
 
                 default:
-                    frame = null;
+                    page = null;
                     break;
             }
 
-            if (frame != null)
-                settingsFrame.Navigate(new DataSettings());
+            if (page != null)
+                settingsFrame.Navigate(page);
         }
 
         private void EnableAllButtonsButPressed(Button pressedButton)

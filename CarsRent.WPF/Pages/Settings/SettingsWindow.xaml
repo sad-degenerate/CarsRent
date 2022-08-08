@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
         <Frame Grid.Row="1" Name="settingsFrame" Grid.Column="0" Grid.ColumnSpan="10" ContentRendered="settingsFrame_ContentRendered"/>
-        <Button x:Name="btnDataSettings" Content="Первичные данные" Grid.Column="0" Grid.Row="0" Click="btnDataSettings_Click" Tag="settingsType"/>
-        <Button Content="Test settings" Grid.Column="1" Grid.Row="0" Tag="settingsType" Click="btnDataSettings_Click"/>
+        <Button x:Name="btnDataSettings" Content="Первичные данные" Grid.Column="0" Grid.Row="0" Click="SettingsType_Click" Tag="settingsType"/>
+        <Button x:Name="btnDisplaySettings" Content="Отображение" Grid.Column="1" Grid.Row="0" Click="SettingsType_Click" Tag="settingsType"/>
     </Grid>
 </Window>
