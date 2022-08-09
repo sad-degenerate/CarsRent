@@ -113,21 +113,28 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnPageLeft_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentPage > 0)
-                _currentPage--;
-
+            GoTo(_currentPage - 1);
             UpdateDataGrid();
         }
 
         private void btnPageRight_Click(object sender, RoutedEventArgs e)
         {
-            _currentPage++;
+            GoTo(_currentPage + 1);
             UpdateDataGrid();
         }
 
         private void btnGoto_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(tbxPageNumber.Text, out int pageNumber) == false)
+                return;
+
+            GoTo(pageNumber);
+            UpdateDataGrid();
+        }
+
+        private void GoTo(int pageNumber)
+        {
+            if (pageNumber <= 0)
                 return;
 
             _currentPage = pageNumber;
