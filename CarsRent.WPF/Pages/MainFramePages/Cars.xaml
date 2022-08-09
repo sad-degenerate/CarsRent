@@ -30,16 +30,16 @@
 
         <DataGrid x:Name="dgCars" Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Марка" Binding="{Binding Path=Brand}" Width="20*"/>
-                <DataGridTextColumn Header="Модель" Binding="{Binding Path=Model}" Width="10*"/>
-                <DataGridTextColumn Header="Номер паспорта" Binding="{Binding Path=PassportNumber}" Width="10*"/>
-                <DataGridTextColumn Header="Дата выдачи паспорта" Binding="{Binding Path=PassportIssuingDate}" Width="6*"/>
-                <DataGridTextColumn Header="VIN" Binding="{Binding Path=VIN}" Width="10*"/>
-                <DataGridTextColumn Header="Номер кузова" Binding="{Binding Path=BodyNumber}" Width="10*"/>
-                <DataGridTextColumn Header="Цвет" Binding="{Binding Path=Color}" Width="10*"/>
-                <DataGridTextColumn Header="Год выпуска" Binding="{Binding Path=Year}" Width="4*"/>
-                <DataGridTextColumn Header="Номер двигателя" Binding="{Binding Path=EngineNumber}" Width="10*"/>
-                <DataGridTextColumn Header="Стоимость" Binding="{Binding Path=Price}" Width="10*"/>
+                <DataGridTextColumn Header="Марка" Binding="{Binding Path=Brand, Mode=OneWay}" Width="20*"/>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Path=Model, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Номер паспорта" Binding="{Binding Path=PassportNumber, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Дата выдачи паспорта" Binding="{Binding Path=PassportIssuingDate, Mode=OneWay}" Width="6*"/>
+                <DataGridTextColumn Header="VIN" Binding="{Binding Path=VIN, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Номер кузова" Binding="{Binding Path=BodyNumber, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Цвет" Binding="{Binding Path=Color, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Год выпуска" Binding="{Binding Path=Year, Mode=OneWay}" Width="4*"/>
+                <DataGridTextColumn Header="Номер двигателя" Binding="{Binding Path=EngineNumber, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Стоимость" Binding="{Binding Path=Price, Mode=OneWay}" Width="10*"/>
             </DataGrid.Columns>
         </DataGrid>
 

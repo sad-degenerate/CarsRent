@@ -34,13 +34,13 @@
 
         <DataGrid x:Name="dgContracts" Grid.Row="1" Grid.RowSpan="6" Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Автомобиль" Binding="{Binding Path=Car.FullCarName}"/>
-                <DataGridTextColumn Header="Арендатор" Binding="{Binding Path=Renter.FullName}"/>
-                <DataGridTextColumn Header="Стоимость поездки" Binding="{Binding Path=Price}"/>
-                <DataGridTextColumn Header="Тип поездки" Binding="{Binding Path=RideTypeText}"/>
-                <DataGridTextColumn Header="Сумма залога" Binding="{Binding Path=Deposit}"/>
-                <DataGridTextColumn Header="Дата заключения договора" Binding="{Binding Path=ConclusionDate}"/>
-                <DataGridTextColumn Header="Дата расторжения договора" Binding="{Binding Path=EndDate}"/>
+                <DataGridTextColumn Header="Автомобиль" Binding="{Binding Path=Car.FullCarName, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Арендатор" Binding="{Binding Path=Renter.FullName, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Стоимость поездки" Binding="{Binding Path=Price, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Тип поездки" Binding="{Binding Path=RideTypeText, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Сумма залога" Binding="{Binding Path=Deposit, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Дата заключения договора" Binding="{Binding Path=ConclusionDate, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Дата расторжения договора" Binding="{Binding Path=EndDate, Mode=OneWay}"/>
             </DataGrid.Columns>
         </DataGrid>
         
