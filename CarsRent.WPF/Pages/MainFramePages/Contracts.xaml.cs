@@ -14,26 +14,41 @@ namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class Contracts : Page
     {
-        private List<ContractDetails> _contractDetails;
+        private List<ContractDetails> _contracts;
+        private int _currentPage = 1;
+        private int _pageSize = 10;
 
         public Contracts()
         {
             InitializeComponent();
+
+            var serializator = new SettingsSerializator<DisplaySettings>();
+            var settings = serializator.Deserialize();
+
+            if (settings != null)
+                _pageSize = settings.TableOnePageElementsCount;
+
+            tbxPageNumber.Text = _currentPage.ToString();
         }
 
         private void UpdateDataGrid()
         {
-            if (tbxSearch.Text == "")
-                _contractDetails = Commands<ContractDetails>.SelectAll().ToList();
+            int startIndex;
+            if (_currentPage == 1)
+                startIndex = _currentPage;
             else
-                _contractDetails = FindContract(tbxSearch.Text);
+                startIndex = _currentPage * _pageSize;
 
-            FillDataGrid();
-        }
+            if (tbxSearch.Text == "")
+                _contracts = Commands<ContractDetails>.SelectGroup(startIndex, _pageSize).ToList();
+            else
+            {
+                _contracts = FindContract(tbxSearch.Text);
+                _contracts = _contracts.Skip(startIndex).Take(_pageSize).ToList();
+            }
 
-        private void FillDataGrid()
-        {
-            dgContracts.ItemsSource = _contractDetails;
+            dgContracts.ItemsSource = _contracts;
+            tbxPageNumber.Text = _currentPage.ToString();
         }
 
         private List<ContractDetails> FindContract(string text)
@@ -162,6 +177,36 @@ namespace CarsRent.WPF.Pages.MainFramePages
             ContractPrinter.Print($"{filesPath} договор.docx", 2);
             ContractPrinter.Print($"{filesPath} акт.docx", 2);
             ContractPrinter.Print($"{filesPath} уведомление.docx", 1);
+        }
+
+        private void btnGoto_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(tbxPageNumber.Text, out int pageNumber) == false)
+                return;
+
+            GoTo(pageNumber);
+            UpdateDataGrid();
+        }
+
+        private void btnPageRight_Click(object sender, RoutedEventArgs e)
+        {
+            GoTo(_currentPage + 1);
+            UpdateDataGrid();
+        }
+
+        private void btnPageLeft_Click(object sender, RoutedEventArgs e)
+        {
+            GoTo(_currentPage - 1);
+            UpdateDataGrid();
+        }
+
+        private void GoTo(int pageNumber)
+        {
+            if (pageNumber <= 0)
+                return;
+
+            _currentPage = pageNumber;
+            UpdateDataGrid();
         }
     }
 }
