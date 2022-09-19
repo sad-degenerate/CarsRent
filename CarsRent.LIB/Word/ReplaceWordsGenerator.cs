@@ -55,7 +55,7 @@ namespace CarsRent.LIB.Word
                 { "endDate", contract.EndDate },
                 { "rideType", contract.RideTypeText },
                 { "ridePrice", contract.Price },
-                { "endTime", DateTime.Now.TimeOfDay.ToString() },
+                { "endTime", $"{DateTime.Now.TimeOfDay.Hours}:{DateTime.Now.TimeOfDay.Minutes}" },
                 { "carPassportIssuingDate", contract.Car.PassportIssuingDate },
                 { "carPassport", contract.Car.PassportNumber },
                 { "brand", contract.Car.Brand },
