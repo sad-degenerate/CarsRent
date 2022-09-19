@@ -67,6 +67,15 @@
                 <Label Content="Стоимость автомобиля:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxPrice" Style="{StaticResource Prop}"/>
 
+                <Label Content="Регистрационный номер:" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxRegNumber" Style="{StaticResource Prop}"/>
+
+                <Label Content="Тип шин:" Style="{StaticResource Prop}"/>
+                <ComboBox x:Name="cbxWheelsType" Style="{StaticResource Prop}" IsEditable="False"/>
+
+                <Label Content="Рабочий объем двигателя см куб" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxEngineDisplacement" Style="{StaticResource Prop}"/>
+
                 <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>
         </ScrollViewer>

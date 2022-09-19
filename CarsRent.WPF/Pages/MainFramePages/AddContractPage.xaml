@@ -52,6 +52,9 @@
                 <Label Content="Дата расторжения договора:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxEndDate" Style="{StaticResource Prop}"/>
 
+                <Label Content="Время расторжения договора:" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxEndTime" Style="{StaticResource Prop}"/>
+
                 <Label Content="Выберите арендатора:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxSearchRenter" Style="{StaticResource Prop}" TextChanged="tbxSearchRenter_TextChanged"/>
                 <ListBox x:Name="lbxRenter" Style="{StaticResource Prop}"/>

@@ -1,6 +1,8 @@
 ﻿using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Validation;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -9,10 +11,19 @@ namespace CarsRent.WPF.Pages.MainFramePages
     public partial class AddCarPage : Page
     {
         private Car _car;
+        private readonly Dictionary<string, WheelsType> _wheelsType;
 
         public AddCarPage(Car car = null)
         {
             InitializeComponent();
+
+            _wheelsType = new Dictionary<string, WheelsType>
+            {
+                { "летние", WheelsType.Summer },
+                { "зимние", WheelsType.Winter },
+            };
+
+            cbxWheelsType.ItemsSource = _wheelsType.Keys;
 
             if (car == null)
                 return;
@@ -26,13 +37,24 @@ namespace CarsRent.WPF.Pages.MainFramePages
             tbxBrand.Text = car.Brand;
             tbxModel.Text = car.Model;
             tbxPassportNumber.Text = car.PassportNumber;
-            tbxIssuingDate.Text = car.PassportIssuingDate;
+            tbxIssuingDate.Text = car.PassportIssuingDate.ToString("dd:MM:yyyy");
             tbxVIN.Text = car.VIN;
             tbxBodyNumber.Text = car.BodyNumber;
             tbxColor.Text = car.Color;
-            tbxYear.Text = car.Year;
+            tbxYear.Text = car.Year.ToString();
             tbxEngineNumber.Text = car.EngineNumber;
-            tbxPrice.Text = car.Price;
+            tbxPrice.Text = car.Price.ToString();
+            tbxEngineDisplacement.Text = car.EngineDisplacement.ToString();
+            tbxRegNumber.Text = car.RegistrationNumber;
+
+            if (car.WheelsType == WheelsType.Summer)
+            {
+                cbxWheelsType.SelectedIndex = 0;
+            }
+            else
+            {
+                cbxWheelsType.SelectedIndex = 1;
+            }
         }
 
         private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -43,13 +65,22 @@ namespace CarsRent.WPF.Pages.MainFramePages
             _car.Brand = tbxBrand.Text;
             _car.Model = tbxModel.Text;
             _car.PassportNumber = tbxPassportNumber.Text;
-            _car.PassportIssuingDate = tbxIssuingDate.Text;
             _car.VIN = tbxVIN.Text;
             _car.BodyNumber = tbxBodyNumber.Text;
             _car.Color = tbxColor.Text;
-            _car.Year = tbxYear.Text;
             _car.EngineNumber = tbxEngineNumber.Text;
-            _car.Price = tbxPrice.Text;
+            _car.RegistrationNumber = tbxRegNumber.Text;
+
+            int.TryParse(tbxPrice.Text, out var price);
+            _car.Price = price;
+            int.TryParse(tbxYear.Text, out var year);
+            _car.Year = year;
+            int.TryParse(tbxEngineDisplacement.Text, out var displacement);
+            _car.EngineDisplacement = displacement;
+            DateTime.TryParse(tbxIssuingDate.Text, out var issuingDate);
+            _car.PassportIssuingDate = issuingDate;
+
+            _car.WheelsType = _wheelsType[cbxWheelsType.Text];
 
             var carResults = ModelValidation.Validate(_car);
 

@@ -6,42 +6,28 @@ namespace CarsRent.LIB.Word
 {
     public class ReplaceWordsGenerator
     {
-        private Dictionary<string, string> _words;
+        private readonly Dictionary<string, string> _words;
 
         public ReplaceWordsGenerator(TemplatesSettings settings, ContractDetails contract)
         {
             var textFromNumbers = new TextFromNumbers();
 
-            string carPriceString;
-            if (long.TryParse(contract.Car.Price, out var carPrice))
-                carPriceString = textFromNumbers.Make(carPrice);
-            else
-                carPriceString = string.Empty;
-
-            string depositString;
-            if (long.TryParse(contract.Deposit, out var deposit))
-                depositString = textFromNumbers.Make(deposit);
-            else
-                depositString = string.Empty;
-
-            string ridePriceString;
-            if (long.TryParse(contract.Price, out var ridePrice))
-                ridePriceString = textFromNumbers.Make(ridePrice);
-            else
-                ridePriceString = string.Empty;
+            var carPrice = textFromNumbers.Make(contract.Car.Price);
+            var deposit = textFromNumbers.Make(contract.Deposit);
+            var ridePrice = textFromNumbers.Make(contract.Price);
 
             _words = new Dictionary<string, string>()
             {
-                { "priceString", carPriceString },
-                { "depositString", depositString },
-                { "ridePriceString", ridePriceString },
+                { "ridePriceString", ridePrice },
+                { "priceString", carPrice },
+                { "depositString", deposit },
                 { "llsurname", settings.Landlord.Surname },
                 { "llname", settings.Landlord.Name },
                 { "llpatronymic", settings.Landlord.Patronymic },
                 { "llinitials", $"{settings.Landlord.Name[0]}.{settings.Landlord.Patronymic[0]}." },
                 { "llpassportNumbers", settings.Landlord.IdentityNumber },
                 { "llissuingOrganization", settings.Landlord.IssuingOrganization },
-                { "llissuingDate", settings.Landlord.IssuingDate },
+                { "llissuingDate", settings.Landlord.IssuingDate.ToString("dd.MM.yyyy") },
                 { "llregistrationPlace", settings.Landlord.RegistrationPlace },
                 { "surname", contract.Renter.Surname },
                 { "name", contract.Renter.Name },
@@ -49,27 +35,30 @@ namespace CarsRent.LIB.Word
                 { "initials", $"{contract.Renter.Name[0]}.{contract.Renter.Patronymic[0]}." },
                 { "passportNumbers", contract.Renter.IdentityNumber },
                 { "issuingOrganization", contract.Renter.IssuingOrganization },
-                { "issuingDate", contract.Renter.IssuingDate },
+                { "issuingDate", contract.Renter.IssuingDate.ToString("dd.MM.yyyy") },
                 { "registrationPlace", contract.Renter.RegistrationPlace },
-                { "conclusionDate", contract.ConclusionDate },
-                { "endDate", contract.EndDate },
+                { "conclusionDate", contract.ConclusionDate.ToString("dd.MM.yyyy") },
+                { "endDate", contract.EndDate.ToString("dd.MM.yyyy") },
                 { "rideType", contract.RideTypeText },
-                { "ridePrice", contract.Price },
-                { "endTime", $"{DateTime.Now.TimeOfDay.Hours}:{DateTime.Now.TimeOfDay.Minutes}" },
-                { "carPassportIssuingDate", contract.Car.PassportIssuingDate },
+                { "ridePrice", contract.Price.ToString() },
+                { "endTime", contract.EndTime.ToString("HH:mm") },
+                { "carPassportIssuingDate", contract.Car.PassportIssuingDate.ToString("dd.MM.yyyy") },
                 { "carPassport", contract.Car.PassportNumber },
                 { "brand", contract.Car.Brand },
-                { "year", contract.Car.Year },
+                { "year", contract.Car.Year.ToString() },
                 { "vin", contract.Car.VIN },
                 { "bodyNumber", contract.Car.BodyNumber },
                 { "color", contract.Car.Color },
                 { "model", contract.Car.Model },
                 { "regNumber", "empty now" },
                 { "engineNumber", contract.Car.EngineNumber },
-                { "price", contract.Car.Price },
-                { "deposit", contract.Deposit },
+                { "price", contract.Car.Price.ToString() },
+                { "deposit", contract.Deposit.ToString() },
                 { "contractNumber", contract.Id.ToString() },
-                { "date", contract.ConclusionDate },
+                { "date", contract.ConclusionDate.ToString() },
+                { "regNum", contract.Car.RegistrationNumber },
+                { "wheels", contract.Car.WheelsTypeString },
+                { "engineDisplacement", contract.Car.EngineDisplacement.ToString() },
             };
         }
 

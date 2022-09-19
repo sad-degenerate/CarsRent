@@ -18,7 +18,9 @@ namespace CarsRent.LIB.Attributes
             }
 
             if (year > DateTime.Now.Year || year < DateTime.Now.Year - 100)
+            {
                 return false;
+            }
 
             return true;
         }

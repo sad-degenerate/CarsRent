@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Windows.Controls;
 using CarsRent.LIB.Model;
@@ -24,10 +25,10 @@ namespace CarsRent.WPF.Pages.Settings
                 tbxSurname.Text = dataSettings.Landlord.Surname;
                 tbxName.Text = dataSettings.Landlord.Name;
                 tbxPatronymic.Text = dataSettings.Landlord.Patronymic;
-                tbxBirthDate.Text = dataSettings.Landlord.BirthDate;
+                tbxBirthDate.Text = dataSettings.Landlord.BirthDate.ToString("dd.MM.yyyy");
                 tbxPassportNumber.Text = dataSettings.Landlord.IdentityNumber;
                 tbxIssuingOrganization.Text = dataSettings.Landlord.IssuingOrganization;
-                tbxIssuingDate.Text = dataSettings.Landlord.IssuingDate;
+                tbxIssuingDate.Text = dataSettings.Landlord.IssuingDate.ToString("dd.MM.yyyy");
                 tbxRegistrationPlace.Text = dataSettings.Landlord.RegistrationPlace;
                 tbxPhone.Text = dataSettings.Landlord.PhoneNumber;
 
@@ -46,12 +47,15 @@ namespace CarsRent.WPF.Pages.Settings
             landlord.Surname = tbxSurname.Text;
             landlord.Name = tbxName.Text;
             landlord.Patronymic = tbxPatronymic.Text;
-            landlord.BirthDate = tbxBirthDate.Text;
             landlord.IdentityNumber = tbxPassportNumber.Text;
             landlord.IssuingOrganization = tbxIssuingOrganization.Text;
-            landlord.IssuingDate = tbxIssuingDate.Text;
             landlord.RegistrationPlace = tbxRegistrationPlace.Text;
             landlord.PhoneNumber = tbxPhone.Text;
+
+            DateTime.TryParse(tbxBirthDate.Text, out var birthDate);
+            landlord.BirthDate = birthDate;
+            DateTime.TryParse(tbxIssuingDate.Text, out var issuingDate);
+            landlord.IssuingDate = issuingDate;
 
             dataSettings.Landlord = landlord;
 

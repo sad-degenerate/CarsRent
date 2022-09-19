@@ -18,7 +18,9 @@ namespace CarsRent.LIB.Attributes
             }
 
             if (price <= 0 || price > 10000000)
+            {
                 return false;
+            }
 
             return true;
         }

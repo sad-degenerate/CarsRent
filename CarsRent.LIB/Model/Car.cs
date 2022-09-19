@@ -9,17 +9,17 @@ namespace CarsRent.LIB.Model
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Необходимо ввести марку автомобиля")]
-        [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна названия марки автомобиля, должна быть в диапазоне от 1 до 20 символов")]
+        [StringLength(50, MinimumLength = 1, ErrorMessage = "Длинна названия марки автомобиля, должна быть в диапазоне от 1 до 50 символов")]
         public string Brand { get; set; }
         [Required(ErrorMessage = "Необходимо ввести модель автомобиля")]
-        [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна названия модели автомобиля, должна быть в диапазоне от 1 до 20 символов")]
+        [StringLength(50, MinimumLength = 1, ErrorMessage = "Длинна названия модели автомобиля, должна быть в диапазоне от 1 до 50 символов")]
         public string Model { get; set; }
         [Required(ErrorMessage = "Необходимо ввести номер паспорта автомобиля")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна номера паспорта автомобиля, должна быть в диапазоне от 1 до 20 символов")]
         public string PassportNumber { get; set; }
         [Required(ErrorMessage = "Необходимо ввести дату выдачи паспорта автомобиля")]
         [Date(ErrorMessage = "Некорректная дата выдачи паспорта автомобиля")]
-        public string PassportIssuingDate { get; set; }
+        public DateTime PassportIssuingDate { get; set; }
         [Required(ErrorMessage = "Необходимо VIN автомобиля")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна VIN автомобиля, должна быть в диапазоне от 1 до 20 символов")]
         public string VIN { get; set; }
@@ -27,17 +27,25 @@ namespace CarsRent.LIB.Model
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна номера кузова автомобиля, должна быть в диапазоне от 1 до 20 символов")]
         public string BodyNumber { get; set; }
         [Required(ErrorMessage = "Необходимо ввести цвет автомобиля")]
-        [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна названия цвета автомобиля, должна быть в диапазоне от 1 до 20 символов")]
+        [StringLength(50, MinimumLength = 1, ErrorMessage = "Длинна названия цвета автомобиля, должна быть в диапазоне от 1 до 50 символов")]
         public string Color { get; set; }
         [Required(ErrorMessage = "Необходимо год выпуска автомобиля")]
         [CarYear(ErrorMessage = "Некорректный год выпуска автомобиля")]
-        public string Year { get; set; }
+        public int Year { get; set; }
         [Required(ErrorMessage = "Необходимо ввести номер двигателя автомобиля")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна номера двигателя автомобиля, должна быть в диапазоне от 1 до 20 символов")]
         public string EngineNumber { get; set; }
         [Required(ErrorMessage = "Вы не ввели стоимость автомобиля")]
         [Price(ErrorMessage = "Некорректная стоимость автомобиля")]
-        public string Price { get; set; }
+        public int Price { get; set; }
+        [Required(ErrorMessage = "Вы не ввели регистрационный номер")]
+        [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна регистрационного номера автомобиля, должна быть в диапазоне от 1 до 20 символов")]
+        public string RegistrationNumber { get; set; }
+        [Required(ErrorMessage = "Вы не выбрали тип шин")]
+        public WheelsType WheelsType { get; set; }
+        [Required(ErrorMessage = "Вы не ввели рабочий объем двигателя")]
+        [EngineDiaplacement(ErrorMessage = "Некорректный рабочий объем двигателя")]
+        public int EngineDisplacement { get; set; }
 
         public virtual ICollection<ContractDetails> ContractDetails { get; set; }
 
@@ -46,9 +54,31 @@ namespace CarsRent.LIB.Model
         [NotMapped]
         public string FullCarName => $"{Color} {Brand} {Model}";
 
+        [NotMapped]
+        public string WheelsTypeString
+        {
+            get
+            {
+                if (WheelsType == WheelsType.Summer)
+                {
+                    return "летние";
+                }
+                else
+                {
+                    return "зимние";
+                }
+            } 
+        }
+
         public override string ToString()
         {
             return $"{Brand} {Model} {PassportNumber} {PassportIssuingDate} {VIN} {BodyNumber} {Color} {Year} {EngineNumber} {Price}";
         }
+    }
+
+    public enum WheelsType
+    {
+        Summer,
+        Winter
     }
 }

@@ -10,18 +10,20 @@ namespace CarsRent.LIB.Model
 
         [Required(ErrorMessage = "Вы не ввели сумму залога")]
         [Price(ErrorMessage = "Некорректная сумма залога")]
-        public string Deposit { get; set; }
+        public int Deposit { get; set; }
         [Required(ErrorMessage = "Вы не ввели стоимость поездки")]
         [Price(ErrorMessage = "Некорректная стоимость поездки")]
-        public string Price { get; set; }
+        public int Price { get; set; }
         [Required(ErrorMessage = "Вы не выбрали тип поездки")]
         public RideType RideType { get; set; }
         [Required(ErrorMessage = "Вы не ввели дату заключения договора")]
         [Date(ErrorMessage = "Некорректная дата заключения договора")]
-        public string ConclusionDate { get; set; }
+        public DateTime ConclusionDate { get; set; }
         [Required(ErrorMessage = "Вы не ввели дату расторжения договора")]
         [Date(ErrorMessage = "Некорректная дата расторжения договора")]
-        public string EndDate { get; set; }
+        public DateTime EndDate { get; set; }
+        [Required(ErrorMessage = "Вы не ввели дату окончания договора")]
+        public DateTime EndTime { get; set; }
 
         public int? CarId { get; set; }
         [Required(ErrorMessage = "Вы не выбрали автомобиль, используемый в этой поездке")]

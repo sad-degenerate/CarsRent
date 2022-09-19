@@ -2,24 +2,22 @@
 
 namespace CarsRent.LIB.Attributes
 {
-    public class DateAttribute : ValidationAttribute
+    public class EngineDiaplacementAttribute : ValidationAttribute
     {
         public override bool IsValid(object? value)
         {
-            if (value == null)
-                return false;
+            int displacement;
 
-            DateTime date;
             try
             {
-                DateTime.TryParse(value.ToString(), out date);
+                int.TryParse(value.ToString(), out displacement);
             }
             catch (Exception)
             {
                 return false;
             }
 
-            if (Math.Abs(DateTime.Now.Year - date.Year) > 100)
+            if (displacement > 10000 || displacement < 0)
             {
                 return false;
             }

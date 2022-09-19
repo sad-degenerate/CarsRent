@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using CarsRent.LIB.DataBase;
@@ -26,10 +27,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
             tbxSurname.Text = renter.Surname;
             tbxName.Text = renter.Name;
             tbxPatronymic.Text = renter.Patronymic;
-            tbxBirthDate.Text = renter.BirthDate.ToString();
+            tbxBirthDate.Text = renter.BirthDate.ToString("dd.MM.yyyy");
             tbxPassportNumber.Text = renter.IdentityNumber;
             tbxIssuingOrganization.Text = renter.IssuingOrganization;
-            tbxIssuingDate.Text = renter.IssuingDate.ToString();
+            tbxIssuingDate.Text = renter.IssuingDate.ToString("dd.MM.yyyy");
             tbxRegistrationPlace.Text = renter.RegistrationPlace;
             tbxPhone.Text = renter.PhoneNumber;
         }
@@ -42,12 +43,15 @@ namespace CarsRent.WPF.Pages.MainFramePages
             _renter.Name = tbxName.Text;
             _renter.Surname = tbxSurname.Text;
             _renter.Patronymic = tbxPatronymic.Text;
-            _renter.BirthDate = tbxBirthDate.Text;
             _renter.PhoneNumber = tbxPhone.Text;
             _renter.IdentityNumber = tbxPassportNumber.Text;
             _renter.IssuingOrganization = tbxIssuingOrganization.Text;
-            _renter.IssuingDate = tbxIssuingDate.Text;
             _renter.RegistrationPlace = tbxRegistrationPlace.Text;
+
+            DateTime.TryParse(tbxIssuingDate.Text, out var issuingDate);
+            _renter.IssuingDate = issuingDate;
+            DateTime.TryParse(tbxBirthDate.Text, out var birthDate);
+            _renter.BirthDate = birthDate;
 
             var renterResults = ModelValidation.Validate(_renter);
 

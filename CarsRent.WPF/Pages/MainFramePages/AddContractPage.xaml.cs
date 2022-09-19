@@ -13,14 +13,17 @@ namespace CarsRent.WPF.Pages.MainFramePages
     public partial class AddContractPage : Page
     {
         private ContractDetails _contractDetails;
-        private readonly Dictionary<string, RideType> _rideType = new Dictionary<string, RideType>();
+        private readonly Dictionary<string, RideType> _rideType;
 
         public AddContractPage(ContractDetails contractDetails = null)
         {
             InitializeComponent();
 
-            _rideType.Add("по городу", RideType.InTheCity);
-            _rideType.Add("за городом", RideType.OutsideTheCity);
+            _rideType = new Dictionary<string, RideType>
+            {
+                { "по городу", RideType.InTheCity },
+                { "за городом", RideType.OutsideTheCity }
+            };
 
             cbxRideType.ItemsSource = _rideType.Keys;
             lbxCar.ItemsSource = Commands<Car>.SelectAll().ToList();
@@ -35,10 +38,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void FillField(ContractDetails contractDetails)
         {
-            tbxDeposit.Text = contractDetails.Deposit;
-            tbxPrice.Text = contractDetails.Price;
-            tbxConclusionDate.Text = contractDetails.ConclusionDate;
-            tbxEndDate.Text = contractDetails.EndDate;
+            tbxDeposit.Text = contractDetails.Deposit.ToString();
+            tbxPrice.Text = contractDetails.Price.ToString();
+            tbxConclusionDate.Text = contractDetails.ConclusionDate.ToString("dd.MM.yyyy");
+            tbxEndDate.Text = contractDetails.EndDate.ToString("dd.MM.yyyy");
+            tbxEndTime.Text = contractDetails.EndTime.ToString("HH:mm");
 
             if (contractDetails.RideType == RideType.InTheCity)
                 cbxRideType.SelectedIndex = 0;
@@ -54,10 +58,16 @@ namespace CarsRent.WPF.Pages.MainFramePages
             if (_contractDetails == null)
                 _contractDetails = new ContractDetails();
 
-            _contractDetails.Deposit = tbxDeposit.Text;
-            _contractDetails.Price = tbxPrice.Text;
-            _contractDetails.ConclusionDate = tbxConclusionDate.Text;
-            _contractDetails.EndDate = tbxEndDate.Text;
+            int.TryParse(tbxDeposit.Text, out var deposit);
+            _contractDetails.Deposit = deposit;
+            int.TryParse(tbxPrice.Text, out var price);
+            _contractDetails.Price = price;
+            DateTime.TryParse(tbxConclusionDate.Text, out var conclusiunDate);
+            _contractDetails.ConclusionDate = conclusiunDate;
+            DateTime.TryParse(tbxEndDate.Text, out var endDate);
+            _contractDetails.EndDate = endDate;
+            DateTime.TryParse(tbxEndTime.Text, out var endTime);
+            _contractDetails.EndTime = endTime;
 
             _contractDetails.RideType = _rideType[cbxRideType.Text];
 

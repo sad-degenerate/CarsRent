@@ -7,7 +7,9 @@ namespace CarsRent.LIB.Attributes
         public override bool IsValid(object? value)
         {
             if (value == null)
+            {
                 return false;
+            }
 
             var passportNumber = value.ToString();
 
@@ -15,7 +17,9 @@ namespace CarsRent.LIB.Attributes
             // TODO: Проверка онлайн
 
             if (numbersString.Length != 10)
+            {
                 return false;
+            }
 
             return true;
         }

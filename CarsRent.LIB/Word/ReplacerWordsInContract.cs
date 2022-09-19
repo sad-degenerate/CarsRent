@@ -16,14 +16,14 @@ namespace CarsRent.LIB.Word
 
             var outputFolder = Path.Combine(settings.OutputFolder, $"{contract.Car.Color} {contract.Car.Brand} {contract.Car.Model}");
 
-            var documentName = $"{contract.ConclusionDate} {contract.Renter.Surname} {contract.Renter.Name[0]}.{contract.Renter.Patronymic[0]}.";
+            var documentName = $"{contract.ConclusionDate:dd.MM.yyyy} {contract.Renter.Surname} {contract.Renter.Name[0]}.{contract.Renter.Patronymic[0]}.";
 
             var replaceWordsGenerator = new ReplaceWordsGenerator(settings, contract);
 
             var actReplacer = new DocumentReplacer(settings.ActSample, outputFolder);
-            actReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} договор");
+            actReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} акт");
             var contractReplacer = new DocumentReplacer(settings.ContractSample, outputFolder);
-            contractReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} акт");
+            contractReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} договор");
             var notificationReplacer = new DocumentReplacer(settings.NotificationSample, outputFolder);
             notificationReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} уведомление");
         }
