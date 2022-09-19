@@ -33,9 +33,9 @@
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname, Mode=OneWay}" Width="15*"/>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name, Mode=OneWay}" Width="15*"/>
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic, Mode=OneWay}" Width="15*"/>
-                <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDateString, Mode=OneWay}" Width="10*"/>
                 <DataGridTextColumn Header="Серия/номер паспорта" Binding="{Binding Path=IdentityNumber, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Дата выдачи паспорта" Binding="{Binding Path=IssuingDate, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Дата выдачи паспорта" Binding="{Binding Path=IssuingDateString, Mode=OneWay}" Width="10*"/>
                 <DataGridTextColumn Header="Кем выдан паспорт" Binding="{Binding Path=IssuingOrganization, Mode=OneWay}" Width="20*"/>
                 <DataGridTextColumn Header="Место регистрации" Binding="{Binding Path=RegistrationPlace, Mode=OneWay}" Width="20*"/>
             </DataGrid.Columns>

@@ -45,9 +45,27 @@ namespace CarsRent.LIB.Model
         [NotMapped]
         public string FullName => $"{Surname} {Name} {Patronymic}";
 
+        [NotMapped]
+        public string BirthDateString
+        {
+            get
+            {
+                return BirthDate.ToString("dd.MM.yyyy");
+            }
+        }
+
+        [NotMapped]
+        public string IssuingDateString
+        {
+            get
+            {
+                return IssuingDate.ToString("dd.MM.yyyy");
+            }
+        }
+
         public override string ToString()
         {
-            return $"{Surname} {Name} {Patronymic} {BirthDate} {PhoneNumber} {IdentityNumber} {IssuingOrganization} {IssuingDate} {RegistrationPlace}";
+            return $"{Surname} {Name} {Patronymic} {BirthDateString} {PhoneNumber} {IdentityNumber} {IssuingOrganization} {IssuingDateString} {RegistrationPlace}";
         }
     }
 }

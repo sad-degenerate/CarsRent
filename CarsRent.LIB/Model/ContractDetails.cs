@@ -47,9 +47,27 @@ namespace CarsRent.LIB.Model
             } 
         }
 
+        [NotMapped]
+        public string ConclusionDateString
+        {
+            get
+            {
+                return ConclusionDate.ToString("dd.MM.yyyy");
+            }
+        }
+
+        [NotMapped]
+        public string EndDateString
+        {
+            get
+            {
+                return EndDate.ToString("dd.MM.yyyy");
+            }
+        }
+
         public override string ToString()
         {          
-            return $"{Deposit} {Price} {RideTypeText} {ConclusionDate} {EndDate} {Car} {Renter}";
+            return $"{Deposit} {Price} {RideTypeText} {ConclusionDateString} {EndDateString} {Car} {Renter}";
         }
     }
 

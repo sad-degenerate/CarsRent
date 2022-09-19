@@ -70,9 +70,17 @@ namespace CarsRent.LIB.Model
             } 
         }
 
+        public string PassportIssuingDateString
+        {
+            get
+            {
+                return PassportIssuingDate.ToString("dd.MM.yyyy");
+            }
+        }
+
         public override string ToString()
         {
-            return $"{Brand} {Model} {PassportNumber} {PassportIssuingDate} {VIN} {BodyNumber} {Color} {Year} {EngineNumber} {Price}";
+            return $"{Brand} {Model} {PassportNumber} {PassportIssuingDateString} {VIN} {BodyNumber} {Color} {Year} {EngineNumber} {Price}";
         }
     }
 

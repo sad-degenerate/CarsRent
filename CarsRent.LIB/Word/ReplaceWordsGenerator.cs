@@ -55,7 +55,7 @@ namespace CarsRent.LIB.Word
                 { "price", contract.Car.Price.ToString() },
                 { "deposit", contract.Deposit.ToString() },
                 { "contractNumber", contract.Id.ToString() },
-                { "date", contract.ConclusionDate.ToString() },
+                { "date", contract.ConclusionDate.ToString("dd.MM.yyyy") },
                 { "regNum", contract.Car.RegistrationNumber },
                 { "wheels", contract.Car.WheelsTypeString },
                 { "engineDisplacement", contract.Car.EngineDisplacement.ToString() },
