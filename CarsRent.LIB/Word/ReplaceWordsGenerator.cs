@@ -1,5 +1,6 @@
 ﻿using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
+using NumbersToText;
 
 namespace CarsRent.LIB.Word
 {
@@ -9,8 +10,31 @@ namespace CarsRent.LIB.Word
 
         public ReplaceWordsGenerator(TemplatesSettings settings, ContractDetails contract)
         {
+            var textFromNumbers = new TextFromNumbers();
+
+            string carPriceString;
+            if (long.TryParse(contract.Car.Price, out var carPrice))
+                carPriceString = textFromNumbers.Make(carPrice);
+            else
+                carPriceString = string.Empty;
+
+            string depositString;
+            if (long.TryParse(contract.Deposit, out var deposit))
+                depositString = textFromNumbers.Make(deposit);
+            else
+                depositString = string.Empty;
+
+            string ridePriceString;
+            if (long.TryParse(contract.Price, out var ridePrice))
+                ridePriceString = textFromNumbers.Make(ridePrice);
+            else
+                ridePriceString = string.Empty;
+
             _words = new Dictionary<string, string>()
             {
+                { "priceString", carPriceString },
+                { "depositString", depositString },
+                { "ridePriceString", ridePriceString },
                 { "llsurname", settings.Landlord.Surname },
                 { "llname", settings.Landlord.Name },
                 { "llpatronymic", settings.Landlord.Patronymic },
