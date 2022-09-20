@@ -32,12 +32,13 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Марка" Binding="{Binding Path=Brand, Mode=OneWay}" Width="20*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Path=Model, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Номер паспорта" Binding="{Binding Path=PassportNumber, Mode=OneWay}" Width="20*"/>
+                <DataGridTextColumn Header="Номер паспорта" Binding="{Binding Path=PassportNumber, Mode=OneWay}" Width="10*"/>
                 <DataGridTextColumn Header="VIN" Binding="{Binding Path=VIN, Mode=OneWay}" Width="10*"/>
                 <DataGridTextColumn Header="Цвет" Binding="{Binding Path=Color, Mode=OneWay}" Width="15*"/>
                 <DataGridTextColumn Header="Год выпуска" Binding="{Binding Path=Year, Mode=OneWay}" Width="10*"/>
                 <DataGridTextColumn Header="Регистрационный номер" Binding="{Binding Path=RegistrationNumber, Mode=OneWay}" Width="10*"/>
                 <DataGridTextColumn Header="Стоимость" Binding="{Binding Path=Price, Mode=OneWay}" Width="15*"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Path=CarStatusString, Mode=OneWay}" Width="10*"/>
             </DataGrid.Columns>
         </DataGrid>
 

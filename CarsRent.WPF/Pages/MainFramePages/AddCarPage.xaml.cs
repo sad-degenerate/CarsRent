@@ -12,6 +12,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
     {
         private Car _car;
         private readonly Dictionary<string, WheelsType> _wheelsType;
+        private readonly Dictionary<string, Status> _status;
 
         public AddCarPage(Car car = null)
         {
@@ -23,7 +24,15 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 { "зимние", WheelsType.Winter },
             };
 
+            _status = new Dictionary<string, Status>
+            {
+                { "готова", Status.Ready },
+                { "в аренде", Status.OnLease },
+                { "в ремонте", Status.UnderRepair },
+            };
+
             cbxWheelsType.ItemsSource = _wheelsType.Keys;
+            cbxStatus.ItemsSource = _status.Keys;
 
             if (car == null)
                 return;
@@ -37,7 +46,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             tbxBrand.Text = car.Brand;
             tbxModel.Text = car.Model;
             tbxPassportNumber.Text = car.PassportNumber;
-            tbxIssuingDate.Text = car.PassportIssuingDate.ToString("dd:MM:yyyy");
+            tbxIssuingDate.Text = car.PassportIssuingDate.ToString("dd.MM.yyyy");
             tbxVIN.Text = car.VIN;
             tbxBodyNumber.Text = car.BodyNumber;
             tbxColor.Text = car.Color;
@@ -54,6 +63,19 @@ namespace CarsRent.WPF.Pages.MainFramePages
             else
             {
                 cbxWheelsType.SelectedIndex = 1;
+            }
+
+            if (car.CarStatus == Status.Ready)
+            {
+                cbxStatus.SelectedIndex = 0;
+            }
+            else if(car.CarStatus == Status.OnLease)
+            {
+                cbxStatus.SelectedIndex = 1;
+            }
+            else
+            {
+                cbxStatus.SelectedIndex = 2;
             }
         }
 
@@ -81,6 +103,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             _car.PassportIssuingDate = issuingDate;
 
             _car.WheelsType = _wheelsType[cbxWheelsType.Text];
+            _car.CarStatus = _status[cbxStatus.Text];
 
             var carResults = ModelValidation.Validate(_car);
 

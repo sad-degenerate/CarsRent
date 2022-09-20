@@ -46,6 +46,8 @@ namespace CarsRent.LIB.Model
         [Required(ErrorMessage = "Вы не ввели рабочий объем двигателя")]
         [EngineDiaplacement(ErrorMessage = "Некорректный рабочий объем двигателя")]
         public int EngineDisplacement { get; set; }
+        [Required(ErrorMessage = "Вы не ввели статус автомобиля")]
+        public Status CarStatus { get; set; }
 
         public virtual ICollection<ContractDetails> ContractDetails { get; set; }
 
@@ -70,6 +72,21 @@ namespace CarsRent.LIB.Model
             } 
         }
 
+        [NotMapped]
+        public string CarStatusString
+        {
+            get
+            {
+                return CarStatus switch
+                {
+                    Status.Ready => "готова",
+                    Status.OnLease => "в аренде",
+                    Status.UnderRepair => "в ремонте",
+                    _ => "",
+                };
+            }
+        }
+
         public string PassportIssuingDateString
         {
             get
@@ -88,5 +105,12 @@ namespace CarsRent.LIB.Model
     {
         Summer,
         Winter
+    }
+
+    public enum Status
+    {
+        Ready,
+        OnLease,
+        UnderRepair,
     }
 }

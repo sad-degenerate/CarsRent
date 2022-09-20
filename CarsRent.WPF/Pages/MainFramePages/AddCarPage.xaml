@@ -76,6 +76,9 @@
                 <Label Content="Рабочий объем двигателя см куб" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxEngineDisplacement" Style="{StaticResource Prop}"/>
 
+                <Label Content="Статус автомобиля:" Style="{StaticResource Prop}"/>
+                <ComboBox x:Name="cbxStatus" Style="{StaticResource Prop}" IsEditable="False"/>
+
                 <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>
         </ScrollViewer>
