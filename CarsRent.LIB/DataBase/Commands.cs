@@ -1,6 +1,5 @@
 ﻿using CarsRent.LIB.Model;
 using Microsoft.EntityFrameworkCore;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CarsRent.LIB.DataBase
 {

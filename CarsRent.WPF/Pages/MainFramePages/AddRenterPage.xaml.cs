@@ -16,7 +16,9 @@ namespace CarsRent.WPF.Pages.MainFramePages
             InitializeComponent();
 
             if (renter == null)
+            {
                 return;
+            }
 
             FillField(renter);
             _renter = renter;
@@ -37,8 +39,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (_renter == null)
-                _renter = new Human();
+            _renter ??= new Human();
 
             _renter.Name = tbxName.Text;
             _renter.Surname = tbxSurname.Text;
@@ -56,7 +57,9 @@ namespace CarsRent.WPF.Pages.MainFramePages
             var renterResults = ModelValidation.Validate(_renter);
 
             if (renterResults.Count > 0)
+            {
                 lblError.Content = renterResults.First().ToString();
+            }
             else
             {
                 AddEditRenter();
@@ -68,9 +71,13 @@ namespace CarsRent.WPF.Pages.MainFramePages
         private void AddEditRenter()
         {
             if (_renter.Id == 0)
+            {
                 Commands<Human>.Add(_renter);
+            }
             else
+            {
                 Commands<Human>.Modify(_renter);
+            }
         }
     }
 }

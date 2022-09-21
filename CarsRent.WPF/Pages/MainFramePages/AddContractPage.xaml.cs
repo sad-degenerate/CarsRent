@@ -1,4 +1,5 @@
-﻿using CarsRent.LIB.DataBase;
+﻿using CarsRent.LIB.Attributes;
+using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Validation;
 using CarsRent.LIB.Word;
@@ -19,6 +20,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             InitializeComponent();
 
+            if (contractDetails == null)
+            {
+                return;
+            }
+
             _rideType = new Dictionary<string, RideType>
             {
                 { "по городу", RideType.InTheCity },
@@ -26,14 +32,36 @@ namespace CarsRent.WPF.Pages.MainFramePages
             };
 
             cbxRideType.ItemsSource = _rideType.Keys;
-            lbxCar.ItemsSource = Commands<Car>.SelectAll().ToList();
-            lbxRenter.ItemsSource = Commands<Human>.SelectAll().ToList();
 
-            if (contractDetails == null)
-                return;
+            UpdateCarList();
+            UpdateRenterList();
 
             FillField(contractDetails);
             _contractDetails = contractDetails;
+        }
+
+        private void UpdateRenterList()
+        {
+            if (tbxSearchRenter.Text == string.Empty)
+            {
+                lbxRenter.ItemsSource = Commands<Human>.SelectGroup(1, 3);
+            }
+            else
+            {
+                lbxRenter.ItemsSource = Commands<Human>.FindAndSelect(tbxSearchRenter.Text, 1, 3);
+            }
+        }
+
+        private void UpdateCarList()
+        {
+            if (tbxSearchCar.Text == string.Empty)
+            {
+                lbxCar.ItemsSource = Commands<Car>.SelectGroup(1, 3);
+            }
+            else
+            {
+                lbxCar.ItemsSource = Commands<Car>.FindAndSelect(tbxSearchCar.Text, 1, 3);
+            }
         }
 
         private void FillField(ContractDetails contractDetails)
@@ -45,18 +73,21 @@ namespace CarsRent.WPF.Pages.MainFramePages
             tbxEndTime.Text = contractDetails.EndTime.ToString("HH:mm");
 
             if (contractDetails.RideType == RideType.InTheCity)
+            {
                 cbxRideType.SelectedIndex = 0;
+            }
             else
+            {
                 cbxRideType.SelectedIndex = 1;
+            }
 
             lbxCar.SelectedItem = contractDetails.Car;
             lbxRenter.SelectedItem = contractDetails.Renter;
         }
 
-        private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (_contractDetails == null)
-                _contractDetails = new ContractDetails();
+            _contractDetails ??= new ContractDetails();
 
             int.TryParse(tbxDeposit.Text, out var deposit);
             _contractDetails.Deposit = deposit;
@@ -82,7 +113,9 @@ namespace CarsRent.WPF.Pages.MainFramePages
             var contractResult = ModelValidation.Validate(_contractDetails);
 
             if (contractResult.Count > 0)
+            {
                 lblError.Content = contractResult.First().ToString();
+            }
             else
             {
                 AddEditContract();
@@ -94,9 +127,13 @@ namespace CarsRent.WPF.Pages.MainFramePages
         private void AddEditContract()
         {
             if (_contractDetails.Id == 0)
+            {
                 Commands<ContractDetails>.Add(_contractDetails);
+            }
             else
+            {
                 Commands<ContractDetails>.Modify(_contractDetails);
+            }
 
             var replace = new ReplacerWordsInContract();
 
@@ -112,80 +149,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void tbxSearchRenter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var renters = new List<Human>();
-
-            if (tbxSearchRenter.Text == "")
-                renters = Commands<Human>.SelectAll().Take(3).ToList();
-            else
-                renters = FindRenter(tbxSearchRenter.Text);
-
-            lbxRenter.ItemsSource = renters;
+            UpdateRenterList();
         }
 
         private void tbxSearchCar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var cars = new List<Car>();
-
-            if (tbxSearchCar.Text == "")
-                cars = Commands<Car>.SelectAll().Take(3).ToList();
-            else
-                cars = FindCar(tbxSearchCar.Text);
-
-            lbxCar.ItemsSource = cars;
-        }
-
-        private List<Car> FindCar(string text)
-        {
-            var cars = Commands<Car>.SelectAll();
-            var carsResult = new List<Car>();
-            var words = text.Split(' ');
-
-            foreach (var car in cars)
-            {
-                var carText = car.ToString();
-
-                var addToResult = true;
-                foreach (var word in words)
-                {
-                    if (carText.Contains(word) == false)
-                    {
-                        addToResult = false;
-                        break;
-                    }
-                }
-
-                if (addToResult == true)
-                    carsResult.Add(car);
-            }
-
-            return carsResult;
-        }
-
-        private List<Human> FindRenter(string text)
-        {
-            var renters = Commands<Human>.SelectAll();
-            var rentersResult = new List<Human>();
-            var words = text.Split(' ');
-
-            foreach (var renter in renters)
-            {
-                var renterText = renter.ToString();
-
-                var addToResult = true;
-                foreach (var word in words)
-                {
-                    if (renterText.Contains(word) == false)
-                    {
-                        addToResult = false;
-                        break;
-                    }
-                }
-
-                if (addToResult == true)
-                    rentersResult.Add(renter);
-            }
-
-            return rentersResult;
+            UpdateCarList();
         }
     }
 }

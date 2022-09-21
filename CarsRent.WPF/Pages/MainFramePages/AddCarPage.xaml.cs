@@ -35,7 +35,9 @@ namespace CarsRent.WPF.Pages.MainFramePages
             cbxStatus.ItemsSource = _status.Keys;
 
             if (car == null)
+            {
                 return;
+            }
 
             FillFields(car);
             _car = car;
@@ -81,8 +83,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (_car == null)
-                _car = new Car();
+            _car ??= new Car();
 
             _car.Brand = tbxBrand.Text;
             _car.Model = tbxModel.Text;
@@ -108,7 +109,9 @@ namespace CarsRent.WPF.Pages.MainFramePages
             var carResults = ModelValidation.Validate(_car);
 
             if (carResults.Count > 0)
+            {
                 lblError.Content = carResults.First().ToString();
+            }
             else
             {
                 AddEditCar();
@@ -120,9 +123,13 @@ namespace CarsRent.WPF.Pages.MainFramePages
         private void AddEditCar()
         {
             if (_car.Id == 0)
+            {
                 Commands<Car>.Add(_car);
+            }    
             else
+            {
                 Commands<Car>.Modify(_car);
+            }
         }
     }
 }
