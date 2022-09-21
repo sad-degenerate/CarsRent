@@ -6,7 +6,7 @@ namespace CarsRent.LIB.Validation
     {
         public static List<ValidationResult> Validate<T>(T obj)
         {
-            var validationContext = new ValidationContext(obj); ;
+            var validationContext = new ValidationContext(obj);
             var results = new List<ValidationResult>();
             Validator.TryValidateObject(obj, validationContext, results, true);
             return results;

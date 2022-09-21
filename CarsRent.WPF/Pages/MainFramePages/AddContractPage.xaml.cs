@@ -1,5 +1,4 @@
-﻿using CarsRent.LIB.Attributes;
-using CarsRent.LIB.DataBase;
+﻿using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Validation;
 using CarsRent.LIB.Word;
@@ -33,35 +32,21 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
             cbxRideType.ItemsSource = _rideType.Keys;
 
-            UpdateCarList();
-            UpdateRenterList();
+            lbxCar.ItemsSource = UpdateList<Car>(tbxSearchCar.Text);
+            lbxRenter.ItemsSource = UpdateList<Human>(tbxSearchRenter.Text);
 
             FillField(contractDetails);
             _contractDetails = contractDetails;
         }
 
-        private void UpdateRenterList()
+        private List<T> UpdateList<T>(string text) where T: class, IBaseModel
         {
-            if (tbxSearchRenter.Text == string.Empty)
+            if (text != string.Empty)
             {
-                lbxRenter.ItemsSource = Commands<Human>.SelectGroup(1, 3);
+                return Commands<T>.FindAndSelect(text, 1, 3).ToList();
             }
-            else
-            {
-                lbxRenter.ItemsSource = Commands<Human>.FindAndSelect(tbxSearchRenter.Text, 1, 3);
-            }
-        }
-
-        private void UpdateCarList()
-        {
-            if (tbxSearchCar.Text == string.Empty)
-            {
-                lbxCar.ItemsSource = Commands<Car>.SelectGroup(1, 3);
-            }
-            else
-            {
-                lbxCar.ItemsSource = Commands<Car>.FindAndSelect(tbxSearchCar.Text, 1, 3);
-            }
+            
+            return Commands<T>.SelectGroup(1, 3).ToList();
         }
 
         private void FillField(ContractDetails contractDetails)
@@ -149,12 +134,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void tbxSearchRenter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateRenterList();
+            lbxRenter.ItemsSource = UpdateList<Human>(tbxSearchRenter.Text);
         }
 
         private void tbxSearchCar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateCarList();
+            lbxCar.ItemsSource = UpdateList<Car>(tbxSearchCar.Text);
         }
     }
 }

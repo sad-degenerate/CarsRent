@@ -87,6 +87,7 @@ namespace CarsRent.LIB.Model
             }
         }
 
+        [NotMapped]
         public string PassportIssuingDateString
         {
             get

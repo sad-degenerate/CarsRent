@@ -23,14 +23,22 @@ namespace CarsRent.LIB.Settings
             var landlordErrors = ModelValidation.Validate(Landlord);
 
             if (landlordErrors.Count > 0)
+            {
                 errors.AddRange(landlordErrors);
+            }
 
             if (Path.GetExtension(ActSample) != ".docx")
+            {
                 errors.Add(new ValidationResult("Расширение не \".docx\"."));
+            }
             if (Path.GetExtension(ContractSample) != ".docx")
+            {
                 errors.Add(new ValidationResult("Расширение не \".docx\"."));
+            }
             if (Path.GetExtension(NotificationSample) != ".docx")
+            {
                 errors.Add(new ValidationResult("Расширение не \".docx\"."));
+            }
 
             if (Directory.Exists(OutputFolder) == false)
             {

@@ -16,7 +16,9 @@ namespace CarsRent.LIB.Settings
             var validationResults = new List<ValidationResult>();
 
             if (TableOnePageElementsCount <= 0)
+            {
                 validationResults.Add(new ValidationResult("Количество элементов на странице в таблице не может быть меньше либо равно 0"));
+            }
 
             return validationResults;
         }

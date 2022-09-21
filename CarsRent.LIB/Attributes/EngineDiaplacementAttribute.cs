@@ -7,7 +7,6 @@ namespace CarsRent.LIB.Attributes
         public override bool IsValid(object? value)
         {
             int displacement;
-
             try
             {
                 int.TryParse(value.ToString(), out displacement);
@@ -17,7 +16,7 @@ namespace CarsRent.LIB.Attributes
                 return false;
             }
 
-            if (displacement > 10000 || displacement < 0)
+            if (displacement > 10_000 || displacement < 0)
             {
                 return false;
             }

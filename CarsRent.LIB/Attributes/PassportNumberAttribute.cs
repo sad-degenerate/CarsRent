@@ -14,7 +14,6 @@ namespace CarsRent.LIB.Attributes
             var passportNumber = value.ToString();
 
             var numbersString = new string(passportNumber.Where(x => char.IsDigit(x)).ToArray());
-            // TODO: Проверка онлайн
 
             if (numbersString.Length != 10)
             {
