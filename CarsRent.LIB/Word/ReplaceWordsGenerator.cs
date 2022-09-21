@@ -46,19 +46,19 @@ namespace CarsRent.LIB.Word
                 { "carPassport", contract.Car.PassportNumber },
                 { "brand", contract.Car.Brand },
                 { "year", contract.Car.Year.ToString() },
-                { "vin", contract.Car.VIN },
+                { "vinNum", contract.Car.VIN },
                 { "bodyNumber", contract.Car.BodyNumber },
                 { "color", contract.Car.Color },
                 { "model", contract.Car.Model },
-                { "regNumber", "empty now" },
+                { "regNumber", contract.Car.RegistrationNumber },
                 { "engineNumber", contract.Car.EngineNumber },
                 { "price", contract.Car.Price.ToString() },
                 { "deposit", contract.Deposit.ToString() },
                 { "contractNumber", contract.Id.ToString() },
                 { "date", contract.ConclusionDate.ToString("dd.MM.yyyy") },
-                { "regNum", contract.Car.RegistrationNumber },
-                { "wheels", contract.Car.WheelsTypeString },
+                { "wheelsType", contract.Car.WheelsTypeString },
                 { "engineDisplacement", contract.Car.EngineDisplacement.ToString() },
+                { "phone", contract.Renter.PhoneNumber },
             };
         }
 
