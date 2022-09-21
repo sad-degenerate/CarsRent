@@ -16,7 +16,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
     {
         private List<ContractDetails> _contracts;
         private int _currentPage = 1;
-        private int _pageSize = 10;
+        private readonly int _pageSize;
 
         public Contracts()
         {
@@ -24,10 +24,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
             var serializator = new SettingsSerializator<DisplaySettings>();
             var settings = serializator.Deserialize();
+            _pageSize = settings.TableOnePageElementsCount;
+        }
 
-            if (settings != null)
-                _pageSize = settings.TableOnePageElementsCount;
-
+        private void UpdateCurrentPage()
+        {
             tbxPageNumber.Text = _currentPage.ToString();
         }
 
@@ -35,55 +36,33 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             int startIndex;
             if (_currentPage == 1)
+            {
                 startIndex = _currentPage;
-            else
-                startIndex = _currentPage * _pageSize;
-
-            if (tbxSearch.Text == "")
-                _contracts = Commands<ContractDetails>.SelectGroup(startIndex, _pageSize).ToList();
+            }
             else
             {
-                _contracts = FindContract(tbxSearch.Text);
-                _contracts = _contracts.Skip(startIndex).Take(_pageSize).ToList();
+                startIndex = _currentPage * _pageSize;
+            }
+
+            if (tbxSearch.Text == "")
+            {
+                _contracts = Commands<ContractDetails>.SelectGroup(startIndex, _pageSize).ToList();
+            }
+            else
+            {
+                _contracts = Commands<ContractDetails>.FindAndSelect(tbxSearch.Text, startIndex, _pageSize).ToList();
             }
 
             dgContracts.ItemsSource = _contracts;
-            tbxPageNumber.Text = _currentPage.ToString();
-        }
-
-        private List<ContractDetails> FindContract(string text)
-        {
-            var contracts = Commands<ContractDetails>.SelectAll();
-            var contractResult = new List<ContractDetails>();
-            var words = text.Split(' ');
-
-            foreach (var contract in contracts)
-            {
-                var contractText = contract.ToString();
-
-                var addToResult = true;
-                foreach (var word in words)
-                {
-                    if (contractText.Contains(word) == false)
-                    {
-                        addToResult = false;
-                        break;
-                    }
-                }
-
-                if (addToResult == true)
-                    contractResult.Add(contract);
-            }
-
-            return contractResult;
+            UpdateCurrentPage();
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var contract = dgContracts.SelectedItem as ContractDetails;
-
-            if (contract == null)
+            if (dgContracts.SelectedItem is not ContractDetails contract)
+            {
                 return;
+            }
 
             Commands<ContractDetails>.Delete(contract);
 
@@ -97,10 +76,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            var contract = dgContracts.SelectedItem as ContractDetails;
-
-            if (contract == null)
+            if (dgContracts.SelectedItem is not ContractDetails contract)
+            {
                 return;
+            }
 
             NavigationService.Navigate(new AddContractPage(contract));
         }
@@ -117,13 +96,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnOpenFolder_Click(object sender, RoutedEventArgs e)
         {
-            var contract = dgContracts.SelectedItem as ContractDetails;
-
-            if (contract == null)
+            if (dgContracts.SelectedItem is not ContractDetails contract)
+            {
                 return;
+            }
 
-            var dir = string.Empty;
-
+            string? dir;
             try
             {
                 dir = GetDocumentFolder(contract);
@@ -136,9 +114,13 @@ namespace CarsRent.WPF.Pages.MainFramePages
             
 
             if (Directory.Exists(dir))
+            {
                 Process.Start("explorer.exe", dir);
+            }
             else
+            {
                 MessageBox.Show("Не удалось открыть директорию. Попробуйте заново сохранить договор.");
+            }
         }
 
         private string GetDocumentFolder(ContractDetails contract)
@@ -147,19 +129,21 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
             var settings = settingsSerializator.Deserialize();
             if (settings == null)
+            {
                 throw new Exception("Введите в настройках первичные данные.");
+            }
 
             return Path.Combine(settings.OutputFolder, $"{contract.Car.Color} {contract.Car.Brand} {contract.Car.Model}");
         }
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            var contract = dgContracts.SelectedItem as ContractDetails;
-
-            if (contract == null)
+            if (dgContracts.SelectedItem is not ContractDetails contract)
+            {
                 return;
+            }
 
-            var outputFolder = string.Empty;
+            string? outputFolder;
             try
             {
                 outputFolder = GetDocumentFolder(contract);
@@ -171,7 +155,6 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
 
             var documentName = $"{contract.ConclusionDate} {contract.Renter.Surname} {contract.Renter.Name[0]}.{contract.Renter.Patronymic[0]}.";
-
             var filesPath = Path.Combine(outputFolder, documentName);
 
             ContractPrinter.Print($"{filesPath} договор.docx", 2);
@@ -182,28 +165,29 @@ namespace CarsRent.WPF.Pages.MainFramePages
         private void btnGoto_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(tbxPageNumber.Text, out int pageNumber) == false)
+            {
                 return;
+            }
 
             GoTo(pageNumber);
-            UpdateDataGrid();
         }
 
         private void btnPageRight_Click(object sender, RoutedEventArgs e)
         {
             GoTo(_currentPage + 1);
-            UpdateDataGrid();
         }
 
         private void btnPageLeft_Click(object sender, RoutedEventArgs e)
         {
             GoTo(_currentPage - 1);
-            UpdateDataGrid();
         }
 
         private void GoTo(int pageNumber)
         {
             if (pageNumber <= 0)
+            {
                 return;
+            }    
 
             _currentPage = pageNumber;
             UpdateDataGrid();

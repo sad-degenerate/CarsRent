@@ -11,7 +11,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
     {
         private List<Car> _cars;
         private int _currentPage = 1;
-        private int _pageSize = 10;
+        private readonly int _pageSize;
 
         public Cars()
         {
@@ -19,19 +19,20 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
             var serializator = new SettingsSerializator<DisplaySettings>();
             var settings = serializator.Deserialize();
+            _pageSize = settings.TableOnePageElementsCount;
+        }
 
-            if (settings != null)
-                _pageSize = settings.TableOnePageElementsCount;
-
+        private void UpdateCurrentPage()
+        {
             tbxPageNumber.Text = _currentPage.ToString();
         }
 
         private void btnDelete_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var car = dgCars.SelectedItem as Car;
-
-            if (car == null)
+            if (dgCars.SelectedItem is not Car car)
+            {
                 return;
+            }
 
             Commands<Car>.Delete(car);
 
@@ -45,10 +46,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnEdit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var car = dgCars.SelectedItem as Car;
-
-            if (car == null)
+            if (dgCars.SelectedItem is not Car car)
+            {
                 return;
+            }
 
             NavigationService.Navigate(new AddCarPage(car));
         }
@@ -62,47 +63,25 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             int startIndex;
             if (_currentPage == 1)
+            {
                 startIndex = _currentPage;
-            else
-                startIndex = _currentPage * _pageSize;
-
-            if (tbxSearch.Text == "")
-                _cars = Commands<Car>.SelectGroup(startIndex, _pageSize).ToList();
+            }
             else
             {
-                _cars = FindCar(tbxSearch.Text);
-                _cars = _cars.Skip(startIndex).Take(_pageSize).ToList();
+                startIndex = _currentPage * _pageSize;
+            }
+
+            if (tbxSearch.Text == "")
+            {
+                _cars = Commands<Car>.SelectGroup(startIndex, _pageSize).ToList();
+            }
+            else
+            {
+                _cars = Commands<Car>.FindAndSelect(tbxSearch.Text, startIndex, _pageSize).ToList();
             }
 
             dgCars.ItemsSource = _cars;
-            tbxPageNumber.Text = _currentPage.ToString();
-        }
-
-        private List<Car> FindCar(string text)
-        {
-            var cars = Commands<Car>.SelectAll();
-            var carsResult = new List<Car>();
-            var words = text.Split(' ');
-
-            foreach (var car in cars)
-            {
-                var carText = car.ToString();
-
-                var addToResult = true;
-                foreach (var word in words)
-                {
-                    if (carText.Contains(word) == false)
-                    {
-                        addToResult = false;
-                        break;
-                    }
-                }
-
-                if (addToResult == true)
-                    carsResult.Add(car);
-            }
-
-            return carsResult;
+            UpdateCurrentPage();
         }
 
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -113,28 +92,29 @@ namespace CarsRent.WPF.Pages.MainFramePages
         private void btnPageLeft_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             GoTo(_currentPage - 1);
-            UpdateDataGrid();
         }
 
         private void btnPageRight_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             GoTo(_currentPage + 1);
-            UpdateDataGrid();
         }
 
         private void btnGoto_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (int.TryParse(tbxPageNumber.Text, out int pageNumber) == false)
+            {
                 return;
+            }
 
             GoTo(pageNumber);
-            UpdateDataGrid();
         }
 
         private void GoTo(int pageNumber)
         {
             if (pageNumber <= 0)
+            {
                 return;
+            }
 
             _currentPage = pageNumber;
             UpdateDataGrid();

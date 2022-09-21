@@ -1,5 +1,6 @@
 ﻿using CarsRent.LIB.Model;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CarsRent.LIB.DataBase
 {
@@ -36,6 +37,33 @@ namespace CarsRent.LIB.DataBase
         {
             var context = ApplicationContext.Instance();
             return context.Set<T>();
+        }
+
+        public static IEnumerable<T> FindAndSelect(string text, int startPoint, int count)
+        {
+            var items = Commands<T>.SelectAll();
+            var itemsResult = new List<T>();
+            var words = text.Split(' ');
+
+            foreach (var item in items)
+            {
+                var itemText = item.ToString();
+
+                var addToResult = true;
+                foreach (var word in words)
+                {
+                    if (itemText.Contains(word) == false)
+                    {
+                        addToResult = false;
+                        break;
+                    }
+                }
+
+                if (addToResult == true)
+                    itemsResult.Add(item);
+            }
+
+            return itemsResult.Skip(startPoint).Take(count).ToList();
         }
 
         public static T SelectById(int id)

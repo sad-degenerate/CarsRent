@@ -1,7 +1,6 @@
 ﻿using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -13,7 +12,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
     {
         private List<Human> _renters;
         private int _currentPage = 1;
-        private readonly int _pageSize = 10;
+        private readonly int _pageSize;
 
         public Renters()
         {
@@ -21,36 +20,36 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
             var serializator = new SettingsSerializator<DisplaySettings>();
             var settings = serializator.Deserialize();
-
-            if (settings != null)
-            {
-                _pageSize = settings.TableOnePageElementsCount;
-            }
-            else
-            {
-                throw new Exception("Введите в настройках параметры отображения.");
-            }
-
-            tbxPageNumber.Text = _currentPage.ToString();
+            _pageSize = settings.TableOnePageElementsCount;
         }
 
         private void UpdateDataGrid()
         {
             int startIndex;
             if (_currentPage == 1)
+            {
                 startIndex = _currentPage;
-            else
-                startIndex = _currentPage * _pageSize;
-
-            if (tbxSearch.Text == "")
-                _renters = Commands<Human>.SelectGroup(startIndex, _pageSize).ToList();
+            }
             else
             {
-                _renters = FindHuman(tbxSearch.Text);
-                _renters = _renters.Skip(startIndex).Take(_pageSize).ToList();
+                startIndex = _currentPage * _pageSize;
+            }
+
+            if (tbxSearch.Text == "")
+            {
+                _renters = Commands<Human>.SelectGroup(startIndex, _pageSize).ToList();
+            }
+            else
+            {
+                _renters = Commands<Human>.FindAndSelect(tbxSearch.Text, startIndex, _pageSize).ToList();
             } 
 
             dgRenters.ItemsSource = _renters;
+            UpdateCurrentPage();
+        }
+
+        private void UpdateCurrentPage()
+        {
             tbxPageNumber.Text = _currentPage.ToString();
         }
 
@@ -61,10 +60,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            var renter = dgRenters.SelectedItem as Human;
-            
-            if (renter == null)
+            if (dgRenters.SelectedItem is not Human renter)
+            {
                 return;
+            }
 
             NavigationService.Navigate(new AddRenterPage(renter));
         }
@@ -76,10 +75,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var renter = dgRenters.SelectedItem as Human;
-            
-            if (renter == null)
+            if (dgRenters.SelectedItem is not Human renter)
+            {
                 return;
+            }
 
             Commands<Human>.Delete(renter);
 
@@ -91,58 +90,32 @@ namespace CarsRent.WPF.Pages.MainFramePages
             UpdateDataGrid();
         }
 
-        private List<Human> FindHuman(string text)
-        {
-            var renters = Commands<Human>.SelectAll();
-            var renterResult = new List<Human>();
-            var words = text.Split(' ');
-
-            foreach (var renter in renters)
-            {
-                var renterText = renter.ToString();
-
-                var addToResult = true;
-                foreach (var word in words)
-                {
-                    if (renterText.Contains(word) == false)
-                    {
-                        addToResult = false;
-                        break;
-                    }
-                }
-
-                if (addToResult == true)
-                    renterResult.Add(renter);
-            }
-
-            return renterResult;
-        }
-
         private void btnPageLeft_Click(object sender, RoutedEventArgs e)
         {
             GoTo(_currentPage - 1);
-            UpdateDataGrid();
         }
 
         private void btnPageRight_Click(object sender, RoutedEventArgs e)
         {
             GoTo(_currentPage + 1);
-            UpdateDataGrid();
         }
 
         private void btnGoto_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(tbxPageNumber.Text, out int pageNumber) == false)
+            {
                 return;
+            }
 
             GoTo(pageNumber);
-            UpdateDataGrid();
         }
 
         private void GoTo(int pageNumber)
         {
             if (pageNumber <= 0)
+            {
                 return;
+            }
 
             _currentPage = pageNumber;
             UpdateDataGrid();
