@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsRent.WPF", "CarsRent.WPF\CarsRent.WPF.csproj", "{1AFB02DB-384D-451B-B474-C4D3A84BB54E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsRent.WPF", "CarsRent.WPF\CarsRent.WPF.csproj", "{1AFB02DB-384D-451B-B474-C4D3A84BB54E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsRent.LIB", "CarsRent.LIB\CarsRent.LIB.csproj", "{468CD69D-AAEB-4BB9-B4EA-D1EBBEE7FF40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsRent.LIB", "CarsRent.LIB\CarsRent.LIB.csproj", "{468CD69D-AAEB-4BB9-B4EA-D1EBBEE7FF40}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CarsRent.Setup", "CarsRent.Setup\CarsRent.Setup.vdproj", "{981A872A-E164-4B43-A6F1-74DAB173B5C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,8 @@ Global
 		{468CD69D-AAEB-4BB9-B4EA-D1EBBEE7FF40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{468CD69D-AAEB-4BB9-B4EA-D1EBBEE7FF40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{468CD69D-AAEB-4BB9-B4EA-D1EBBEE7FF40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{981A872A-E164-4B43-A6F1-74DAB173B5C3}.Debug|Any CPU.ActiveCfg = Debug
+		{981A872A-E164-4B43-A6F1-74DAB173B5C3}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
