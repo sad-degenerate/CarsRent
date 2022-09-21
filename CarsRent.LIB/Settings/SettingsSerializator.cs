@@ -4,13 +4,15 @@ namespace CarsRent.LIB.Settings
 {
     public class SettingsSerializator<T> where T : SettingsBase
     {
-        private string _path;
+        private readonly string _path;
 
         public SettingsSerializator()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\CarsRent\Settings";
             if (!Directory.Exists(path))
+            {
                 Directory.CreateDirectory(path);
+            }
 
             _path = path;
         }
@@ -18,26 +20,23 @@ namespace CarsRent.LIB.Settings
         public void Serialize(T settings)
         {
             var formatter = new XmlSerializer(settings.GetType());
-            using (var fs = new FileStream(_path + $@"\{typeof(T)}", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, settings);
-            }
+            using var fs = new FileStream(_path + $@"\{typeof(T)}", FileMode.OpenOrCreate);
+            formatter.Serialize(fs, settings);
         }
 
         public T Deserialize()
         {
             var serializer = new XmlSerializer(typeof(T));
+            using var fs = new FileStream(_path + $@"\{typeof(T)}", FileMode.OpenOrCreate);
+
             T settings;
-            using (var fs = new FileStream(_path + $@"\{typeof(T)}", FileMode.OpenOrCreate))
+            try
             {
-                try
-                {
-                    settings = serializer.Deserialize(fs) as T;
-                }
-                catch (Exception ex)
-                {
-                    settings = null;
-                }
+                settings = serializer.Deserialize(fs) as T;
+            }
+            catch (Exception ex)
+            {
+                settings = default(T);
             }
 
             return settings;

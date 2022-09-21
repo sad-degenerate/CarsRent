@@ -1,6 +1,7 @@
 ﻿using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -12,7 +13,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
     {
         private List<Human> _renters;
         private int _currentPage = 1;
-        private int _pageSize = 10;
+        private readonly int _pageSize = 10;
 
         public Renters()
         {
@@ -22,7 +23,13 @@ namespace CarsRent.WPF.Pages.MainFramePages
             var settings = serializator.Deserialize();
 
             if (settings != null)
+            {
                 _pageSize = settings.TableOnePageElementsCount;
+            }
+            else
+            {
+                throw new Exception("Введите в настройках параметры отображения.");
+            }
 
             tbxPageNumber.Text = _currentPage.ToString();
         }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System;
 
 namespace CarsRent.WPF.Pages.Settings
 {
@@ -17,7 +18,6 @@ namespace CarsRent.WPF.Pages.Settings
             EnableAllButtonsButPressed(btn);
 
             Page page;
-
             switch (btn.Name)
             {
                 case "btnDataSettings":
@@ -34,20 +34,26 @@ namespace CarsRent.WPF.Pages.Settings
             }
 
             if (page != null)
+            {
                 settingsFrame.Navigate(page);
+            }   
         }
 
         private void EnableAllButtonsButPressed(Button pressedButton)
         {
             var buttons = settingsWindowGrid.Children.OfType<Button>();
             foreach (var button in buttons)
+            {
                 if (button.Tag.ToString() == "settingsType")
+                {
                     button.IsEnabled = true;
+                }
+            }
 
             pressedButton.IsEnabled = false;
         }
 
-        private void settingsFrame_ContentRendered(object sender, System.EventArgs e)
+        private void settingsFrame_ContentRendered(object sender, EventArgs e)
         {
             settingsFrame.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
         }

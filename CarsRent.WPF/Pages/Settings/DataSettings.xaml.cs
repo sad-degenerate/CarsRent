@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
@@ -81,7 +82,7 @@ namespace CarsRent.WPF.Pages.Settings
             }
         }
 
-        private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             Save();
         }

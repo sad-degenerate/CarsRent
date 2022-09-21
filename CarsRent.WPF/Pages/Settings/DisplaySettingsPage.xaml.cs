@@ -29,8 +29,7 @@ namespace CarsRent.WPF.Pages.Settings
         {
             var settings = new DisplaySettings();
 
-            int onePageCount;
-            if (int.TryParse(tbxTableOnePageElCount.Text, out onePageCount) == false)
+            if (int.TryParse(tbxTableOnePageElCount.Text, out int onePageCount) == false)
             {
                 lblError.Content = "Не удалось преобразовать в число.";
                 lblDone.Content = string.Empty;
@@ -56,7 +55,7 @@ namespace CarsRent.WPF.Pages.Settings
             }
         }
 
-        private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             Save();
         }
