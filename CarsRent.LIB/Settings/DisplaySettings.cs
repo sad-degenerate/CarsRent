@@ -6,10 +6,7 @@ namespace CarsRent.LIB.Settings
     {
         public int TableOnePageElementsCount { get; set; }
 
-        public DisplaySettings() 
-        {
-            TableOnePageElementsCount = 10;
-        }
+        public DisplaySettings() { }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

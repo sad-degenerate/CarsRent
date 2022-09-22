@@ -8,7 +8,7 @@ namespace CarsRent.LIB.Word
     {
         private readonly Dictionary<string, string> _words;
 
-        public ReplaceWordsGenerator(TemplatesSettings settings, ContractDetails contract)
+        public ReplaceWordsGenerator(LandlordSettings settings, ContractDetails contract)
         {
             var textFromNumbers = new TextFromNumbers();
 
@@ -21,14 +21,14 @@ namespace CarsRent.LIB.Word
                 { "ridePriceString", ridePrice },
                 { "priceString", carPrice },
                 { "depositString", deposit },
-                { "llsurname", settings.Landlord.Surname },
-                { "llname", settings.Landlord.Name },
-                { "llpatronymic", settings.Landlord.Patronymic },
-                { "llinitials", $"{settings.Landlord.Name[0]}.{settings.Landlord.Patronymic[0]}." },
-                { "llpassportNumbers", settings.Landlord.IdentityNumber },
-                { "llissuingOrganization", settings.Landlord.IssuingOrganization },
-                { "llissuingDate", settings.Landlord.IssuingDate.ToString("dd.MM.yyyy") },
-                { "llregistrationPlace", settings.Landlord.RegistrationPlace },
+                { "llsurname", settings.CurrentLandlord.Surname },
+                { "llname", settings.CurrentLandlord.Name },
+                { "llpatronymic", settings.CurrentLandlord.Patronymic },
+                { "llinitials", $"{settings.CurrentLandlord.Name[0]}.{settings.CurrentLandlord.Patronymic[0]}." },
+                { "llpassportNumbers", settings.CurrentLandlord.IdentityNumber },
+                { "llissuingOrganization", settings.CurrentLandlord.IssuingOrganization },
+                { "llissuingDate", settings.CurrentLandlord.IssuingDate.ToString("dd.MM.yyyy") },
+                { "llregistrationPlace", settings.CurrentLandlord.RegistrationPlace },
                 { "surname", contract.Renter.Surname },
                 { "name", contract.Renter.Name },
                 { "patronymic", contract.Renter.Patronymic },

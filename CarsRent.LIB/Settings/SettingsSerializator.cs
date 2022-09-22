@@ -20,7 +20,7 @@ namespace CarsRent.LIB.Settings
         public void Serialize(T settings)
         {
             var formatter = new XmlSerializer(settings.GetType());
-            using var fs = new FileStream(_path + $@"\{typeof(T)}", FileMode.OpenOrCreate);
+            using var fs = new FileStream(_path + $@"\{typeof(T)}", FileMode.Create);
             formatter.Serialize(fs, settings);
         }
 
@@ -36,7 +36,7 @@ namespace CarsRent.LIB.Settings
             }
             catch (Exception ex)
             {
-                settings = default(T);
+                settings = null;
             }
 
             return settings;

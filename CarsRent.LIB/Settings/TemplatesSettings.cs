@@ -7,8 +7,6 @@ namespace CarsRent.LIB.Settings
     [Serializable]
     public class TemplatesSettings : SettingsBase, IValidatableObject
     {
-        public Human Landlord { get; set; }
-
         public string ActSample { get; set; }
         public string ContractSample { get; set; }
         public string NotificationSample { get; set; }
@@ -19,13 +17,6 @@ namespace CarsRent.LIB.Settings
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-
-            var landlordErrors = ModelValidation.Validate(Landlord);
-
-            if (landlordErrors.Count > 0)
-            {
-                errors.AddRange(landlordErrors);
-            }
 
             if (Path.GetExtension(ActSample) != ".docx")
             {

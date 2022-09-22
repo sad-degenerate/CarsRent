@@ -38,35 +38,6 @@
     <Grid>
         <ScrollViewer Grid.Row="1">
             <StackPanel>
-                <Label Content="Данные о арендодателе:" Style="{StaticResource Header}"/>
-
-                <Label Content="Фамилия арендодателя:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxSurname" Style="{StaticResource Prop}"/>
-
-                <Label Content="Имя арендодателя:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxName" Style="{StaticResource Prop}"/>
-
-                <Label Content="Отчество арендодателя:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxPatronymic" Style="{StaticResource Prop}"/>
-
-                <Label Content="Дата рождения арендодателя:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxBirthDate" Style="{StaticResource Prop}"/>
-
-                <Label Content="Серия/номер паспорта:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxPassportNumber" Style="{StaticResource Prop}"/>
-
-                <Label Content="Кем выдан паспорт:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxIssuingOrganization" Style="{StaticResource Prop}"/>
-
-                <Label Content="Дата выдачи паспорта:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxIssuingDate" Style="{StaticResource Prop}"/>
-
-                <Label Content="Место регистрации:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxRegistrationPlace" Style="{StaticResource Prop}"/>
-
-                <Label Content="Номер телефона:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxPhone" Style="{StaticResource Prop}"/>
-
                 <Label Content="Пути к образцам договоров:" Style="{StaticResource Header}"/>
 
                 <Label Content="Путь к образцу акта:" Style="{StaticResource Prop}"/>

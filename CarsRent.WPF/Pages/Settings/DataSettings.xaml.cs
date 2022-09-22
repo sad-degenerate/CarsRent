@@ -1,9 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
 
 namespace CarsRent.WPF.Pages.Settings
@@ -23,16 +21,6 @@ namespace CarsRent.WPF.Pages.Settings
 
             if (dataSettings != null)
             {
-                tbxSurname.Text = dataSettings.Landlord.Surname;
-                tbxName.Text = dataSettings.Landlord.Name;
-                tbxPatronymic.Text = dataSettings.Landlord.Patronymic;
-                tbxBirthDate.Text = dataSettings.Landlord.BirthDate.ToString("dd.MM.yyyy");
-                tbxPassportNumber.Text = dataSettings.Landlord.IdentityNumber;
-                tbxIssuingOrganization.Text = dataSettings.Landlord.IssuingOrganization;
-                tbxIssuingDate.Text = dataSettings.Landlord.IssuingDate.ToString("dd.MM.yyyy");
-                tbxRegistrationPlace.Text = dataSettings.Landlord.RegistrationPlace;
-                tbxPhone.Text = dataSettings.Landlord.PhoneNumber;
-
                 tbxActSample.Text = dataSettings.ActSample;
                 tbxContractSample.Text = dataSettings.ContractSample;
                 tbxNotificationSample.Text = dataSettings.NotificationSample;
@@ -42,28 +30,13 @@ namespace CarsRent.WPF.Pages.Settings
 
         private void Save()
         {
-            var dataSettings = new TemplatesSettings();
-            var landlord = new Human();
-
-            landlord.Surname = tbxSurname.Text;
-            landlord.Name = tbxName.Text;
-            landlord.Patronymic = tbxPatronymic.Text;
-            landlord.IdentityNumber = tbxPassportNumber.Text;
-            landlord.IssuingOrganization = tbxIssuingOrganization.Text;
-            landlord.RegistrationPlace = tbxRegistrationPlace.Text;
-            landlord.PhoneNumber = tbxPhone.Text;
-
-            DateTime.TryParse(tbxBirthDate.Text, out var birthDate);
-            landlord.BirthDate = birthDate;
-            DateTime.TryParse(tbxIssuingDate.Text, out var issuingDate);
-            landlord.IssuingDate = issuingDate;
-
-            dataSettings.Landlord = landlord;
-
-            dataSettings.ActSample = tbxActSample.Text;
-            dataSettings.ContractSample = tbxContractSample.Text;
-            dataSettings.NotificationSample = tbxNotificationSample.Text;
-            dataSettings.OutputFolder = tbxOutputFolder.Text;
+            var dataSettings = new TemplatesSettings
+            {
+                ActSample = tbxActSample.Text,
+                ContractSample = tbxContractSample.Text,
+                NotificationSample = tbxNotificationSample.Text,
+                OutputFolder = tbxOutputFolder.Text
+            };
 
             var context = new ValidationContext(dataSettings);
             var errors = dataSettings.Validate(context);

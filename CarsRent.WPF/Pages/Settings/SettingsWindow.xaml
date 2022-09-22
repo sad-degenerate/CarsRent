@@ -10,6 +10,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
@@ -17,7 +18,8 @@
         </Grid.RowDefinitions>
 
         <Frame Grid.Row="1" Name="settingsFrame" Grid.Column="0" Grid.ColumnSpan="10" ContentRendered="settingsFrame_ContentRendered"/>
-        <Button x:Name="btnDataSettings" Content="Первичные данные" Grid.Column="0" Grid.Row="0" Click="SettingsType_Click" Tag="settingsType"/>
+        <Button x:Name="btnDataSettings" Content="Настройки образцов" Grid.Column="0" Grid.Row="0" Click="SettingsType_Click" Tag="settingsType"/>
         <Button x:Name="btnDisplaySettings" Content="Отображение" Grid.Column="1" Grid.Row="0" Click="SettingsType_Click" Tag="settingsType"/>
+        <Button x:Name="btnLandlordSettings" Content="Настройки арендодателя" Grid.Column="2" Grid.Row="0" Click="SettingsType_Click" Tag="settingsType"/>
     </Grid>
 </Window>

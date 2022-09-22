@@ -28,6 +28,10 @@ namespace CarsRent.WPF.Pages.Settings
                     page = new DisplaySettingsPage();
                     break;
 
+                case "btnLandlordSettings":
+                    page = new LandlordSettingsPage();
+                    break;
+
                 default:
                     page = null;
                     break;
