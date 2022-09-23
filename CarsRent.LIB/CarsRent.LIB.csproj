@@ -20,11 +20,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Libs\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="NumbersToText.LIB">
-      <HintPath>..\..\NumbersToText.LIB\NumbersToText.LIB\bin\Release\net6.0\NumbersToText.LIB.dll</HintPath>
+      <HintPath>Libs\NumbersToText.LIB.dll</HintPath>
     </Reference>
     <Reference Include="TemplateDocs.LIB">
-      <HintPath>D:\_projects\C#\TemplateDocs\TemplateDocs.LIB\bin\Release\TemplateDocs.LIB.dll</HintPath>
+      <HintPath>Libs\TemplateDocs.LIB.dll</HintPath>
     </Reference>
   </ItemGroup>
 
