@@ -59,7 +59,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             UpdateDataGrid();
         }
 
-        private void UpdateDataGrid()
+        public void UpdateDataGrid()
         {
             int startIndex;
             if (_currentPage == 1)

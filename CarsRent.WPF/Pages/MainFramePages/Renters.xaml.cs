@@ -23,7 +23,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             _pageSize = settings.TableOnePageElementsCount;
         }
 
-        private void UpdateDataGrid()
+        public void UpdateDataGrid()
         {
             int startIndex;
             if (_currentPage == 1)
