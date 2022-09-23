@@ -19,9 +19,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             InitializeComponent();
 
-            if (contractDetails == null)
+            if (contractDetails != null)
             {
-                return;
+                FillField(contractDetails);
+                _contractDetails = contractDetails;
             }
 
             _rideType = new Dictionary<string, RideType>
@@ -31,12 +32,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
             };
 
             cbxRideType.ItemsSource = _rideType.Keys;
+            cbxRideType.SelectedIndex = 0;
 
             lbxCar.ItemsSource = UpdateList<Car>(tbxSearchCar.Text);
             lbxRenter.ItemsSource = UpdateList<Human>(tbxSearchRenter.Text);
-
-            FillField(contractDetails);
-            _contractDetails = contractDetails;
         }
 
         private List<T> UpdateList<T>(string text) where T: class, IBaseModel

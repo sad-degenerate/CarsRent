@@ -32,7 +32,9 @@ namespace CarsRent.WPF.Pages.MainFramePages
             };
 
             cbxWheelsType.ItemsSource = _wheelsType.Keys;
+            cbxWheelsType.SelectedIndex = 0;
             cbxStatus.ItemsSource = _status.Keys;
+            cbxStatus.SelectedIndex = 0;
 
             if (car == null)
             {
