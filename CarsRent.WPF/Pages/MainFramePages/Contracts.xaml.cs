@@ -34,19 +34,19 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void UpdateDataGrid()
         {
-            int startIndex;
+            int skipCount;
             if (_currentPage == 1)
             {
-                startIndex = 1;
+                skipCount = 0;
             }
             else
             {
-                startIndex = _currentPage * _pageSize;
+                skipCount = _currentPage * (_pageSize - 1);
             }
 
             if (tbxSearch.Text == "")
             {
-                _contracts = Commands<ContractDetails>.SelectGroup(startIndex, _pageSize).ToList();
+                _contracts = Commands<ContractDetails>.SelectGroup(skipCount, _pageSize).ToList();
             }
             else
             {

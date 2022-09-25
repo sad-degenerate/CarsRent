@@ -46,7 +46,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             if (text != string.Empty)
             {
-                lbx.ItemsSource = Commands<T>.FindAndSelect(text, 1, 3).ToList();
+                lbx.ItemsSource = Commands<T>.FindAndSelect(text, 0, 3).ToList();
             }
             else if (id.HasValue == true)
             {

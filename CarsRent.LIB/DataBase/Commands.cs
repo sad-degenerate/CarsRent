@@ -29,7 +29,7 @@ namespace CarsRent.LIB.DataBase
         public static IEnumerable<T> SelectGroup(int startPoint, int count)
         {
             var context = ApplicationContext.Instance();
-            return context.Set<T>().Skip(startPoint - 1).Take(count);
+            return context.Set<T>().Skip(startPoint).Take(count);
         }
 
         public static IEnumerable<T> SelectAll()
