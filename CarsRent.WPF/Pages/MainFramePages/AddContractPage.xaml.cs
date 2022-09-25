@@ -24,6 +24,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 FillField(contractDetails);
                 _contractDetails = contractDetails;
             }
+            else
+            {
+                _contractDetails = new ContractDetails();
+            }
 
             _rideType = new Dictionary<string, RideType>
             {
@@ -34,18 +38,38 @@ namespace CarsRent.WPF.Pages.MainFramePages
             cbxRideType.ItemsSource = _rideType.Keys;
             cbxRideType.SelectedIndex = 0;
 
-            lbxCar.ItemsSource = UpdateList<Car>(tbxSearchCar.Text);
-            lbxRenter.ItemsSource = UpdateList<Human>(tbxSearchRenter.Text);
+            UpdateList<Car>(tbxSearchCar.Text, lbxCar, _contractDetails.CarId);
+            UpdateList<Human>(tbxSearchRenter.Text, lbxRenter, _contractDetails.RenterId);
         }
 
-        private List<T> UpdateList<T>(string text) where T: class, IBaseModel
+        private void UpdateList<T>(string text, ListBox lbx, int? id) where T: class, IBaseModel
         {
             if (text != string.Empty)
             {
-                return Commands<T>.FindAndSelect(text, 1, 3).ToList();
+                lbx.ItemsSource = Commands<T>.FindAndSelect(text, 1, 3).ToList();
             }
-            
-            return Commands<T>.SelectGroup(1, 3).ToList();
+            else if (id.HasValue == true)
+            {
+                var list = new List<T>();
+                var activeItem = Commands<T>.SelectById((int)id);
+                var items = Commands<T>.SelectGroup(1, 3);
+                
+                list.Add(activeItem);
+                foreach (var item in items)
+                {
+                    if (item.Id != activeItem.Id && list.Count < 3)
+                    {
+                        list.Add(item);
+                    }
+                }
+
+                lbx.ItemsSource = list;
+                lbx.SelectedItem = activeItem;
+            }
+            else
+            {
+                lbx.ItemsSource = Commands<T>.SelectGroup(1, 3).ToList();
+            }
         }
 
         private void FillField(ContractDetails contractDetails)
@@ -71,8 +95,6 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            _contractDetails ??= new ContractDetails();
-
             int.TryParse(tbxDeposit.Text, out var deposit);
             _contractDetails.Deposit = deposit;
             int.TryParse(tbxPrice.Text, out var price);
@@ -133,12 +155,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void tbxSearchRenter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            lbxRenter.ItemsSource = UpdateList<Human>(tbxSearchRenter.Text);
+            UpdateList<Human>(tbxSearchRenter.Text, lbxRenter, _contractDetails.RenterId);
         }
 
         private void tbxSearchCar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            lbxCar.ItemsSource = UpdateList<Car>(tbxSearchCar.Text);
+            UpdateList<Car>(tbxSearchCar.Text, lbxCar, _contractDetails.CarId);
         }
     }
 }
