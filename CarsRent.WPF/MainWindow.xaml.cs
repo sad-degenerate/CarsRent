@@ -23,11 +23,6 @@ namespace CarsRent.WPF
         private void StartupDataBaseConnection()
         {
             ApplicationContext.Instance();
-
-            var carsPage = new Cars();
-            carsPage.UpdateDataGrid();
-            var rentersPage = new Renters();
-            rentersPage.UpdateDataGrid();
         }
 
         private void CheckSettings()

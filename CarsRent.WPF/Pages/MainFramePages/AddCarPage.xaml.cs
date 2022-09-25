@@ -36,13 +36,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
             cbxStatus.ItemsSource = _status.Keys;
             cbxStatus.SelectedIndex = 0;
 
-            if (car == null)
+            if (car != null)
             {
-                return;
+                FillFields(car);
+                _car = car;
             }
-
-            FillFields(car);
-            _car = car;
         }
 
         private void FillFields(Car car)

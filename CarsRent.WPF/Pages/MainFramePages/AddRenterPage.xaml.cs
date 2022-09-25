@@ -15,13 +15,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             InitializeComponent();
 
-            if (renter == null)
+            if (renter != null)
             {
-                return;
+                FillField(renter);
+                _renter = renter;
             }
-
-            FillField(renter);
-            _renter = renter;
         }
 
         private void FillField(Human renter)

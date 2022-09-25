@@ -59,10 +59,18 @@ namespace CarsRent.LIB.DataBase
                 }
 
                 if (addToResult == true)
+                {
                     itemsResult.Add(item);
+                }
             }
 
             return itemsResult.Skip(startPoint).Take(count).ToList();
+        }
+
+        public static T SelectById(int id)
+        {
+            var context = ApplicationContext.Instance();
+            return context.Set<T>().Where(x => x.Id == id).FirstOrDefault();
         }
     }
 }

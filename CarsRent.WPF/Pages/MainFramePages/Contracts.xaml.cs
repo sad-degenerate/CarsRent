@@ -53,6 +53,20 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 _contracts = Commands<ContractDetails>.FindAndSelect(tbxSearch.Text, startIndex, _pageSize).ToList();
             }
 
+            foreach (var contract in _contracts)
+            {
+                try
+                {
+                    Commands<Human>.SelectById((int)contract.RenterId);
+                    Commands<Car>.SelectById((int)contract.CarId);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show($"В договоре {contract.Id} отсутствует связь с другим объектом базы данных." +
+                        $" Попробуйте пересоздать договор");
+                }
+            }
+
             dgContracts.ItemsSource = _contracts;
             UpdateCurrentPage();
         }
