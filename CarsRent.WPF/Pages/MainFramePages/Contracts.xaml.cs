@@ -37,7 +37,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             int startIndex;
             if (_currentPage == 1)
             {
-                startIndex = _currentPage;
+                startIndex = 1;
             }
             else
             {
@@ -50,7 +50,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
             else
             {
-                _contracts = Commands<ContractDetails>.FindAndSelect(tbxSearch.Text, startIndex, _pageSize).ToList();
+                _contracts = Commands<ContractDetails>.FindAndSelect(tbxSearch.Text, 0, _pageSize).ToList();
             }
 
             foreach (var contract in _contracts)
@@ -60,7 +60,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
                     Commands<Human>.SelectById((int)contract.RenterId);
                     Commands<Car>.SelectById((int)contract.CarId);
                 }
-                catch(Exception ex)
+                catch (Exception)
                 {
                     MessageBox.Show($"В договоре {contract.Id} отсутствует связь с другим объектом базы данных." +
                         $" Попробуйте пересоздать договор");

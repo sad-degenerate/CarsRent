@@ -77,7 +77,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
             else
             {
-                _cars = Commands<Car>.FindAndSelect(tbxSearch.Text, startIndex, _pageSize).ToList();
+                _cars = Commands<Car>.FindAndSelect(tbxSearch.Text, 0, _pageSize).ToList();
             }
 
             dgCars.ItemsSource = _cars;

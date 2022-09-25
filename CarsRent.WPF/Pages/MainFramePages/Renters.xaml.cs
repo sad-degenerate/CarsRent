@@ -41,7 +41,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
             else
             {
-                _renters = Commands<Human>.FindAndSelect(tbxSearch.Text, startIndex, _pageSize).ToList();
+                _renters = Commands<Human>.FindAndSelect(tbxSearch.Text, 0, _pageSize).ToList();
             } 
 
             dgRenters.ItemsSource = _renters;
