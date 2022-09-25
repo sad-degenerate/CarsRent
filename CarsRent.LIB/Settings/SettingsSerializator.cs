@@ -1,4 +1,4 @@
-﻿using System.Xml.Serialization;
+﻿using System.Text.Json;
 
 namespace CarsRent.LIB.Settings
 {
@@ -19,23 +19,20 @@ namespace CarsRent.LIB.Settings
 
         public void Serialize(T settings)
         {
-            var formatter = new XmlSerializer(settings.GetType());
-            using var fs = new FileStream(_path + $@"\{typeof(T)}", FileMode.Create);
-            formatter.Serialize(fs, settings);
+            using var fs = File.Create(_path + $@"\{typeof(T)}");
+            JsonSerializer.SerializeAsync(fs, settings);
         }
 
-        public T Deserialize()
+        public T? Deserialize()
         {
-            var serializer = new XmlSerializer(typeof(T));
-            using var fs = new FileStream(_path + $@"\{typeof(T)}", FileMode.OpenOrCreate);
-
-            T settings;
+            T? settings;
             try
             {
-                settings = serializer.Deserialize(fs) as T;
+                using var fs = File.OpenRead(_path + $@"\{typeof(T)}");
+                settings = JsonSerializer.Deserialize<T>(fs);
             }
-            catch (Exception ex)
-            {
+            catch (Exception) 
+            { 
                 settings = null;
             }
 
