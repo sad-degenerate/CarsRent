@@ -109,6 +109,13 @@ namespace CarsRent.WPF.Pages.Settings
                 var settingsSerializator = new SettingsSerializator<LandlordSettings>();
                 var landlordSettings = settingsSerializator.Deserialize();
                 
+                if (landlordSettings.Landlords.Count <= 1)
+                {
+                    lblErrorFirst.Content = "Нельзя удалить последнего арендодателя, перед этим создайте нового.";
+                    lblDoneFirst.Content = string.Empty;
+                    return;
+                }
+
                 var selectedLandlord = lbxLandlord.SelectedItem as Human;
                 foreach (var landlord in landlordSettings.Landlords)
                 {
