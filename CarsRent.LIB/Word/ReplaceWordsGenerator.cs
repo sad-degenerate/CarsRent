@@ -18,6 +18,7 @@ namespace CarsRent.LIB.Word
 
             _words = new Dictionary<string, string>()
             {
+                { "carPassportIssuingDate", contract.Car.PassportIssuingDate.ToString("dd.MM.yyyy") },
                 { "ridePriceString", ridePrice },
                 { "priceString", carPrice },
                 { "depositString", deposit },
@@ -42,7 +43,6 @@ namespace CarsRent.LIB.Word
                 { "rideType", contract.RideTypeText },
                 { "ridePrice", contract.Price.ToString() },
                 { "endTime", contract.EndTime.ToString("HH:mm") },
-                { "carPassportIssuingDate", contract.Car.PassportIssuingDate.ToString("dd.MM.yyyy") },
                 { "carPassport", contract.Car.PassportNumber },
                 { "brand", contract.Car.Brand },
                 { "year", contract.Car.Year.ToString() },
