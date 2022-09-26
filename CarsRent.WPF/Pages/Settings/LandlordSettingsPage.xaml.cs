@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace CarsRent.WPF.Pages.Settings
 {
@@ -23,6 +24,7 @@ namespace CarsRent.WPF.Pages.Settings
             if (landlordSettings != null)
             {
                 lbxLandlord.ItemsSource = landlordSettings.Landlords;
+                lbxLandlord.SelectedItem = landlordSettings.CurrentLandlord;
             }
         }
 
@@ -50,7 +52,39 @@ namespace CarsRent.WPF.Pages.Settings
 
         private void tbxSearchLandlord_TextChanged(object sender, TextChangedEventArgs e)
         {
+            var settingsSerializator = new SettingsSerializator<LandlordSettings>();
+            var landlordSettings = settingsSerializator.Deserialize();
 
+            if (landlordSettings == null)
+            {
+                return;
+            }
+
+            var landlords = landlordSettings.Landlords;
+            var landlordsResult = new List<Human>();
+            var words = tbxSearchLandlord.Text.Split(' ');
+
+            foreach (var landlord in landlords)
+            {
+                var landlordText = landlord.ToString();
+
+                var addToResult = true;
+                foreach (var word in words)
+                {
+                    if (landlordText.Contains(word) == false)
+                    {
+                        addToResult = false;
+                        break;
+                    }
+                }
+
+                if (addToResult == true)
+                {
+                    landlordsResult.Add(landlord);
+                }
+            }
+
+            lbxLandlord.ItemsSource = landlordsResult.ToList();
         }
 
         private void btnAdd_Click(object sender, System.Windows.RoutedEventArgs e)

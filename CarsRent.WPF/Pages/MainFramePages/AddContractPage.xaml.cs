@@ -52,7 +52,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             {
                 var list = new List<T>();
                 var activeItem = Commands<T>.SelectById((int)id);
-                var items = Commands<T>.SelectGroup(1, 3);
+                var items = Commands<T>.SelectGroup(0, 3);
                 
                 list.Add(activeItem);
                 foreach (var item in items)
@@ -68,7 +68,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
             else
             {
-                lbx.ItemsSource = Commands<T>.SelectGroup(1, 3).ToList();
+                lbx.ItemsSource = Commands<T>.SelectGroup(0, 3).ToList();
             }
         }
 
