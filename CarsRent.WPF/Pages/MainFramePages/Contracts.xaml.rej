@@ -1,0 +1,22 @@
+diff a/CarsRent.WPF/Pages/MainFramePages/Contracts.xaml b/CarsRent.WPF/Pages/MainFramePages/Contracts.xaml	(rejected hunks)
+@@ -5,7 +5,7 @@
+       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+       xmlns:local="clr-namespace:CarsRent.WPF.Pages.MainFramePages"
+       mc:Ignorable="d" 
+-      d:DesignHeight="650" d:DesignWidth="1000"
++      d:DesignHeight="650" d:DesignWidth="1200"
+       Title="Contracts" Loaded="Page_Loaded">
+ 
+     <Grid>
+@@ -34,9 +34,10 @@
+ 
+         <DataGrid x:Name="dgContracts" Grid.Row="1" Grid.RowSpan="6" Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single">
+             <DataGrid.Columns>
++                <DataGridTextColumn Header="№" Binding="{Binding Path=Id, Mode=OneWay}" Width="5*"/>
+                 <DataGridTextColumn Header="Автомобиль" Binding="{Binding Path=Car.FullCarName, Mode=OneWay}" Width="25*"/>
+                 <DataGridTextColumn Header="Арендатор" Binding="{Binding Path=Renter.FullName, Mode=OneWay}" Width="25*"/>
+-                <DataGridTextColumn Header="Стоимость поездки" Binding="{Binding Path=Price, Mode=OneWay}" Width="10*"/>
++                <DataGridTextColumn Header="Стоимость поездки" Binding="{Binding Path=Price, Mode=OneWay}" Width="5*"/>
+                 <DataGridTextColumn Header="Тип поездки" Binding="{Binding Path=RideTypeText, Mode=OneWay}" Width="10*"/>
+                 <DataGridTextColumn Header="Сумма залога" Binding="{Binding Path=Deposit, Mode=OneWay}" Width="10*"/>
+                 <DataGridTextColumn Header="Дата заключения договора" Binding="{Binding Path=ConclusionDateString, Mode=OneWay}" Width="10*"/>
