@@ -18,7 +18,7 @@ namespace CarsRent.LIB.Model
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна номера паспорта автомобиля, должна быть в диапазоне от 1 до 20 символов")]
         public string PassportNumber { get; set; }
         [Required(ErrorMessage = "Необходимо ввести дату выдачи паспорта автомобиля")]
-        [Date(ErrorMessage = "Некорректная дата выдачи паспорта автомобиля")]
+        [Date(100, ErrorMessage = "Некорректная дата выдачи паспорта автомобиля")]
         public DateTime PassportIssuingDate { get; set; }
         [Required(ErrorMessage = "Необходимо VIN автомобиля")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна VIN автомобиля, должна быть в диапазоне от 1 до 20 символов")]
@@ -30,13 +30,13 @@ namespace CarsRent.LIB.Model
         [StringLength(50, MinimumLength = 1, ErrorMessage = "Длинна названия цвета автомобиля, должна быть в диапазоне от 1 до 50 символов")]
         public string Color { get; set; }
         [Required(ErrorMessage = "Необходимо год выпуска автомобиля")]
-        [CarYear(ErrorMessage = "Некорректный год выпуска автомобиля")]
+        [Date(100, ErrorMessage = "Некорректный год выпуска автомобиля")]
         public int Year { get; set; }
         [Required(ErrorMessage = "Необходимо ввести номер двигателя автомобиля")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна номера двигателя автомобиля, должна быть в диапазоне от 1 до 20 символов")]
         public string EngineNumber { get; set; }
         [Required(ErrorMessage = "Вы не ввели стоимость автомобиля")]
-        [Price(ErrorMessage = "Некорректная стоимость автомобиля")]
+        [Price(1_000_000, ErrorMessage = "Некорректная стоимость автомобиля")]
         public int Price { get; set; }
         [Required(ErrorMessage = "Вы не ввели регистрационный номер")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "Длинна регистрационного номера автомобиля, должна быть в диапазоне от 1 до 20 символов")]
@@ -44,7 +44,7 @@ namespace CarsRent.LIB.Model
         [Required(ErrorMessage = "Вы не выбрали тип шин")]
         public WheelsType WheelsType { get; set; }
         [Required(ErrorMessage = "Вы не ввели рабочий объем двигателя")]
-        [EngineDiaplacement(ErrorMessage = "Некорректный рабочий объем двигателя")]
+        [EngineDisplacement(10_000, ErrorMessage = "Некорректный рабочий объем двигателя")]
         public int EngineDisplacement { get; set; }
         [Required(ErrorMessage = "Вы не ввели статус автомобиля")]
         public Status CarStatus { get; set; }

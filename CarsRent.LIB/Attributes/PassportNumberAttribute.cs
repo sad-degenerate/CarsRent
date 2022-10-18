@@ -11,16 +11,7 @@ namespace CarsRent.LIB.Attributes
                 return false;
             }
 
-            var passportNumber = value.ToString();
-
-            var numbersString = new string(passportNumber.Where(x => char.IsDigit(x)).ToArray());
-
-            if (numbersString.Length != 10)
-            {
-                return false;
-            }
-
-            return true;
+            return value.ToString().Where(x => char.IsDigit(x)).ToArray().Length != 10;
         }
     }
 }

@@ -4,29 +4,26 @@ namespace CarsRent.LIB.Attributes
 {
     public class DateAttribute : ValidationAttribute
     {
+        private readonly int _maxAge;
+        
+        public DateAttribute(int maxAge)
+        {
+            _maxAge = maxAge;
+        }
+        
         public override bool IsValid(object? value)
         {
             if (value == null)
             {
                 return false;
-            }    
-
-            DateTime date;
-            try
-            {
-                DateTime.TryParse(value.ToString(), out date);
             }
-            catch (Exception)
+
+            if (int.TryParse(value.ToString(), out var year) == false)
             {
                 return false;
             }
 
-            if (Math.Abs(DateTime.Now.Year - date.Year) > 100)
-            {
-                return false;
-            }
-
-            return true;
+            return year <= DateTime.Now.Year && year >= DateTime.Now.Year - _maxAge;
         }
     }
 }

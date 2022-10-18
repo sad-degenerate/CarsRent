@@ -4,25 +4,26 @@ namespace CarsRent.LIB.Attributes
 {
     public class PriceAttribute : ValidationAttribute
     {
+        private readonly int _maxPrice;
+
+        public PriceAttribute(int maxPrice)
+        {
+            _maxPrice = maxPrice;
+        }
+        
         public override bool IsValid(object? value)
         {
-            int price;
-
-            try
-            {
-                int.TryParse(value.ToString(), out price);
-            }
-            catch (Exception) 
-            { 
-                return false;
-            }
-
-            if (price <= 0 || price > 1_000_000_000)
+            if (value == null)
             {
                 return false;
             }
 
-            return true;
+            if (int.TryParse(value.ToString(), out var price) == false)
+            {
+                return false;
+            }
+
+            return price <= _maxPrice && price > 0;
         }
     }
 }
