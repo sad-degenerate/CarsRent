@@ -16,7 +16,6 @@ namespace CarsRent.WPF
             InitializeComponent();
 
             StartupDataBaseConnection();
-
             CheckSettings();
         }
 

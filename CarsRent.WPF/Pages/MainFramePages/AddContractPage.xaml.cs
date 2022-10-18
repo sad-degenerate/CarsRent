@@ -12,7 +12,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class AddContractPage : Page
     {
-        private ContractDetails _contractDetails;
+        private readonly ContractDetails _contractDetails;
         private readonly Dictionary<string, RideType> _rideType;
 
         public AddContractPage(ContractDetails contractDetails = null)
@@ -95,16 +95,26 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            int.TryParse(tbxDeposit.Text, out var deposit);
-            _contractDetails.Deposit = deposit;
-            int.TryParse(tbxPrice.Text, out var price);
-            _contractDetails.Price = price;
-            DateTime.TryParse(tbxConclusionDate.Text, out var conclusiunDate);
-            _contractDetails.ConclusionDate = conclusiunDate;
-            DateTime.TryParse(tbxEndDate.Text, out var endDate);
-            _contractDetails.EndDate = endDate;
-            DateTime.TryParse(tbxEndTime.Text, out var endTime);
-            _contractDetails.EndTime = endTime;
+            if (int.TryParse(tbxDeposit.Text, out var deposit) == true)
+            {
+                _contractDetails.Deposit = deposit;
+            }
+            if (int.TryParse(tbxPrice.Text, out var price) == true)
+            {
+                _contractDetails.Price = price;
+            }
+            if (DateTime.TryParse(tbxConclusionDate.Text, out var conclusiunDate) == true)
+            {
+                _contractDetails.ConclusionDate = conclusiunDate;
+            }
+            if (DateTime.TryParse(tbxEndDate.Text, out var endDate) == true)
+            {
+                _contractDetails.EndDate = endDate;
+            }
+            if (DateTime.TryParse(tbxEndTime.Text, out var endTime) == true)
+            {
+                _contractDetails.EndTime = endTime;
+            }
 
             _contractDetails.RideType = _rideType[cbxRideType.Text];
 
