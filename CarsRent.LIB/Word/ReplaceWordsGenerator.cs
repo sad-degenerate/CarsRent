@@ -26,7 +26,8 @@ namespace CarsRent.LIB.Word
                 { "llname", settings.CurrentLandlord.Name },
                 { "llpatronymic", settings.CurrentLandlord.Patronymic },
                 { "llinitials", $"{settings.CurrentLandlord.Name[0]}.{settings.CurrentLandlord.Patronymic[0]}." },
-                { "llpassportNumbers", settings.CurrentLandlord.IdentityNumber },
+                { "llpassportNumbers", $"серия: {settings.CurrentLandlord.IdentityNumber[..4]} " +
+                                       $"№: {settings.CurrentLandlord.IdentityNumber.Substring(4, 6)}" },
                 { "llissuingOrganization", settings.CurrentLandlord.IssuingOrganization },
                 { "llissuingDate", settings.CurrentLandlord.IssuingDate.ToString("dd.MM.yyyy") },
                 { "llregistrationPlace", settings.CurrentLandlord.RegistrationPlace },
@@ -34,7 +35,8 @@ namespace CarsRent.LIB.Word
                 { "name", contract.Renter.Name },
                 { "patronymic", contract.Renter.Patronymic },
                 { "initials", $"{contract.Renter.Name[0]}.{contract.Renter.Patronymic[0]}." },
-                { "passportNumbers", contract.Renter.IdentityNumber },
+                { "passportNumbers", $"серия: {contract.Renter.IdentityNumber[..4]} " +
+                                     $"№: {contract.Renter.IdentityNumber.Substring(4, 6)}" },
                 { "issuingOrganization", contract.Renter.IssuingOrganization },
                 { "issuingDate", contract.Renter.IssuingDate.ToString("dd.MM.yyyy") },
                 { "registrationPlace", contract.Renter.RegistrationPlace },
