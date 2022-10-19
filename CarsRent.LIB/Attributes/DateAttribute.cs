@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CarsRent.LIB.Validation;
 
 namespace CarsRent.LIB.Attributes
 {
     public class DateAttribute : ValidationAttribute
     {
-        private readonly int _maxAge;
+        private readonly int _maxYear;
         
-        public DateAttribute(int maxAge)
+        public DateAttribute(int maxYear)
         {
-            _maxAge = maxAge;
+            _maxYear = maxYear;
         }
-        
+
         public override bool IsValid(object? value)
         {
             if (value == null)
@@ -18,12 +19,16 @@ namespace CarsRent.LIB.Attributes
                 return false;
             }
 
-            if (int.TryParse(value.ToString(), out var year) == false)
+            if (DateTime.TryParse(value.ToString(), out var date))
             {
-                return false;
+                return DateValidation.Validate(date.Year, _maxYear);
+            }
+            if (int.TryParse(value.ToString(), out var year))
+            {
+                return DateValidation.Validate(year, _maxYear);
             }
 
-            return year <= DateTime.Now.Year && year >= DateTime.Now.Year - _maxAge;
+            return false;
         }
     }
 }

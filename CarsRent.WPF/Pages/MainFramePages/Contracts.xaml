@@ -32,7 +32,8 @@
 
         <TextBox x:Name="tbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
 
-        <DataGrid x:Name="dgContracts" Grid.Row="1" Grid.RowSpan="6" Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single">
+        <DataGrid x:Name="dgContracts" Grid.Row="1" Grid.RowSpan="6" Grid.Column="0" 
+                  AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Автомобиль" Binding="{Binding Path=Car.FullCarName, Mode=OneWay}" Width="25*"/>
                 <DataGridTextColumn Header="Арендатор" Binding="{Binding Path=Renter.FullName, Mode=OneWay}" Width="25*"/>
