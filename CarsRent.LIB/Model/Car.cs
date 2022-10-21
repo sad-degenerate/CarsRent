@@ -49,7 +49,11 @@ namespace CarsRent.LIB.Model
         [Required(ErrorMessage = "Вы не ввели статус автомобиля")]
         public Status CarStatus { get; set; }
 
-        public virtual ICollection<ContractDetails> ContractDetails { get; set; }
+        public virtual ICollection<Contract> Contracts { get; set; }
+        
+        public int? OwnerId { get; set; }
+        [Required(ErrorMessage = "Вы не выбрали хозяина автомобиля.")]
+        public virtual Owner Owner { get; set; }
 
         public Car() { }
 
@@ -57,20 +61,7 @@ namespace CarsRent.LIB.Model
         public string FullCarName => $"{Color} {Brand} {Model}";
 
         [NotMapped]
-        public string WheelsTypeString
-        {
-            get
-            {
-                if (WheelsType == WheelsType.Summer)
-                {
-                    return "летние";
-                }
-                else
-                {
-                    return "зимние";
-                }
-            } 
-        }
+        public string WheelsTypeString => WheelsType == WheelsType.Summer ? "летние" : "зимние";
 
         [NotMapped]
         public string CarStatusString
@@ -88,13 +79,7 @@ namespace CarsRent.LIB.Model
         }
 
         [NotMapped]
-        public string PassportIssuingDateString
-        {
-            get
-            {
-                return PassportIssuingDate.ToString("dd.MM.yyyy");
-            }
-        }
+        public string PassportIssuingDateString => PassportIssuingDate.ToString("dd.MM.yyyy");
 
         public override string ToString()
         {

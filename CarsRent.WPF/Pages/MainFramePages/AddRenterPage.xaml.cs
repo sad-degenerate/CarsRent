@@ -11,15 +11,17 @@ namespace CarsRent.WPF.Pages.MainFramePages
     public partial class AddRenterPage : Page
     {
         private Human _renter;
-        public AddRenterPage(Human renter = null)
+        public AddRenterPage(Human? renter = null)
         {
             InitializeComponent();
 
-            if (renter != null)
+            if (renter == null)
             {
-                FillField(renter);
-                _renter = renter;
+                return;
             }
+            
+            FillField(renter);
+            _renter = renter;
         }
 
         private void FillField(Human renter)
@@ -28,7 +30,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             tbxName.Text = renter.Name;
             tbxPatronymic.Text = renter.Patronymic;
             tbxBirthDate.Text = renter.BirthDate.ToString("dd.MM.yyyy");
-            tbxPassportNumber.Text = renter.IdentityNumber;
+            tbxPassportNumber.Text = renter.PassportNumber;
             tbxIssuingOrganization.Text = renter.IssuingOrganization;
             tbxIssuingDate.Text = renter.IssuingDate.ToString("dd.MM.yyyy");
             tbxRegistrationPlace.Text = renter.RegistrationPlace;
@@ -43,7 +45,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             _renter.Surname = tbxSurname.Text;
             _renter.Patronymic = tbxPatronymic.Text;
             _renter.PhoneNumber = tbxPhone.Text;
-            _renter.IdentityNumber = tbxPassportNumber.Text;
+            _renter.PassportNumber = tbxPassportNumber.Text;
             _renter.IssuingOrganization = tbxIssuingOrganization.Text;
             _renter.RegistrationPlace = tbxRegistrationPlace.Text;
 

@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CarsRent.WPF.Pages.MainFramePages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Renters" Loaded="Page_Loaded">
@@ -28,16 +27,25 @@
 
         <TextBox x:Name="tbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
 
-        <DataGrid x:Name="dgRenters" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single">
+        <DataGrid x:Name="dgRenters" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" 
+                  AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname, Mode=OneWay}" Width="15*"/>
-                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name, Mode=OneWay}" Width="15*"/>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic, Mode=OneWay}" Width="15*"/>
-                <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDateString, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Серия/номер паспорта" Binding="{Binding Path=IdentityNumber, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Дата выдачи паспорта" Binding="{Binding Path=IssuingDateString, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Кем выдан паспорт" Binding="{Binding Path=IssuingOrganization, Mode=OneWay}" Width="20*"/>
-                <DataGridTextColumn Header="Место регистрации" Binding="{Binding Path=RegistrationPlace, Mode=OneWay}" Width="20*"/>
+                <DataGridTextColumn Header="Фамилия" Width="15*" 
+                                    Binding="{Binding Path=Surname, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Имя" Width="15*" 
+                                    Binding="{Binding Path=Name, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Отчество" Width="15*"
+                                    Binding="{Binding Path=Patronymic, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Дата рождения" Width="10*" 
+                                    Binding="{Binding Path=BirthDateString, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Серия/номер паспорта" Width="10*" 
+                                    Binding="{Binding Path=IdentityNumber, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Дата выдачи паспорта" Width="10*"
+                                    Binding="{Binding Path=IssuingDateString, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Кем выдан паспорт" Width="20*"
+                                    Binding="{Binding Path=IssuingOrganization, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Место регистрации" Width="20*"
+                                    Binding="{Binding Path=RegistrationPlace, Mode=OneWay}"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -54,8 +62,10 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btnPageLeft" Content="Назад" Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
-            <Button x:Name="btnPageRight" Content="Вперед" Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
+            <Button x:Name="btnPageLeft" Content="Назад" 
+                    Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
+            <Button x:Name="btnPageRight" Content="Вперед" 
+                    Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
             <Button x:Name="btnGoto" Content="Перейти" Grid.Row="1"  Grid.Column="2" Click="btnGoto_Click"/>
             <TextBox x:Name="tbxPageNumber" Grid.Row="0" Grid.Column="2" FontSize="20"/>
         </Grid>

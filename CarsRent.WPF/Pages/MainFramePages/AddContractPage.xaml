@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CarsRent.WPF.Pages.MainFramePages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AddContractPage">
@@ -56,14 +55,17 @@
                 <TextBox x:Name="tbxEndTime" Style="{StaticResource Prop}"/>
 
                 <Label Content="Выберите арендатора:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxSearchRenter" Style="{StaticResource Prop}" TextChanged="tbxSearchRenter_TextChanged"/>
+                <TextBox x:Name="tbxSearchRenter" Style="{StaticResource Prop}" 
+                         TextChanged="tbxSearchRenter_TextChanged"/>
                 <ListBox x:Name="lbxRenter" Style="{StaticResource Prop}"/>
 
                 <Label Content="Выберите машину:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxSearchCar" Style="{StaticResource Prop}" TextChanged="tbxSearchCar_TextChanged"/>
+                <TextBox x:Name="tbxSearchCar" Style="{StaticResource Prop}" 
+                         TextChanged="tbxSearchCar_TextChanged"/>
                 <ListBox x:Name="lbxCar" Style="{StaticResource Prop}"/>
 
-                <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click"  Style="{StaticResource saveButtonStyle}"/>
+                <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click"  
+                        Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

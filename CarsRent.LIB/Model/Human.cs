@@ -1,7 +1,6 @@
 ﻿using CarsRent.LIB.Attributes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Serialization;
 
 namespace CarsRent.LIB.Model
 {
@@ -26,7 +25,7 @@ namespace CarsRent.LIB.Model
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Вы не ввели серию/номер паспорта")]
         [PassportNumber(ErrorMessage = "Некорректно введены серия/номер паспорта")]
-        public string IdentityNumber { get; set; }
+        public string PassportNumber { get; set; }
         [Required(ErrorMessage = "Вы не ввели кем выдан паспорт")]
         [StringLength(200, MinimumLength = 3, ErrorMessage = "Длинна строки \"кем выдан паспорт\" должна быть не меньше 3 и не больше 200 символов")]
         public string IssuingOrganization { get; set; }
@@ -37,35 +36,22 @@ namespace CarsRent.LIB.Model
         [StringLength(200, MinimumLength = 3, ErrorMessage = "Длина строки \"место регистрации\" должна быть не меньше 3 и не больше 200 символов")]
         public string RegistrationPlace { get; set; }
 
-        [XmlIgnore]
-        public virtual ICollection<ContractDetails> ContractDetails { get; set; }
+        public virtual ICollection<Contract> ContractDetails { get; set; }
+        public virtual ICollection<Renter> Renters { get; set; }
+        public virtual ICollection<Owner> Owners { get; set; }
 
         public Human() { }
+        
+        [NotMapped]
+        public string BirthDateString => BirthDate.ToString("dd.MM.yyyy");
 
         [NotMapped]
-        public string FullName => $"{Surname} {Name} {Patronymic}";
-
-        [NotMapped]
-        public string BirthDateString
-        {
-            get
-            {
-                return BirthDate.ToString("dd.MM.yyyy");
-            }
-        }
-
-        [NotMapped]
-        public string IssuingDateString
-        {
-            get
-            {
-                return IssuingDate.ToString("dd.MM.yyyy");
-            }
-        }
+        public string IssuingDateString => IssuingDate.ToString("dd.MM.yyyy");
 
         public override string ToString()
         {
-            return $"{Surname} {Name} {Patronymic} {BirthDateString} {PhoneNumber} {IdentityNumber} {IssuingOrganization} {IssuingDateString} {RegistrationPlace}";
+            return $"{Surname} {Name} {Patronymic} {BirthDateString} {PhoneNumber} {PassportNumber} " +
+                   $"{IssuingOrganization} {IssuingDateString} {RegistrationPlace}";
         }
     }
 }

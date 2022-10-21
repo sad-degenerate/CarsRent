@@ -79,6 +79,10 @@
                 <Label Content="Статус автомобиля:" Style="{StaticResource Prop}"/>
                 <ComboBox x:Name="cbxStatus" Style="{StaticResource Prop}" IsEditable="False"/>
 
+                <Label Content="Выберите кому принадлежит машина:" Style="{StaticResource Prop}"/>
+                <TextBox x:Name="tbxSearchOwner" Style="{StaticResource Prop}" TextChanged="tbxSearchLandlord_TextChanged"/>
+                <ListBox x:Name="lbxLandlord" Style="{StaticResource Prop}"/>
+
                 <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>
         </ScrollViewer>

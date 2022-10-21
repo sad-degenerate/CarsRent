@@ -32,7 +32,7 @@ namespace CarsRent.LIB.DataBase
             return context.Set<T>().Skip(startPoint).Take(count);
         }
 
-        public static IEnumerable<T> SelectAll()
+        private static IEnumerable<T> SelectAll()
         {
             var context = ApplicationContext.Instance();
             return context.Set<T>();
@@ -40,25 +40,22 @@ namespace CarsRent.LIB.DataBase
 
         public static IEnumerable<T> FindAndSelect(string text, int startPoint, int count)
         {
-            var items = Commands<T>.SelectAll();
+            var items = SelectAll();
             var itemsResult = new List<T>();
-            var words = text.Split(' ');
+            var targetWords = text.Split(' ');
 
             foreach (var item in items)
             {
                 var itemText = item.ToString();
 
-                var addToResult = true;
-                foreach (var word in words)
+                if (itemText == null)
                 {
-                    if (itemText.Contains(word) == false)
-                    {
-                        addToResult = false;
-                        break;
-                    }
+                    continue;
                 }
+                
+                var addToResult = targetWords.All(word => itemText.Contains(word));
 
-                if (addToResult == true)
+                if (addToResult)
                 {
                     itemsResult.Add(item);
                 }
@@ -67,10 +64,10 @@ namespace CarsRent.LIB.DataBase
             return itemsResult.Skip(startPoint).Take(count).ToList();
         }
 
-        public static T SelectById(int id)
+        public static T? SelectById(int id)
         {
             var context = ApplicationContext.Instance();
-            return context.Set<T>().Where(x => x.Id == id).FirstOrDefault();
+            return context.Set<T>().FirstOrDefault(x => x.Id == id);
         }
     }
 }

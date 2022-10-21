@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CarsRent.WPF.Pages.MainFramePages"
       mc:Ignorable="d" 
       d:DesignHeight="650" d:DesignWidth="1000"
       Title="Contracts" Loaded="Page_Loaded">
@@ -24,24 +23,36 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="btnDelete" Content="Удалить" Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
-        <Button x:Name="btnAdd" Content="Добавить" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Click="btnAdd_Click"/>
-        <Button x:Name="btnEdit" Content="Изменить" Grid.Column="1" Grid.Row="2" Click="btnEdit_Click"/>
-        <Button x:Name="btnPrint" Content="Печать" Grid.Column="1" Grid.Row="4" Click="btnPrint_Click"/>
-        <Button x:Name="btnOpenFolder" Content="Открыть папку" Grid.Column="1" Grid.Row="5" Click="btnOpenFolder_Click"/>
+        <Button x:Name="btnDelete" Content="Удалить" 
+                Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
+        <Button x:Name="btnAdd" Content="Добавить" 
+                Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Click="btnAdd_Click"/>
+        <Button x:Name="btnEdit" Content="Изменить" 
+                Grid.Column="1" Grid.Row="2" Click="btnEdit_Click"/>
+        <Button x:Name="btnPrint" Content="Печать" 
+                Grid.Column="1" Grid.Row="4" Click="btnPrint_Click"/>
+        <Button x:Name="btnOpenFolder" Content="Открыть папку" 
+                Grid.Column="1" Grid.Row="5" Click="btnOpenFolder_Click"/>
 
         <TextBox x:Name="tbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
 
         <DataGrid x:Name="dgContracts" Grid.Row="1" Grid.RowSpan="6" Grid.Column="0" 
                   AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Автомобиль" Binding="{Binding Path=Car.FullCarName, Mode=OneWay}" Width="25*"/>
-                <DataGridTextColumn Header="Арендатор" Binding="{Binding Path=Renter.FullName, Mode=OneWay}" Width="25*"/>
-                <DataGridTextColumn Header="Стоимость поездки" Binding="{Binding Path=Price, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Тип поездки" Binding="{Binding Path=RideTypeText, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Сумма залога" Binding="{Binding Path=Deposit, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Дата заключения договора" Binding="{Binding Path=ConclusionDateString, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Дата расторжения договора" Binding="{Binding Path=EndDateString, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Автомобиль" Width="25*"
+                                    Binding="{Binding Path=Car.FullCarName, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Арендатор" Width="25*"
+                                    Binding="{Binding Path=Renter.FullName, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Стоимость поездки" Width="10*"
+                                    Binding="{Binding Path=Price, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Тип поездки" Width="10*"
+                                    Binding="{Binding Path=RideTypeText, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Сумма залога" Width="10*"
+                                    Binding="{Binding Path=Deposit, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Дата заключения договора" Width="10*"
+                                    Binding="{Binding Path=ConclusionDateString, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Дата расторжения договора" Width="10*"
+                                    Binding="{Binding Path=EndDateString, Mode=OneWay}"/>
             </DataGrid.Columns>
         </DataGrid>
         
@@ -58,9 +69,12 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btnPageLeft" Content="Назад" Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
-            <Button x:Name="btnPageRight" Content="Вперед" Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
-            <Button x:Name="btnGoto" Content="Перейти" Grid.Row="1"  Grid.Column="2" Click="btnGoto_Click"/>
+            <Button x:Name="btnPageLeft" Content="Назад" 
+                    Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
+            <Button x:Name="btnPageRight" Content="Вперед" 
+                    Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
+            <Button x:Name="btnGoto" Content="Перейти" Grid.Row="1"  
+                    Grid.Column="2" Click="btnGoto_Click"/>
             <TextBox x:Name="tbxPageNumber" Grid.Row="0" Grid.Column="2" FontSize="20"/>
         </Grid>
     </Grid>

@@ -12,22 +12,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class AddContractPage : Page
     {
-        private readonly ContractDetails _contractDetails;
+        private readonly Contract _contract;
         private readonly Dictionary<string, RideType> _rideType;
 
-        public AddContractPage(ContractDetails contractDetails = null)
+        public AddContractPage(Contract contract = null)
         {
             InitializeComponent();
-
-            if (contractDetails != null)
-            {
-                FillField(contractDetails);
-                _contractDetails = contractDetails;
-            }
-            else
-            {
-                _contractDetails = new ContractDetails();
-            }
 
             _rideType = new Dictionary<string, RideType>
             {
@@ -38,95 +28,85 @@ namespace CarsRent.WPF.Pages.MainFramePages
             cbxRideType.ItemsSource = _rideType.Keys;
             cbxRideType.SelectedIndex = 0;
 
-            UpdateList<Car>(tbxSearchCar.Text, lbxCar, _contractDetails.CarId);
-            UpdateList<Human>(tbxSearchRenter.Text, lbxRenter, _contractDetails.RenterId);
+            UpdateList<Car>(tbxSearchCar.Text, lbxCar, _contract.CarId);
+            UpdateList<Human>(tbxSearchRenter.Text, lbxRenter, _contract.RenterId);
+
+            if (contract == null)
+            {
+                return;
+            }
+            
+            FillField(contract);
+            _contract = contract;
         }
 
         private void UpdateList<T>(string text, ListBox lbx, int? id) where T: class, IBaseModel
         {
             if (text != string.Empty)
             {
-                lbx.ItemsSource = Commands<T>.FindAndSelect(text, 0, 3).ToList();
+                lbx.ItemsSource = Commands<T>.FindAndSelect(text, 0, 3);
             }
-            else if (id.HasValue == true)
-            {
-                var list = new List<T>();
-                var activeItem = Commands<T>.SelectById((int)id);
-                var items = Commands<T>.SelectGroup(0, 3);
-                
-                list.Add(activeItem);
-                foreach (var item in items)
-                {
-                    if (item.Id != activeItem.Id && list.Count < 3)
-                    {
-                        list.Add(item);
-                    }
-                }
 
-                lbx.ItemsSource = list;
-                lbx.SelectedItem = activeItem;
-            }
-            else
+            var list = new List<T?>();
+
+            if (id.HasValue)
             {
-                lbx.ItemsSource = Commands<T>.SelectGroup(0, 3).ToList();
+                list.Add(Commands<T>.SelectById((int)id));
+                list.AddRange(Commands<T>.SelectGroup(0, 3).Where(x => x.Id != id).Take(2));
             }
+
+            list.AddRange(Commands<T>.SelectGroup(0, 3));
+
+            lbx.ItemsSource = list;
+            lbx.SelectedItem = list.Where(x => x.Id != id);
         }
 
-        private void FillField(ContractDetails contractDetails)
+        private void FillField(Contract contract)
         {
-            tbxDeposit.Text = contractDetails.Deposit.ToString();
-            tbxPrice.Text = contractDetails.Price.ToString();
-            tbxConclusionDate.Text = contractDetails.ConclusionDate.ToString("dd.MM.yyyy");
-            tbxEndDate.Text = contractDetails.EndDate.ToString("dd.MM.yyyy");
-            tbxEndTime.Text = contractDetails.EndTime.ToString("HH:mm");
+            tbxDeposit.Text = contract.Deposit.ToString();
+            tbxPrice.Text = contract.Price.ToString();
+            tbxConclusionDate.Text = contract.ConclusionDate.ToString("dd.MM.yyyy");
+            tbxEndDate.Text = contract.EndDate.ToString("dd.MM.yyyy");
+            tbxEndTime.Text = contract.EndTime.ToString("HH:mm");
 
-            if (contractDetails.RideType == RideType.InTheCity)
-            {
-                cbxRideType.SelectedIndex = 0;
-            }
-            else
-            {
-                cbxRideType.SelectedIndex = 1;
-            }
-
-            lbxCar.SelectedItem = contractDetails.Car;
-            lbxRenter.SelectedItem = contractDetails.Renter;
+            cbxRideType.SelectedIndex = contract.RideType == RideType.InTheCity ? 0 : 1;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(tbxDeposit.Text, out var deposit) == true)
+            // TODO: убрать
+            if (int.TryParse(tbxDeposit.Text, out var deposit))
             {
-                _contractDetails.Deposit = deposit;
+                _contract.Deposit = deposit;
             }
-            if (int.TryParse(tbxPrice.Text, out var price) == true)
+            if (int.TryParse(tbxPrice.Text, out var price))
             {
-                _contractDetails.Price = price;
+                _contract.Price = price;
             }
-            if (DateTime.TryParse(tbxConclusionDate.Text, out var conclusiunDate) == true)
+            if (DateTime.TryParse(tbxConclusionDate.Text, out var conclusiunDate))
             {
-                _contractDetails.ConclusionDate = conclusiunDate;
+                _contract.ConclusionDate = conclusiunDate;
             }
-            if (DateTime.TryParse(tbxEndDate.Text, out var endDate) == true)
+            if (DateTime.TryParse(tbxEndDate.Text, out var endDate))
             {
-                _contractDetails.EndDate = endDate;
+                _contract.EndDate = endDate;
             }
-            if (DateTime.TryParse(tbxEndTime.Text, out var endTime) == true)
+            if (DateTime.TryParse(tbxEndTime.Text, out var endTime))
             {
-                _contractDetails.EndTime = endTime;
+                _contract.EndTime = endTime;
             }
 
-            _contractDetails.RideType = _rideType[cbxRideType.Text];
+            _contract.RideType = _rideType[cbxRideType.Text];
 
-            var renter = lbxRenter.SelectedItem as Human;
+            var renter = lbxRenter.SelectedItem as Renter;
             var car = lbxCar.SelectedItem as Car;
 
-            _contractDetails.Renter = renter;
-            _contractDetails.Car = car;
-            _contractDetails.CarId = car.Id;
-            _contractDetails.RenterId = renter.Id;
+            _contract.Renter = renter;
+            _contract.Car = car;
+            _contract.CarId = car.Id;
+            _contract.RenterId = renter.Id;
 
-            var contractResult = ModelValidation.Validate(_contractDetails);
+            var contractResult = ModelValidation.Validate(_contract);
 
             if (contractResult.Count > 0)
             {
@@ -142,20 +122,20 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void AddEditContract()
         {
-            if (_contractDetails.Id == 0)
+            if (_contract.Id == 0)
             {
-                Commands<ContractDetails>.Add(_contractDetails);
+                Commands<Contract>.Add(_contract);
             }
             else
             {
-                Commands<ContractDetails>.Modify(_contractDetails);
+                Commands<Contract>.Modify(_contract);
             }
 
             var replace = new ReplacerWordsInContract();
 
             try
             {
-                replace.Replace(_contractDetails);
+                replace.Replace(_contract);
             }
             catch (Exception ex)
             {
@@ -165,12 +145,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void tbxSearchRenter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateList<Human>(tbxSearchRenter.Text, lbxRenter, _contractDetails.RenterId);
+            UpdateList<Renter>(tbxSearchRenter.Text, lbxRenter, _contract.RenterId);
         }
 
         private void tbxSearchCar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateList<Car>(tbxSearchCar.Text, lbxCar, _contractDetails.CarId);
+            UpdateList<Car>(tbxSearchCar.Text, lbxCar, _contract.CarId);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarsRent.LIB.Model
 {
-    public class ContractDetails : IBaseModel
+    public class Contract : IBaseModel
     {
         public int Id { get; set; }
 
@@ -31,39 +31,18 @@ namespace CarsRent.LIB.Model
 
         public int? RenterId { get; set; }
         [Required(ErrorMessage = "Вы не выбрали арендатора, участвующего в этой поездке")]
-        public Human Renter { get; set; }
+        public Renter Renter { get; set; }
 
-        public ContractDetails() { }
-
-        [NotMapped]
-        public string RideTypeText 
-        { 
-            get 
-            {
-                if (RideType == RideType.InTheCity)
-                    return "по городу";
-                else
-                    return "за городом";
-            } 
-        }
+        public Contract() { }
 
         [NotMapped]
-        public string ConclusionDateString
-        {
-            get
-            {
-                return ConclusionDate.ToString("dd.MM.yyyy");
-            }
-        }
+        public string RideTypeText => RideType == RideType.InTheCity ? "по городу" : "за городом";
 
         [NotMapped]
-        public string EndDateString
-        {
-            get
-            {
-                return EndDate.ToString("dd.MM.yyyy");
-            }
-        }
+        public string ConclusionDateString => ConclusionDate.ToString("dd.MM.yyyy");
+
+        [NotMapped]
+        public string EndDateString => EndDate.ToString("dd.MM.yyyy");
 
         public override string ToString()
         {          

@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CarsRent.WPF.Pages.MainFramePages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Cars" Loaded="Page_Loaded">
@@ -22,23 +21,37 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="btnDelete" Content="Удалить" Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
-        <Button x:Name="btnAdd" Content="Добавить" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Click="btnAdd_Click"/>
-        <Button x:Name="btnEdit" Content="Изменить" Grid.Column="1" Grid.Row="2" Click="btnEdit_Click"/>
+        <Button x:Name="btnDelete" Content="Удалить" 
+                Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
+        <Button x:Name="btnAdd" Content="Добавить" 
+                Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Click="btnAdd_Click"/>
+        <Button x:Name="btnEdit" Content="Изменить" 
+                Grid.Column="1" Grid.Row="2" Click="btnEdit_Click"/>
 
-        <TextBox x:Name="tbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
+        <TextBox x:Name="tbxSearch" Grid.Row="0" Grid.Column="0" 
+                 TextChanged="tbxSearch_TextChanged" FontSize="20"/>
 
-        <DataGrid x:Name="dgCars" Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single">
+        <DataGrid x:Name="dgCars" Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" 
+                  AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Марка" Binding="{Binding Path=Brand, Mode=OneWay}" Width="20*"/>
-                <DataGridTextColumn Header="Модель" Binding="{Binding Path=Model, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Номер паспорта" Binding="{Binding Path=PassportNumber, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="VIN" Binding="{Binding Path=VIN, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Цвет" Binding="{Binding Path=Color, Mode=OneWay}" Width="15*"/>
-                <DataGridTextColumn Header="Год выпуска" Binding="{Binding Path=Year, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Регистрационный номер" Binding="{Binding Path=RegistrationNumber, Mode=OneWay}" Width="10*"/>
-                <DataGridTextColumn Header="Стоимость" Binding="{Binding Path=Price, Mode=OneWay}" Width="15*"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Path=CarStatusString, Mode=OneWay}" Width="10*"/>
+                <DataGridTextColumn Header="Марка" Width="20*"
+                                    Binding="{Binding Path=Brand, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Модель" Width="10*"
+                                    Binding="{Binding Path=Model, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Номер паспорта" Width="10*"
+                                    Binding="{Binding Path=PassportNumber, Mode=OneWay}"/>
+                <DataGridTextColumn Header="VIN" Width="10*"
+                                    Binding="{Binding Path=VIN, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Цвет" Width="15*"
+                                    Binding="{Binding Path=Color, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Год выпуска" Width="10*"
+                                    Binding="{Binding Path=Year, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Регистрационный номер" Width="10*"
+                                    Binding="{Binding Path=RegistrationNumber, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Стоимость" Width="15*"
+                                    Binding="{Binding Path=Price, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Статус" Width="10*"
+                                    Binding="{Binding Path=CarStatusString, Mode=OneWay}"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -55,9 +68,12 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btnPageLeft" Content="Назад" Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
-            <Button x:Name="btnPageRight" Content="Вперед" Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
-            <Button x:Name="btnGoto" Content="Перейти" Grid.Row="1"  Grid.Column="2" Click="btnGoto_Click"/>
+            <Button x:Name="btnPageLeft" Content="Назад" 
+                    Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
+            <Button x:Name="btnPageRight" Content="Вперед" 
+                    Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
+            <Button x:Name="btnGoto" Content="Перейти" 
+                    Grid.Row="1"  Grid.Column="2" Click="btnGoto_Click"/>
             <TextBox x:Name="tbxPageNumber" Grid.Row="0" Grid.Column="2" FontSize="20"/>
         </Grid>
     </Grid>

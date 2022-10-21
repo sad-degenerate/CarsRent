@@ -36,11 +36,36 @@ namespace CarsRent.WPF.Pages.MainFramePages
             cbxStatus.ItemsSource = _status.Keys;
             cbxStatus.SelectedIndex = 0;
 
-            if (car != null)
+            if (car == null)
             {
-                FillFields(car);
-                _car = car;
+                car = new Car();
             }
+
+            FillFields(car);
+            _car = car;
+
+            UpdateList<Renter>(tbxSearchOwner.Text, lbxLandlord, _car.OwnerId);
+        }
+
+        private void UpdateList<T>(string text, ListBox lbx, int? id) where T : class, IBaseModel
+        {
+            if (text != string.Empty)
+            {
+                lbx.ItemsSource = Commands<T>.FindAndSelect(text, 0, 3);
+            }
+
+            var list = new List<T?>();
+
+            if (id.HasValue)
+            {
+                list.Add(Commands<T>.SelectById((int)id));
+                list.AddRange(Commands<T>.SelectGroup(0, 3).Where(x => x.Id != id).Take(2));
+            }
+
+            list.AddRange(Commands<T>.SelectGroup(0, 3));
+
+            lbx.ItemsSource = list;
+            lbx.SelectedItem = list.Where(x => x?.Id != id);
         }
 
         private void FillFields(Car car)
@@ -58,33 +83,18 @@ namespace CarsRent.WPF.Pages.MainFramePages
             tbxEngineDisplacement.Text = car.EngineDisplacement.ToString();
             tbxRegNumber.Text = car.RegistrationNumber;
 
-            if (car.WheelsType == WheelsType.Summer)
-            {
-                cbxWheelsType.SelectedIndex = 0;
-            }
-            else
-            {
-                cbxWheelsType.SelectedIndex = 1;
-            }
+            cbxWheelsType.SelectedIndex = car.WheelsType == WheelsType.Summer ? 0 : 1;
 
-            if (car.CarStatus == Status.Ready)
+            cbxStatus.SelectedIndex = car.CarStatus switch
             {
-                cbxStatus.SelectedIndex = 0;
-            }
-            else if(car.CarStatus == Status.OnLease)
-            {
-                cbxStatus.SelectedIndex = 1;
-            }
-            else
-            {
-                cbxStatus.SelectedIndex = 2;
-            }
+                Status.Ready => 0,
+                Status.OnLease => 1,
+                _ => 2
+            };
         }
 
         private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _car ??= new Car();
-
             _car.Brand = tbxBrand.Text;
             _car.Model = tbxModel.Text;
             _car.PassportNumber = tbxPassportNumber.Text;
@@ -105,6 +115,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
             _car.WheelsType = _wheelsType[cbxWheelsType.Text];
             _car.CarStatus = _status[cbxStatus.Text];
+            _car.Owner = lbxLandlord.SelectedItem as Owner;
 
             var carResults = ModelValidation.Validate(_car);
 
@@ -130,6 +141,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
             {
                 Commands<Car>.Modify(_car);
             }
+        }
+
+        private void tbxSearchLandlord_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateList<Renter>(tbxSearchOwner.Text, lbxLandlord, _car.OwnerId);
         }
     }
 }

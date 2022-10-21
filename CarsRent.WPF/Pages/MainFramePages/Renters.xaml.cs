@@ -10,7 +10,6 @@ namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class Renters : Page
     {
-        private List<Human> _renters;
         private int _currentPage = 1;
         private readonly int _pageSize;
 
@@ -35,17 +34,16 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 skipCount = _currentPage * (_pageSize - 1);
             }
 
-            if (tbxSearch.Text == "")
-            {
-                _renters = Commands<Human>.SelectGroup(skipCount, _pageSize).ToList();
-            }
-            else
-            {
-                _renters = Commands<Human>.FindAndSelect(tbxSearch.Text, 0, _pageSize).ToList();
-            } 
+            dgRenters.ItemsSource = tbxSearch.Text == string.Empty
+                ? SelectRenters(Commands<Renter>.SelectGroup(skipCount, _pageSize)).ToList()
+                : SelectRenters(Commands<Renter>.FindAndSelect(tbxSearch.Text, 0, _pageSize)).ToList();
 
-            dgRenters.ItemsSource = _renters;
             UpdateCurrentPage();
+        }
+
+        private IEnumerable<Human> SelectRenters(IEnumerable<Renter> renters)
+        {
+            return from renter in renters select renter.Human;
         }
 
         private void UpdateCurrentPage()
@@ -80,9 +78,19 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 return;
             }
 
-            Commands<Human>.Delete(renter);
+            DeleteRenter(renter);
 
             UpdateDataGrid();
+        }
+
+        private static void DeleteRenter(Human human)
+        {
+            foreach (var renter in human.Renters)
+            {
+                Commands<Renter>.Delete(renter);
+            }
+            
+            Commands<Human>.Delete(human);
         }
 
         private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -102,7 +110,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnGoto_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(tbxPageNumber.Text, out int pageNumber) == false)
+            if (int.TryParse(tbxPageNumber.Text, out var pageNumber) == false)
             {
                 return;
             }

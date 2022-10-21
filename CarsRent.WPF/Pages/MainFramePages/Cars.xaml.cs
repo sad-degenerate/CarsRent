@@ -1,15 +1,13 @@
-﻿using CarsRent.LIB.DataBase;
+﻿using System.Linq;
+using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Controls;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class Cars : Page
     {
-        private List<Car> _cars;
         private int _currentPage = 1;
         private readonly int _pageSize;
 
@@ -34,9 +32,14 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 return;
             }
 
-            Commands<Car>.Delete(car);
+            DeleteCar(car);
 
             UpdateDataGrid();
+        }
+
+        private static void DeleteCar(Car car)
+        {
+            Commands<Car>.Delete(car);
         }
 
         private void btnAdd_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -59,7 +62,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             UpdateDataGrid();
         }
 
-        public void UpdateDataGrid()
+        private void UpdateDataGrid()
         {
             int skipCount;
             if (_currentPage == 1)
@@ -71,16 +74,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 skipCount = _currentPage * (_pageSize - 1);
             }
 
-            if (tbxSearch.Text == "")
-            {
-                _cars = Commands<Car>.SelectGroup(skipCount, _pageSize).ToList();
-            }
-            else
-            {
-                _cars = Commands<Car>.FindAndSelect(tbxSearch.Text, 0, _pageSize).ToList();
-            }
+            dgCars.ItemsSource = tbxSearch.Text == string.Empty
+                ? Commands<Car>.SelectGroup(skipCount, _pageSize).ToList()
+                : Commands<Car>.FindAndSelect(tbxSearch.Text, 0, _pageSize).ToList();
 
-            dgCars.ItemsSource = _cars;
             UpdateCurrentPage();
         }
 
