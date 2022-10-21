@@ -1,9 +1,8 @@
-﻿<Page x:Class="CarsRent.WPF.Pages.Settings.DataSettings"
+﻿<Page x:Class="CarsRent.WPF.Pages.Settings.TemplatesSettingsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CarsRent.WPF.Pages.Settings"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="1000"
       Title="DataSettings">
@@ -55,7 +54,8 @@
                 <Label Content="" x:Name="lblError" Style="{StaticResource error}"/>
                 <Label Content="" x:Name="lblDone" Style="{StaticResource noerror}"/>
 
-                <Button x:Name="btnSave" Content="Сохранить изменения" Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
+                <Button x:Name="btnSave" Content="Сохранить изменения" Click="btnSave_Click" 
+                        Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

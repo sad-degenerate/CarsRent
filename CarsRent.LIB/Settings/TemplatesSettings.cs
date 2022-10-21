@@ -1,6 +1,4 @@
-﻿using CarsRent.LIB.Model;
-using CarsRent.LIB.Validation;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CarsRent.LIB.Settings
 {
@@ -33,17 +31,21 @@ namespace CarsRent.LIB.Settings
 
             if (Directory.Exists(OutputFolder) == false)
             {
-                try
-                {
-                    Directory.CreateDirectory(OutputFolder);
-                }
-                catch (Exception)
-                {
-                    errors.Add(new ValidationResult("Не удалось найти/создать директорию для вывода."));
-                }
+                Directory.CreateDirectory(OutputFolder);
             }
 
             return errors;
+        }
+
+        public override TemplatesSettings Default()
+        {
+            return new TemplatesSettings
+            {
+                ActSample = Environment.SpecialFolder.MyDocuments + "образец акта.docx",
+                ContractSample = Environment.SpecialFolder.MyDocuments + "образец акта.docx",
+                NotificationSample = Environment.SpecialFolder.MyDocuments + "образец акта.docx",
+                OutputFolder = Environment.SpecialFolder.MyDocuments + "образец акта.docx"
+            };
         }
     }
 }

@@ -14,28 +14,20 @@ namespace CarsRent.WPF.Pages.Settings
 
         private void SettingsType_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
+            if (sender is not Button btn)
+            {
+                return;
+            }
+            
             EnableAllButtonsButPressed(btn);
 
-            Page page;
-            switch (btn.Name)
+            Page? page = btn.Name switch
             {
-                case "btnDataSettings":
-                    page = new DataSettings();
-                    break;
-
-                case "btnDisplaySettings":
-                    page = new DisplaySettingsPage();
-                    break;
-
-                case "btnLandlordSettings":
-                    page = new LandlordSettingsPage();
-                    break;
-
-                default:
-                    page = null;
-                    break;
-            }
+                "btnDataSettings" => new TemplatesSettingsPage(),
+                "btnDisplaySettings" => new DisplaySettingsPage(),
+                "btnLandlordSettings" => new OwnerSettingsPage(),
+                _ => null
+            };
 
             if (page != null)
             {
@@ -43,7 +35,7 @@ namespace CarsRent.WPF.Pages.Settings
             }   
         }
 
-        private void EnableAllButtonsButPressed(Button pressedButton)
+        private void EnableAllButtonsButPressed(UIElement pressedButton)
         {
             var buttons = settingsWindowGrid.Children.OfType<Button>();
             foreach (var button in buttons)

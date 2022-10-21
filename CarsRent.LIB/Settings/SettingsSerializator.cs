@@ -9,7 +9,7 @@ namespace CarsRent.LIB.Settings
         public SettingsSerializator()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\CarsRent\Settings";
-            if (!Directory.Exists(path))
+            if (Directory.Exists(path) == false)
             {
                 Directory.CreateDirectory(path);
             }

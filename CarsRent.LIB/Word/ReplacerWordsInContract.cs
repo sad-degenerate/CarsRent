@@ -6,24 +6,23 @@ namespace CarsRent.LIB.Word
 {
     public class ReplacerWordsInContract
     {
-        public void Replace(ContractDetails contract)
+        public void Replace(Contract contract)
         {
-            var landlordSettingsSerializator = new SettingsSerializator<LandlordSettings>();
-            var landlordSettings = landlordSettingsSerializator.Deserialize();
-            var templateSettingsSerializator = new SettingsSerializator<TemplatesSettings>();
-            var templateSettings = templateSettingsSerializator.Deserialize();
+            var templatesSettings = SettingsCommands<TemplatesSettings>.GetSettings();
 
-            var outputFolder = Path.Combine(templateSettings.OutputFolder, $"{contract.Car.Color} {contract.Car.Brand} {contract.Car.Model}");
+            var outputFolder = Path.Combine(templatesSettings.OutputFolder, 
+                $"{contract.Car.Color} {contract.Car.Brand} {contract.Car.Model}");
 
-            var documentName = $"{contract.ConclusionDate:dd.MM.yyyy} {contract.Renter.Surname} {contract.Renter.Name[0]}.{contract.Renter.Patronymic[0]}.";
+            var documentName = $"{contract.ConclusionDate:dd.MM.yyyy} {contract.Renter.Human.Surname} " +
+                               $"{contract.Renter.Human.Name[0]}.{contract.Renter.Human.Patronymic[0]}.";
 
-            var replaceWordsGenerator = new ReplaceWordsGenerator(landlordSettings, contract);
+            var replaceWordsGenerator = new ReplaceWordsGenerator(contract);
 
-            var actReplacer = new DocumentReplacer(templateSettings.ActSample, outputFolder);
+            var actReplacer = new DocumentReplacer(templatesSettings.ActSample, outputFolder);
             actReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} акт");
-            var contractReplacer = new DocumentReplacer(templateSettings.ContractSample, outputFolder);
+            var contractReplacer = new DocumentReplacer(templatesSettings.ContractSample, outputFolder);
             contractReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} договор");
-            var notificationReplacer = new DocumentReplacer(templateSettings.NotificationSample, outputFolder);
+            var notificationReplacer = new DocumentReplacer(templatesSettings.NotificationSample, outputFolder);
             notificationReplacer.ReplaceAsync(replaceWordsGenerator.GetWords(), $"{documentName} уведомление");
         }
     }
