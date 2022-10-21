@@ -23,12 +23,8 @@ namespace CarsRent.LIB.Attributes
             {
                 return DateValidation.Validate(date.Year, _maxYear);
             }
-            if (int.TryParse(value.ToString(), out var year))
-            {
-                return DateValidation.Validate(year, _maxYear);
-            }
-
-            return false;
+            
+            return int.TryParse(value.ToString(), out var year) && DateValidation.Validate(year, _maxYear);
         }
     }
 }

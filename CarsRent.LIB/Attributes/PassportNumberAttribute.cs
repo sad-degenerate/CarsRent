@@ -11,7 +11,7 @@ namespace CarsRent.LIB.Attributes
                 return false;
             }
 
-            return value.ToString().Where(x => char.IsDigit(x)).ToArray().Length != 10;
+            return (value.ToString() ?? string.Empty).Where(char.IsDigit).ToArray().Length == 10;
         }
     }
 }
