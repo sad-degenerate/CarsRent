@@ -34,11 +34,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 skipCount = _currentPage * (_pageSize - 1);
             }
 
-            var renters = string.IsNullOrWhiteSpace(tbxSearch.Text)
+            var renters = string.IsNullOrWhiteSpace(TbxSearch.Text)
                 ? Commands<Renter>.SelectGroup(skipCount, _pageSize).ToList()
-                : Commands<Renter>.FindAndSelect(tbxSearch.Text, 0, _pageSize).ToList();
+                : Commands<Renter>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
 
-            dgRenters.ItemsSource = SelectHumansFromRenters(renters);
+            DgRenters.ItemsSource = SelectHumansFromRenters(renters);
 
             UpdateCurrentPage();
         }
@@ -50,7 +50,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void UpdateCurrentPage()
         {
-            tbxPageNumber.Text = _currentPage.ToString();
+            TbxPageNumber.Text = _currentPage.ToString();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -60,7 +60,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (dgRenters.SelectedItem is not Human renter)
+            if (DgRenters.SelectedItem is not Human renter)
             {
                 return;
             }
@@ -75,7 +75,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (dgRenters.SelectedItem is not Human renter)
+            if (DgRenters.SelectedItem is not Human renter)
             {
                 return;
             }
@@ -112,7 +112,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnGoto_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(tbxPageNumber.Text, out var pageNumber) == false)
+            if (int.TryParse(TbxPageNumber.Text, out var pageNumber) == false)
             {
                 return;
             }

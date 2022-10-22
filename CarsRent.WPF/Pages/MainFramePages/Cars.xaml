@@ -21,18 +21,14 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="btnDelete" Content="Удалить" 
-                Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
-        <Button x:Name="btnAdd" Content="Добавить" 
-                Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Click="btnAdd_Click"/>
-        <Button x:Name="btnEdit" Content="Изменить" 
-                Grid.Column="1" Grid.Row="2" Click="btnEdit_Click"/>
+        <Button Content="Удалить" Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
+        <Button Content="Добавить" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Click="btnAdd_Click"/>
+        <Button Content="Изменить" Grid.Column="1" Grid.Row="2" Click="btnEdit_Click"/>
 
-        <TextBox x:Name="tbxSearch" Grid.Row="0" Grid.Column="0" 
-                 TextChanged="tbxSearch_TextChanged" FontSize="20"/>
+        <TextBox x:Name="TbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
 
-        <DataGrid x:Name="dgCars" Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" 
-                  AutoGenerateColumns="False" SelectionMode="Single">
+        <DataGrid x:Name="DgCars" Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" 
+                  AutoGenerateColumns="False" SelectionMode="Single" d:DataContext="{d:DesignData }">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Марка" Width="20*"
                                     Binding="{Binding Path=Brand, Mode=OneWay}"/>
@@ -68,13 +64,10 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btnPageLeft" Content="Назад" 
-                    Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
-            <Button x:Name="btnPageRight" Content="Вперед" 
-                    Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
-            <Button x:Name="btnGoto" Content="Перейти" 
-                    Grid.Row="1"  Grid.Column="2" Click="btnGoto_Click"/>
-            <TextBox x:Name="tbxPageNumber" Grid.Row="0" Grid.Column="2" FontSize="20"/>
+            <Button Content="Назад" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
+            <Button Content="Вперед" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
+            <Button Content="Перейти" Grid.Row="1"  Grid.Column="2" Click="btnGoto_Click"/>
+            <TextBox x:Name="TbxPageNumber" Grid.Row="0" Grid.Column="2" FontSize="20"/>
         </Grid>
     </Grid>
 </Page>

@@ -15,7 +15,7 @@ namespace CarsRent.WPF.Pages.Settings
 
         private void UpdateOwners()
         {
-            lbxOwner.ItemsSource = OwnersSettings.GetOwners(tbxSearchOwner.Text, 0, 10).ToList();
+            LbxOwner.ItemsSource = OwnersSettings.GetOwners(TbxSearchOwner.Text, 0, 10).ToList();
         }
 
         private void tbxSearchOwner_TextChanged(object sender, TextChangedEventArgs e)
@@ -27,45 +27,45 @@ namespace CarsRent.WPF.Pages.Settings
         {
             var fields = new Dictionary<string, string>
             {
-                { "surname", tbxSurname.Text },
-                { "name", tbxName.Text },
-                { "patronymic", tbxPatronymic.Text },
-                { "passportNumber", tbxPassportNumber.Text },
-                { "issuingOrganization", tbxIssuingOrganization.Text },
-                { "registrationPlace", tbxRegistrationPlace.Text },
-                { "phone", tbxPhone.Text },
-                { "birthDate", tbxBirthDate.Text },
-                { "issuingDate", tbxIssuingDate.Text }
+                { "surname", TbxSurname.Text },
+                { "name", TbxName.Text },
+                { "patronymic", TbxPatronymic.Text },
+                { "passportNumber", TbxPassportNumber.Text },
+                { "issuingOrganization", TbxIssuingOrganization.Text },
+                { "registrationPlace", TbxRegistrationPlace.Text },
+                { "phone", TbxPhone.Text },
+                { "birthDate", TbxBirthDate.Text },
+                { "issuingDate", TbxIssuingDate.Text }
             };
 
             var error = OwnersSettings.AddOwner(fields);
 
             if (string.IsNullOrWhiteSpace(error))
             {
-                lblAddError.Content = string.Empty;
-                lblAddDone.Content = "Арендодатель успешно добавлен.";
+                LblAddError.Content = string.Empty;
+                LblAddDone.Content = "Арендодатель успешно добавлен.";
                 UpdateOwners();
                 return;
             }
 
-            lblAddDone.Content = string.Empty;
-            lblAddError.Content = error;
+            LblAddDone.Content = string.Empty;
+            LblAddError.Content = error;
         }
 
         private void btnDelete_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var error = OwnersSettings.DeleteOwner(lbxOwner.SelectedItem);
+            var error = OwnersSettings.DeleteOwner(LbxOwner.SelectedItem);
             
             if (string.IsNullOrWhiteSpace(error))
             {
                 UpdateOwners();
-                lblChooseError.Content = string.Empty;
-                lblChooseDone.Content = "Арендодатель успешно удален.";
+                LblChooseError.Content = string.Empty;
+                LblChooseDone.Content = "Арендодатель успешно удален.";
                 return;
             }
 
-            lblChooseDone.Content = string.Empty;
-            lblChooseError.Content = error;
+            LblChooseDone.Content = string.Empty;
+            LblChooseError.Content = error;
         }
     }
 }

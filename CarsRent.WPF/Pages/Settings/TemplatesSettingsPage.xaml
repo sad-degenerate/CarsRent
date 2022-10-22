@@ -6,56 +6,29 @@
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="1000"
       Title="DataSettings">
-
-    <Page.Resources>
-        <Style x:Key="Header">
-            <Setter Property="Control.HorizontalAlignment" Value="Center"/>
-            <Setter Property="Control.VerticalAlignment" Value="Center"/>
-            <Setter Property="Control.FontSize" Value="20"/>
-        </Style>
-        <Style x:Key="Prop">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-        </Style>
-        <Style x:Key="saveButtonStyle">
-            <Setter Property="Control.HorizontalAlignment" Value="Right"/>
-            <Setter Property="Control.Height" Value="40"/>
-            <Setter Property="Control.Width" Value="150"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-        </Style>
-        <Style x:Key="error">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-            <Setter Property="TextElement.Foreground" Value="Red"/>
-        </Style>
-        <Style x:Key="noerror">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-            <Setter Property="TextElement.Foreground" Value="Green"/>
-        </Style>
-    </Page.Resources>
+    
     <Grid>
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer>
             <StackPanel>
-                <Label Content="Пути к образцам договоров:" Style="{StaticResource Header}"/>
+                <Label Content="Пути к образцам договоров:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
-                <Label Content="Путь к образцу акта:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxActSample" Style="{StaticResource Prop}"/>
+                <Label Content="Путь к образцу акта:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxActSample" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Путь к образцу договора:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxContractSample" Style="{StaticResource Prop}"/>
+                <Label Content="Путь к образцу договора:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxContractSample" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Путь к образцу уведомления:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxNotificationSample" Style="{StaticResource Prop}"/>
+                <Label Content="Путь к образцу уведомления:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxNotificationSample" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Путь для созданных договоров:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxOutputFolder" Style="{StaticResource Prop}"/>
+                <Label Content="Путь для созданных договоров:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxOutputFolder" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="" x:Name="lblError" Style="{StaticResource error}"/>
-                <Label Content="" x:Name="lblDone" Style="{StaticResource noerror}"/>
+                <Label Content="" x:Name="LblError" Style="{StaticResource StackPanelErrorLabel}"/>
+                <Label Content="" x:Name="LblDone" Style="{StaticResource StackPanelPassLabel}"/>
 
-                <Button x:Name="btnSave" Content="Сохранить изменения" Click="btnSave_Click" 
-                        Style="{StaticResource saveButtonStyle}"/>
+                <Button Content="Сохранить изменения" Click="btnSave_Click" 
+                        Style="{StaticResource StackPanelSaveButton}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

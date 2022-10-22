@@ -12,7 +12,18 @@ namespace CarsRent.WPF.Pages.Settings
             InitializeComponent();
         }
 
-        private void SettingsType_Click(object sender, RoutedEventArgs e)
+        private void EnableAllButtonsButPressed(UIElement pressedButton)
+        {
+            var buttons = SettingsWindowGrid.Children.OfType<Button>();
+            foreach (var button in buttons)
+            {
+                button.IsEnabled = true;
+            }
+
+            pressedButton.IsEnabled = false;
+        }
+        
+        private void OnSettingsCategoryButtonClick(object sender, RoutedEventArgs e)
         {
             if (sender is not Button btn)
             {
@@ -23,35 +34,21 @@ namespace CarsRent.WPF.Pages.Settings
 
             Page? page = btn.Name switch
             {
-                "btnDataSettings" => new TemplatesSettingsPage(),
-                "btnDisplaySettings" => new DisplaySettingsPage(),
-                "btnLandlordSettings" => new OwnerSettingsPage(),
+                "TemplatesSettings" => new TemplatesSettingsPage(),
+                "DisplaySettings" => new DisplaySettingsPage(),
+                "OwnersSettings" => new OwnerSettingsPage(),
                 _ => null
             };
 
             if (page != null)
             {
-                settingsFrame.Navigate(page);
+                SettingsFrame.Navigate(page);
             }   
-        }
-
-        private void EnableAllButtonsButPressed(UIElement pressedButton)
-        {
-            var buttons = settingsWindowGrid.Children.OfType<Button>();
-            foreach (var button in buttons)
-            {
-                if (button.Tag.ToString() == "settingsType")
-                {
-                    button.IsEnabled = true;
-                }
-            }
-
-            pressedButton.IsEnabled = false;
         }
 
         private void settingsFrame_ContentRendered(object sender, EventArgs e)
         {
-            settingsFrame.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
+            SettingsFrame.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
         }
     }
 }

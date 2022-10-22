@@ -6,66 +6,44 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AddContractPage">
-
-    <Page.Resources>
-        <Style x:Key="Header">
-            <Setter Property="Control.HorizontalAlignment" Value="Center"/>
-            <Setter Property="Control.VerticalAlignment" Value="Center"/>
-            <Setter Property="Control.FontSize" Value="20"/>
-        </Style>
-        <Style x:Key="Prop">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-        </Style>
-        <Style x:Key="saveButtonStyle">
-            <Setter Property="Control.HorizontalAlignment" Value="Right"/>
-            <Setter Property="Control.Height" Value="40"/>
-            <Setter Property="Control.Width" Value="150"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-        </Style>
-        <Style x:Key="error">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-            <Setter Property="TextElement.Foreground" Value="Red"/>
-        </Style>
-    </Page.Resources>
+    
     <Grid>
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer>
             <StackPanel>
-                <Label Content="Данные договора:" Style="{StaticResource Header}"/>
+                <Label Content="Данные договора:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
-                <Label x:Name="lblError" Content="" Style="{StaticResource error}"/>
+                <Label x:Name="LblError" Content="" Style="{StaticResource StackPanelErrorLabel}"/>
 
-                <Label Content="Сумма залога:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxDeposit" Style="{StaticResource Prop}"/>
+                <Label Content="Сумма залога:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxDeposit" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Стоимость поездки в сутки:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxPrice" Style="{StaticResource Prop}"/>
+                <Label Content="Стоимость поездки в сутки:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxPrice" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Тип поездки:" Style="{StaticResource Prop}"/>
-                <ComboBox x:Name="cbxRideType" Style="{StaticResource Prop}" IsEditable="False"/>
+                <Label Content="Тип поездки:" Style="{StaticResource StackPanelProperty}"/>
+                <ComboBox x:Name="CbxRideType" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
 
-                <Label Content="Дата заключения договора:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxConclusionDate" Style="{StaticResource Prop}"/>
+                <Label Content="Дата заключения договора:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxConclusionDate" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Дата расторжения договора:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxEndDate" Style="{StaticResource Prop}"/>
+                <Label Content="Дата расторжения договора:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxEndDate" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Время расторжения договора:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxEndTime" Style="{StaticResource Prop}"/>
+                <Label Content="Время расторжения договора:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxEndTime" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Выберите арендатора:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxSearchRenter" Style="{StaticResource Prop}" 
+                <Label Content="Выберите арендатора:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxSearchRenter" Style="{StaticResource StackPanelProperty}" 
                          TextChanged="tbxSearchRenter_TextChanged"/>
-                <ListBox x:Name="lbxRenter" Style="{StaticResource Prop}"/>
+                <ListBox x:Name="LbxRenter" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Выберите машину:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxSearchCar" Style="{StaticResource Prop}" 
+                <Label Content="Выберите машину:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxSearchCar" Style="{StaticResource StackPanelProperty}" 
                          TextChanged="tbxSearchCar_TextChanged"/>
-                <ListBox x:Name="lbxCar" Style="{StaticResource Prop}"/>
+                <ListBox x:Name="LbxCar" Style="{StaticResource StackPanelProperty}"/>
 
-                <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click"  
-                        Style="{StaticResource saveButtonStyle}"/>
+                <Button Content="Добавить/изменить" Click="btnSave_Click"  
+                        Style="{StaticResource StackPanelSaveButton}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

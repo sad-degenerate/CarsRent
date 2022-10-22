@@ -6,48 +6,21 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DisplaySettingsPage">
-
-    <Page.Resources>
-        <Style x:Key="Header">
-            <Setter Property="Control.HorizontalAlignment" Value="Center"/>
-            <Setter Property="Control.VerticalAlignment" Value="Center"/>
-            <Setter Property="Control.FontSize" Value="20"/>
-        </Style>
-        <Style x:Key="Prop">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-        </Style>
-        <Style x:Key="saveButtonStyle">
-            <Setter Property="Control.HorizontalAlignment" Value="Right"/>
-            <Setter Property="Control.Height" Value="40"/>
-            <Setter Property="Control.Width" Value="150"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-        </Style>
-        <Style x:Key="error">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-            <Setter Property="TextElement.Foreground" Value="Red"/>
-        </Style>
-        <Style x:Key="noerror">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-            <Setter Property="TextElement.Foreground" Value="Green"/>
-        </Style>
-    </Page.Resources>
+    
     <Grid>
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer>
             <StackPanel>
-                <Label Content="Параметры отображения таблиц:" Style="{StaticResource Header}"/>
+                <Label Content="Параметры отображения таблиц:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
                 <Label Content="Количество отображаемых элементов на одной странице в таблице:" 
-                       Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxTableOnePageElCount" Style="{StaticResource Prop}"/>
+                       Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxTableOnePageElCount" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="" x:Name="lblError" Style="{StaticResource error}"/>
-                <Label Content="" x:Name="lblDone" Style="{StaticResource noerror}"/>
+                <Label Content="" x:Name="LblError" Style="{StaticResource StackPanelErrorLabel}"/>
+                <Label Content="" x:Name="LblDone" Style="{StaticResource StackPanelPassLabel}"/>
 
-                <Button x:Name="btnSave" Content="Сохранить изменения" Click="btnSave_Click" 
-                        Style="{StaticResource saveButtonStyle}"/>
+                <Button Content="Сохранить изменения" Click="btnSave_Click" 
+                        Style="{StaticResource StackPanelSaveButton}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -16,33 +16,33 @@ namespace CarsRent.WPF.Pages.Settings
         {
             var settings = SettingsCommands<TemplatesSettings>.GetSettings();
             
-            tbxActSample.Text = settings.ActSample;
-            tbxContractSample.Text = settings.ContractSample;
-            tbxNotificationSample.Text = settings.NotificationSample;
-            tbxOutputFolder.Text = settings.OutputFolder;
+            TbxActSample.Text = settings.ActSample;
+            TbxContractSample.Text = settings.ContractSample;
+            TbxNotificationSample.Text = settings.NotificationSample;
+            TbxOutputFolder.Text = settings.OutputFolder;
         }
 
         private void Save()
         {
             var settings = new TemplatesSettings
             {
-                ActSample = tbxActSample.Text,
-                ContractSample = tbxContractSample.Text,
-                NotificationSample = tbxNotificationSample.Text,
-                OutputFolder = tbxOutputFolder.Text
+                ActSample = TbxActSample.Text,
+                ContractSample = TbxContractSample.Text,
+                NotificationSample = TbxNotificationSample.Text,
+                OutputFolder = TbxOutputFolder.Text
             };
 
             var error = SettingsCommands<TemplatesSettings>.SaveSettings(settings);
 
             if (string.IsNullOrWhiteSpace(error) == false)
             {
-                lblDone.Content = string.Empty;
-                lblError.Content = error;
+                LblDone.Content = string.Empty;
+                LblError.Content = error;
                 return;
             }
             
-            lblError.Content = string.Empty;
-            lblDone.Content = "Настройки успешно сохранены.";
+            LblError.Content = string.Empty;
+            LblDone.Content = "Настройки успешно сохранены.";
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)

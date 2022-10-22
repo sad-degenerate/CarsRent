@@ -26,44 +26,44 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void FillField(Human renter)
         {
-            tbxSurname.Text = renter.Surname;
-            tbxName.Text = renter.Name;
-            tbxPatronymic.Text = renter.Patronymic;
-            tbxBirthDate.Text = renter.BirthDate.ToString("dd.MM.yyyy");
-            tbxPassportNumber.Text = renter.PassportNumber;
-            tbxIssuingOrganization.Text = renter.IssuingOrganization;
-            tbxIssuingDate.Text = renter.IssuingDate.ToString("dd.MM.yyyy");
-            tbxRegistrationPlace.Text = renter.RegistrationPlace;
-            tbxPhone.Text = renter.PhoneNumber;
+            TbxSurname.Text = renter.Surname;
+            TbxName.Text = renter.Name;
+            TbxPatronymic.Text = renter.Patronymic;
+            TbxBirthDate.Text = renter.BirthDate.ToString("dd.MM.yyyy");
+            TbxPassportNumber.Text = renter.PassportNumber;
+            TbxIssuingOrganization.Text = renter.IssuingOrganization;
+            TbxIssuingDate.Text = renter.IssuingDate.ToString("dd.MM.yyyy");
+            TbxRegistrationPlace.Text = renter.RegistrationPlace;
+            TbxPhone.Text = renter.PhoneNumber;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             _renter ??= new Human();
 
-            _renter.Name = tbxName.Text;
-            _renter.Surname = tbxSurname.Text;
-            _renter.Patronymic = tbxPatronymic.Text;
-            _renter.PhoneNumber = tbxPhone.Text;
-            _renter.PassportNumber = tbxPassportNumber.Text;
-            _renter.IssuingOrganization = tbxIssuingOrganization.Text;
-            _renter.RegistrationPlace = tbxRegistrationPlace.Text;
+            _renter.Name = TbxName.Text;
+            _renter.Surname = TbxSurname.Text;
+            _renter.Patronymic = TbxPatronymic.Text;
+            _renter.PhoneNumber = TbxPhone.Text;
+            _renter.PassportNumber = TbxPassportNumber.Text;
+            _renter.IssuingOrganization = TbxIssuingOrganization.Text;
+            _renter.RegistrationPlace = TbxRegistrationPlace.Text;
 
-            DateTime.TryParse(tbxIssuingDate.Text, out var issuingDate);
+            DateTime.TryParse(TbxIssuingDate.Text, out var issuingDate);
             _renter.IssuingDate = issuingDate;
-            DateTime.TryParse(tbxBirthDate.Text, out var birthDate);
+            DateTime.TryParse(TbxBirthDate.Text, out var birthDate);
             _renter.BirthDate = birthDate;
 
             var renterResults = ModelValidation.Validate(_renter);
 
             if (renterResults.Count > 0)
             {
-                lblError.Content = renterResults.First().ToString();
+                LblError.Content = renterResults.First().ToString();
             }
             else
             {
                 AddEditRenter();
-                lblError.Content = "";
+                LblError.Content = "";
                 NavigationService.GoBack();
             }
         }

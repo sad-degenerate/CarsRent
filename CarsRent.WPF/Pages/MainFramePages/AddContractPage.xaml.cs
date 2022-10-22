@@ -25,8 +25,8 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 { "за городом", RideType.OutsideTheCity }
             };
 
-            cbxRideType.ItemsSource = _rideType.Keys;
-            cbxRideType.SelectedIndex = 0;
+            CbxRideType.ItemsSource = _rideType.Keys;
+            CbxRideType.SelectedIndex = 0;
 
             if (contract != null)
             {
@@ -36,8 +36,8 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
             _contract = new Contract();
             
-            UpdateList<Car>(tbxSearchCar.Text, lbxCar, _contract.CarId);
-            UpdateList<Renter>(tbxSearchRenter.Text, lbxRenter, _contract.RenterId);
+            UpdateList<Car>(TbxSearchCar.Text, LbxCar, _contract.CarId);
+            UpdateList<Renter>(TbxSearchRenter.Text, LbxRenter, _contract.RenterId);
         }
 
         private void UpdateList<T>(string text, ListBox lbx, int? id) where T: class, IBaseModel
@@ -63,43 +63,43 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void FillField(Contract contract)
         {
-            tbxDeposit.Text = contract.Deposit.ToString();
-            tbxPrice.Text = contract.Price.ToString();
-            tbxConclusionDate.Text = contract.ConclusionDate.ToString("dd.MM.yyyy");
-            tbxEndDate.Text = contract.EndDate.ToString("dd.MM.yyyy");
-            tbxEndTime.Text = contract.EndTime.ToString("HH:mm");
+            TbxDeposit.Text = contract.Deposit.ToString();
+            TbxPrice.Text = contract.Price.ToString();
+            TbxConclusionDate.Text = contract.ConclusionDate.ToString("dd.MM.yyyy");
+            TbxEndDate.Text = contract.EndDate.ToString("dd.MM.yyyy");
+            TbxEndTime.Text = contract.EndTime.ToString("HH:mm");
 
-            cbxRideType.SelectedIndex = contract.RideType == RideType.InTheCity ? 0 : 1;
+            CbxRideType.SelectedIndex = contract.RideType == RideType.InTheCity ? 0 : 1;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             // TODO: убрать
-            if (int.TryParse(tbxDeposit.Text, out var deposit))
+            if (int.TryParse(TbxDeposit.Text, out var deposit))
             {
                 _contract.Deposit = deposit;
             }
-            if (int.TryParse(tbxPrice.Text, out var price))
+            if (int.TryParse(TbxPrice.Text, out var price))
             {
                 _contract.Price = price;
             }
-            if (DateTime.TryParse(tbxConclusionDate.Text, out var conclusiunDate))
+            if (DateTime.TryParse(TbxConclusionDate.Text, out var conclusiunDate))
             {
                 _contract.ConclusionDate = conclusiunDate;
             }
-            if (DateTime.TryParse(tbxEndDate.Text, out var endDate))
+            if (DateTime.TryParse(TbxEndDate.Text, out var endDate))
             {
                 _contract.EndDate = endDate;
             }
-            if (DateTime.TryParse(tbxEndTime.Text, out var endTime))
+            if (DateTime.TryParse(TbxEndTime.Text, out var endTime))
             {
                 _contract.EndTime = endTime;
             }
 
-            _contract.RideType = _rideType[cbxRideType.Text];
+            _contract.RideType = _rideType[CbxRideType.Text];
 
-            var renter = lbxRenter.SelectedItem as Renter;
-            var car = lbxCar.SelectedItem as Car;
+            var renter = LbxRenter.SelectedItem as Renter;
+            var car = LbxCar.SelectedItem as Car;
 
             _contract.Renter = renter;
             _contract.Car = car;
@@ -110,12 +110,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
             if (contractResult.Count > 0)
             {
-                lblError.Content = contractResult.First().ToString();
+                LblError.Content = contractResult.First().ToString();
             }
             else
             {
                 AddEditContract();
-                lblError.Content = "";
+                LblError.Content = "";
                 NavigationService.GoBack();
             }
         }
@@ -145,12 +145,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void tbxSearchRenter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateList<Renter>(tbxSearchRenter.Text, lbxRenter, _contract.RenterId);
+            UpdateList<Renter>(TbxSearchRenter.Text, LbxRenter, _contract.RenterId);
         }
 
         private void tbxSearchCar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateList<Car>(tbxSearchCar.Text, lbxCar, _contract.CarId);
+            UpdateList<Car>(TbxSearchCar.Text, LbxCar, _contract.CarId);
         }
     }
 }

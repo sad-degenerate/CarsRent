@@ -28,7 +28,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void UpdateCurrentPage()
         {
-            tbxPageNumber.Text = _currentPage.ToString();
+            TbxPageNumber.Text = _currentPage.ToString();
         }
 
         public void UpdateDataGrid()
@@ -43,16 +43,16 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 skipCount = _currentPage * (_pageSize - 1);
             }
 
-            dgContracts.ItemsSource = tbxSearch.Text == string.Empty
+            DgContracts.ItemsSource = TbxSearch.Text == string.Empty
                 ? Commands<Contract>.SelectGroup(skipCount, _pageSize).ToList()
-                : Commands<Contract>.FindAndSelect(tbxSearch.Text, 0, _pageSize).ToList();
+                : Commands<Contract>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
 
             UpdateCurrentPage();
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (dgContracts.SelectedItem is not Contract contract)
+            if (DgContracts.SelectedItem is not Contract contract)
             {
                 return;
             }
@@ -74,7 +74,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (dgContracts.SelectedItem is not Contract contract)
+            if (DgContracts.SelectedItem is not Contract contract)
             {
                 return;
             }
@@ -94,7 +94,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnOpenFolder_Click(object sender, RoutedEventArgs e)
         {
-            if (dgContracts.SelectedItem is not Contract contract)
+            if (DgContracts.SelectedItem is not Contract contract)
             {
                 return;
             }
@@ -137,7 +137,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            if (dgContracts.SelectedItem is not Contract contract)
+            if (DgContracts.SelectedItem is not Contract contract)
             {
                 return;
             }
@@ -164,7 +164,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnGoto_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(tbxPageNumber.Text, out var pageNumber) == false)
+            if (int.TryParse(TbxPageNumber.Text, out var pageNumber) == false)
             {
                 return;
             }

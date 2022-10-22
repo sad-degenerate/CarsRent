@@ -15,15 +15,15 @@ namespace CarsRent.WPF.Pages.Settings
         private void Load()
         {
             var settings = SettingsCommands<DisplaySettings>.GetSettings();
-            tbxTableOnePageElCount.Text = settings.TableOnePageElementsCount.ToString();
+            TbxTableOnePageElCount.Text = settings.TableOnePageElementsCount.ToString();
         }
 
         private void Save()
         {
-            if (int.TryParse(tbxTableOnePageElCount.Text, out var onePageCount) == false)
+            if (int.TryParse(TbxTableOnePageElCount.Text, out var onePageCount) == false)
             {
-                lblError.Content = "Не удалось преобразовать в число.";
-                lblDone.Content = string.Empty;
+                LblError.Content = "Не удалось преобразовать в число.";
+                LblDone.Content = string.Empty;
                 return;
             }
 
@@ -36,12 +36,12 @@ namespace CarsRent.WPF.Pages.Settings
 
             if (string.IsNullOrWhiteSpace(error))
             {
-                lblDone.Content = "Настрйки успешно сохранены.";
-                lblError.Content = string.Empty;
+                LblDone.Content = "Настрйки успешно сохранены.";
+                LblError.Content = string.Empty;
             }
 
-            lblDone.Content = string.Empty;
-            lblError.Content = error;
+            LblDone.Content = string.Empty;
+            LblError.Content = error;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)

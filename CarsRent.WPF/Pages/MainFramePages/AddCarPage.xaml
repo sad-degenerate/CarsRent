@@ -3,87 +3,66 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CarsRent.WPF.Pages.MainFramePages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AddCarPage">
-
-    <Page.Resources>
-        <Style x:Key="Header">
-            <Setter Property="Control.HorizontalAlignment" Value="Center"/>
-            <Setter Property="Control.VerticalAlignment" Value="Center"/>
-            <Setter Property="Control.FontSize" Value="20"/>
-        </Style>
-        <Style x:Key="Prop">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-        </Style>
-        <Style x:Key="saveButtonStyle">
-            <Setter Property="Control.HorizontalAlignment" Value="Right"/>
-            <Setter Property="Control.Height" Value="40"/>
-            <Setter Property="Control.Width" Value="150"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-        </Style>
-        <Style x:Key="error">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-            <Setter Property="TextElement.Foreground" Value="Red"/>
-        </Style>
-    </Page.Resources>
+    
     <Grid>
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer>
             <StackPanel>
-                <Label Content="Данные о автомобиле:" Style="{StaticResource Header}"/>
+                <Label Content="Данные о автомобиле:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
-                <Label x:Name="lblError" Content="" Style="{StaticResource error}"/>
+                <Label x:Name="LblError" Content="" Style="{StaticResource StackPanelErrorLabel}"/>
 
-                <Label Content="Марка автомобиля:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxBrand" Style="{StaticResource Prop}"/>
+                <Label Content="Марка автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxBrand" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Модель автомобиля:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxModel" Style="{StaticResource Prop}"/>
+                <Label Content="Модель автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxModel" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Номер паспорта автомобиля:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxPassportNumber" Style="{StaticResource Prop}"/>
+                <Label Content="Номер паспорта автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxPassportNumber" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Дата выдачи паспорта автомобиля:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxIssuingDate" Style="{StaticResource Prop}"/>
+                <Label Content="Дата выдачи паспорта автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxIssuingDate" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="VIN автомобиля:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxVIN" Style="{StaticResource Prop}"/>
+                <Label Content="VIN автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxVin" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Номер кузова автомобиля:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxBodyNumber" Style="{StaticResource Prop}"/>
+                <Label Content="Номер кузова автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxBodyNumber" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Цвет автомобиля:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxColor" Style="{StaticResource Prop}"/>
+                <Label Content="Цвет автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxColor" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Год выпуска автомобиля:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxYear" Style="{StaticResource Prop}"/>
+                <Label Content="Год выпуска автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxYear" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Номер двигателя автомобиля:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxEngineNumber" Style="{StaticResource Prop}"/>
+                <Label Content="Номер двигателя автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxEngineNumber" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Стоимость автомобиля:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxPrice" Style="{StaticResource Prop}"/>
+                <Label Content="Стоимость автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxPrice" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Регистрационный номер:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxRegNumber" Style="{StaticResource Prop}"/>
+                <Label Content="Регистрационный номер:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxRegNumber" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Тип шин:" Style="{StaticResource Prop}"/>
-                <ComboBox x:Name="cbxWheelsType" Style="{StaticResource Prop}" IsEditable="False"/>
+                <Label Content="Тип шин:" Style="{StaticResource StackPanelProperty}"/>
+                <ComboBox x:Name="CbxWheelsType" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
 
-                <Label Content="Рабочий объем двигателя см куб" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxEngineDisplacement" Style="{StaticResource Prop}"/>
+                <Label Content="Рабочий объем двигателя см куб" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxEngineDisplacement" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Статус автомобиля:" Style="{StaticResource Prop}"/>
-                <ComboBox x:Name="cbxStatus" Style="{StaticResource Prop}" IsEditable="False"/>
+                <Label Content="Статус автомобиля:" Style="{StaticResource StackPanelProperty}"/>
+                <ComboBox x:Name="CbxStatus" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
 
-                <Label Content="Выберите кому принадлежит машина:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxSearchOwner" Style="{StaticResource Prop}" TextChanged="tbxSearchLandlord_TextChanged"/>
-                <ListBox x:Name="lbxOwner" Style="{StaticResource Prop}"/>
+                <Label Content="Выберите кому принадлежит машина:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxSearchOwner" Style="{StaticResource StackPanelProperty}" 
+                         TextChanged="tbxSearchLandlord_TextChanged"/>
+                <ListBox x:Name="LbxOwner" Style="{StaticResource StackPanelProperty}"/>
 
-                <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
+                <Button Content="Добавить/изменить" Click="btnSave_Click" 
+                        Style="{StaticResource StackPanelSaveButton}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -31,10 +31,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 { "в ремонте", Status.UnderRepair },
             };
 
-            cbxWheelsType.ItemsSource = _wheelsType.Keys;
-            cbxWheelsType.SelectedIndex = 0;
-            cbxStatus.ItemsSource = _status.Keys;
-            cbxStatus.SelectedIndex = 0;
+            CbxWheelsType.ItemsSource = _wheelsType.Keys;
+            CbxWheelsType.SelectedIndex = 0;
+            CbxStatus.ItemsSource = _status.Keys;
+            CbxStatus.SelectedIndex = 0;
 
             if (car == null)
             {
@@ -44,7 +44,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             FillFields(car);
             _car = car;
 
-            UpdateList<Owner>(tbxSearchOwner.Text, lbxOwner, _car.OwnerId);
+            UpdateList<Owner>(TbxSearchOwner.Text, LbxOwner, _car.OwnerId);
         }
 
         private void UpdateList<T>(string text, ListBox lbx, int? id) where T : class, IBaseModel
@@ -72,22 +72,22 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void FillFields(Car car)
         {
-            tbxBrand.Text = car.Brand;
-            tbxModel.Text = car.Model;
-            tbxPassportNumber.Text = car.PassportNumber;
-            tbxIssuingDate.Text = car.PassportIssuingDate.ToString("dd.MM.yyyy");
-            tbxVIN.Text = car.VIN;
-            tbxBodyNumber.Text = car.BodyNumber;
-            tbxColor.Text = car.Color;
-            tbxYear.Text = car.Year.ToString();
-            tbxEngineNumber.Text = car.EngineNumber;
-            tbxPrice.Text = car.Price.ToString();
-            tbxEngineDisplacement.Text = car.EngineDisplacement.ToString();
-            tbxRegNumber.Text = car.RegistrationNumber;
+            TbxBrand.Text = car.Brand;
+            TbxModel.Text = car.Model;
+            TbxPassportNumber.Text = car.PassportNumber;
+            TbxIssuingDate.Text = car.PassportIssuingDate.ToString("dd.MM.yyyy");
+            TbxVin.Text = car.VIN;
+            TbxBodyNumber.Text = car.BodyNumber;
+            TbxColor.Text = car.Color;
+            TbxYear.Text = car.Year.ToString();
+            TbxEngineNumber.Text = car.EngineNumber;
+            TbxPrice.Text = car.Price.ToString();
+            TbxEngineDisplacement.Text = car.EngineDisplacement.ToString();
+            TbxRegNumber.Text = car.RegistrationNumber;
 
-            cbxWheelsType.SelectedIndex = car.WheelsType == WheelsType.Summer ? 0 : 1;
+            CbxWheelsType.SelectedIndex = car.WheelsType == WheelsType.Summer ? 0 : 1;
 
-            cbxStatus.SelectedIndex = car.CarStatus switch
+            CbxStatus.SelectedIndex = car.CarStatus switch
             {
                 Status.Ready => 0,
                 Status.OnLease => 1,
@@ -97,38 +97,38 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _car.Brand = tbxBrand.Text;
-            _car.Model = tbxModel.Text;
-            _car.PassportNumber = tbxPassportNumber.Text;
-            _car.VIN = tbxVIN.Text;
-            _car.BodyNumber = tbxBodyNumber.Text;
-            _car.Color = tbxColor.Text;
-            _car.EngineNumber = tbxEngineNumber.Text;
-            _car.RegistrationNumber = tbxRegNumber.Text;
+            _car.Brand = TbxBrand.Text;
+            _car.Model = TbxModel.Text;
+            _car.PassportNumber = TbxPassportNumber.Text;
+            _car.VIN = TbxVin.Text;
+            _car.BodyNumber = TbxBodyNumber.Text;
+            _car.Color = TbxColor.Text;
+            _car.EngineNumber = TbxEngineNumber.Text;
+            _car.RegistrationNumber = TbxRegNumber.Text;
 
-            int.TryParse(tbxPrice.Text, out var price);
+            int.TryParse(TbxPrice.Text, out var price);
             _car.Price = price;
-            int.TryParse(tbxYear.Text, out var year);
+            int.TryParse(TbxYear.Text, out var year);
             _car.Year = year;
-            int.TryParse(tbxEngineDisplacement.Text, out var displacement);
+            int.TryParse(TbxEngineDisplacement.Text, out var displacement);
             _car.EngineDisplacement = displacement;
-            DateTime.TryParse(tbxIssuingDate.Text, out var issuingDate);
+            DateTime.TryParse(TbxIssuingDate.Text, out var issuingDate);
             _car.PassportIssuingDate = issuingDate;
 
-            _car.WheelsType = _wheelsType[cbxWheelsType.Text];
-            _car.CarStatus = _status[cbxStatus.Text];
-            _car.Owner = lbxOwner.SelectedItem as Owner;
+            _car.WheelsType = _wheelsType[CbxWheelsType.Text];
+            _car.CarStatus = _status[CbxStatus.Text];
+            _car.Owner = LbxOwner.SelectedItem as Owner;
 
             var carResults = ModelValidation.Validate(_car);
 
             if (carResults.Count > 0)
             {
-                lblError.Content = carResults.First().ToString();
+                LblError.Content = carResults.First().ToString();
             }
             else
             {
                 AddEditCar();
-                lblError.Content = "";
+                LblError.Content = "";
                 NavigationService.GoBack();
             }
         }
@@ -147,7 +147,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void tbxSearchLandlord_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateList<Owner>(tbxSearchOwner.Text, lbxOwner, _car.OwnerId);
+            UpdateList<Owner>(TbxSearchOwner.Text, LbxOwner, _car.OwnerId);
         }
     }
 }

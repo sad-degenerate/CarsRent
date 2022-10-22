@@ -6,65 +6,43 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AddRenterPage">
-
-    <Page.Resources>
-        <Style x:Key="Header">
-            <Setter Property="Control.HorizontalAlignment" Value="Center"/>
-            <Setter Property="Control.VerticalAlignment" Value="Center"/>
-            <Setter Property="Control.FontSize" Value="20"/>
-        </Style>
-        <Style x:Key="Prop">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-        </Style>
-        <Style x:Key="saveButtonStyle">
-            <Setter Property="Control.HorizontalAlignment" Value="Right"/>
-            <Setter Property="Control.Height" Value="40"/>
-            <Setter Property="Control.Width" Value="150"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-        </Style>
-        <Style x:Key="error">
-            <Setter Property="Control.FontSize" Value="15"/>
-            <Setter Property="Control.Margin" Value="20, 5"/>
-            <Setter Property="TextElement.Foreground" Value="Red"/>
-        </Style>
-    </Page.Resources>
+    
     <Grid>
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer>
             <StackPanel>
-                <Label Content="Данные о арендаторе:" Style="{StaticResource Header}"/>
+                <Label Content="Данные о арендаторе:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
-                <Label x:Name="lblError" Content="" Style="{StaticResource error}"/>
+                <Label x:Name="LblError" Content="" Style="{StaticResource StackPanelErrorLabel}"/>
 
-                <Label Content="Фамилия арендатора:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxSurname" Style="{StaticResource Prop}"/>
+                <Label Content="Фамилия арендатора:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxSurname" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Имя арендатора:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxName" Style="{StaticResource Prop}"/>
+                <Label Content="Имя арендатора:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxName" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Отчество арендатора:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxPatronymic" Style="{StaticResource Prop}"/>
+                <Label Content="Отчество арендатора:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxPatronymic" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Дата рождения арендатора:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxBirthDate" Style="{StaticResource Prop}"/>
+                <Label Content="Дата рождения арендатора:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxBirthDate" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Серия/номер паспорта:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxPassportNumber" Style="{StaticResource Prop}"/>
+                <Label Content="Серия/номер паспорта:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxPassportNumber" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Кем выдан паспорт:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxIssuingOrganization" Style="{StaticResource Prop}"/>
+                <Label Content="Кем выдан паспорт:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxIssuingOrganization" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Дата выдачи паспорта:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxIssuingDate" Style="{StaticResource Prop}"/>
+                <Label Content="Дата выдачи паспорта:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxIssuingDate" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Место регистрации:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxRegistrationPlace" Style="{StaticResource Prop}"/>
+                <Label Content="Место регистрации:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxRegistrationPlace" Style="{StaticResource StackPanelProperty}"/>
 
-                <Label Content="Телефон:" Style="{StaticResource Prop}"/>
-                <TextBox x:Name="tbxPhone" Style="{StaticResource Prop}"/>
+                <Label Content="Телефон:" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxPhone" Style="{StaticResource StackPanelProperty}"/>
 
-                <Button x:Name="btnSave" Content="Добавить/изменить" 
-                        Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
+                <Button Content="Добавить/изменить" Click="btnSave_Click" 
+                        Style="{StaticResource StackPanelSaveButton}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

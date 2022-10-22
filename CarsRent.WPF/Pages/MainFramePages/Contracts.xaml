@@ -23,21 +23,16 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="btnDelete" Content="Удалить" 
-                Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
-        <Button x:Name="btnAdd" Content="Добавить" 
-                Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Click="btnAdd_Click"/>
-        <Button x:Name="btnEdit" Content="Изменить" 
-                Grid.Column="1" Grid.Row="2" Click="btnEdit_Click"/>
-        <Button x:Name="btnPrint" Content="Печать" 
-                Grid.Column="1" Grid.Row="4" Click="btnPrint_Click"/>
-        <Button x:Name="btnOpenFolder" Content="Открыть папку" 
-                Grid.Column="1" Grid.Row="5" Click="btnOpenFolder_Click"/>
+        <Button Content="Удалить" Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
+        <Button Content="Добавить" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Click="btnAdd_Click"/>
+        <Button Content="Изменить" Grid.Column="1" Grid.Row="2" Click="btnEdit_Click"/>
+        <Button Content="Печать" Grid.Column="1" Grid.Row="4" Click="btnPrint_Click"/>
+        <Button Content="Открыть папку" Grid.Column="1" Grid.Row="5" Click="btnOpenFolder_Click"/>
 
-        <TextBox x:Name="tbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
+        <TextBox x:Name="TbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
 
-        <DataGrid x:Name="dgContracts" Grid.Row="1" Grid.RowSpan="6" Grid.Column="0" 
-                  AutoGenerateColumns="False" SelectionMode="Single">
+        <DataGrid x:Name="DgContracts" Grid.Row="1" Grid.RowSpan="6" Grid.Column="0" 
+                  AutoGenerateColumns="False" SelectionMode="Single" d:DataContext="{d:DesignData }">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Автомобиль" Width="25*"
                                     Binding="{Binding Path=Car.FullCarName, Mode=OneWay}"/>
@@ -69,13 +64,10 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btnPageLeft" Content="Назад" 
-                    Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
-            <Button x:Name="btnPageRight" Content="Вперед" 
-                    Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
-            <Button x:Name="btnGoto" Content="Перейти" Grid.Row="1"  
-                    Grid.Column="2" Click="btnGoto_Click"/>
-            <TextBox x:Name="tbxPageNumber" Grid.Row="0" Grid.Column="2" FontSize="20"/>
+            <Button Content="Назад" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
+            <Button Content="Вперед" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
+            <Button Content="Перейти" Grid.Row="1" Grid.Column="2" Click="btnGoto_Click"/>
+            <TextBox x:Name="TbxPageNumber" Grid.Row="0" Grid.Column="2" FontSize="20"/>
         </Grid>
     </Grid>
 </Page>

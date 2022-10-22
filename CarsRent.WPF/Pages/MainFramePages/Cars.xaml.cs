@@ -22,12 +22,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void UpdateCurrentPage()
         {
-            tbxPageNumber.Text = _currentPage.ToString();
+            TbxPageNumber.Text = _currentPage.ToString();
         }
 
         private void btnDelete_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (dgCars.SelectedItem is not Car car)
+            if (DgCars.SelectedItem is not Car car)
             {
                 return;
             }
@@ -49,7 +49,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnEdit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (dgCars.SelectedItem is not Car car)
+            if (DgCars.SelectedItem is not Car car)
             {
                 return;
             }
@@ -74,9 +74,9 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 skipCount = _currentPage * (_pageSize - 1);
             }
 
-            dgCars.ItemsSource = tbxSearch.Text == string.Empty
+            DgCars.ItemsSource = TbxSearch.Text == string.Empty
                 ? Commands<Car>.SelectGroup(skipCount, _pageSize).ToList()
-                : Commands<Car>.FindAndSelect(tbxSearch.Text, 0, _pageSize).ToList();
+                : Commands<Car>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
 
             UpdateCurrentPage();
         }
@@ -98,7 +98,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnGoto_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (int.TryParse(tbxPageNumber.Text, out int pageNumber) == false)
+            if (int.TryParse(TbxPageNumber.Text, out int pageNumber) == false)
             {
                 return;
             }
