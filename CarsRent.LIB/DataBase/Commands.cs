@@ -64,7 +64,7 @@ namespace CarsRent.LIB.DataBase
             return itemsResult.Skip(startPoint).Take(count).ToList();
         }
 
-        public static T? SelectById(int id)
+        public static T? SelectById(int? id)
         {
             var context = ApplicationContext.Instance();
             return context.Set<T>().FirstOrDefault(x => x.Id == id);

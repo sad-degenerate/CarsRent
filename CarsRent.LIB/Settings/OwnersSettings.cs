@@ -6,22 +6,19 @@ namespace CarsRent.LIB.Settings
 {
     public static class OwnersSettings
     {
-        public static IEnumerable<Human> GetOwners(string searchText, int startPoint, int count)
+        public static List<Human?> GetOwners(string searchText, int startPoint, int count)
         {
             var owners = string.IsNullOrWhiteSpace(searchText) 
-                ? from owner in Commands<Owner>.SelectGroup(startPoint, count) select owner.Human
-                : from owner in Commands<Owner>.FindAndSelect(searchText, startPoint, count) select owner.Human;
+                ? Commands<Owner>.SelectGroup(startPoint, count).ToList()
+                : Commands<Owner>.FindAndSelect(searchText, startPoint, count).ToList();
 
             if (owners.Any())
             {
-                return owners;
+                return owners.Select(owner => Commands<Human>.SelectById(owner.HumanId)).ToList();
             }
             
             Default();
-
-            return string.IsNullOrWhiteSpace(searchText) 
-                ? from owner in Commands<Owner>.SelectGroup(startPoint, count) select owner.Human
-                : from owner in Commands<Owner>.FindAndSelect(searchText, startPoint, count) select owner.Human;
+            return GetOwners(searchText, startPoint, count);
         }
 
         public static string AddOwner(Dictionary<string, string> fields)
@@ -33,7 +30,7 @@ namespace CarsRent.LIB.Settings
                 return "Ошибка при обработке даты рождения.";
             }
 
-            if (DateTime.TryParse(fields["issuingDate"], out var issuingDate))
+            if (DateTime.TryParse(fields["issuingDate"], out var issuingDate) == false)
             {
                 return "Ошибка при обработке даты выдачи паспорта.";
             }

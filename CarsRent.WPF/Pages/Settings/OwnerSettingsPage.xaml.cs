@@ -44,6 +44,7 @@ namespace CarsRent.WPF.Pages.Settings
             {
                 lblAddError.Content = string.Empty;
                 lblAddDone.Content = "Арендодатель успешно добавлен.";
+                UpdateOwners();
                 return;
             }
 
