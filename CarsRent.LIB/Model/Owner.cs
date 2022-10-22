@@ -1,4 +1,6 @@
-﻿namespace CarsRent.LIB.Model;
+﻿using CarsRent.LIB.DataBase;
+
+namespace CarsRent.LIB.Model;
 
 public class Owner : IBaseModel
 {
@@ -13,6 +15,7 @@ public class Owner : IBaseModel
 
     public override string ToString()
     {
-        return Human.ToString();
+        // TODO: При ближайшей возможности нужно убрать это дерьмо.
+        return Commands<Human>.SelectById(HumanId).ToString();
     }
 }

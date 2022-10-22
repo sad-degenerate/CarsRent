@@ -81,7 +81,7 @@
 
                 <Label Content="Выберите кому принадлежит машина:" Style="{StaticResource Prop}"/>
                 <TextBox x:Name="tbxSearchOwner" Style="{StaticResource Prop}" TextChanged="tbxSearchLandlord_TextChanged"/>
-                <ListBox x:Name="lbxLandlord" Style="{StaticResource Prop}"/>
+                <ListBox x:Name="lbxOwner" Style="{StaticResource Prop}"/>
 
                 <Button x:Name="btnSave" Content="Добавить/изменить" Click="btnSave_Click" Style="{StaticResource saveButtonStyle}"/>
             </StackPanel>

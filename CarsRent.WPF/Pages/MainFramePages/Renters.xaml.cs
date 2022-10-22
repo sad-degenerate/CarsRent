@@ -22,7 +22,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             _pageSize = settings.TableOnePageElementsCount;
         }
 
-        public void UpdateDataGrid()
+        private void UpdateDataGrid()
         {
             int skipCount;
             if (_currentPage == 1)
@@ -34,16 +34,18 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 skipCount = _currentPage * (_pageSize - 1);
             }
 
-            dgRenters.ItemsSource = tbxSearch.Text == string.Empty
-                ? SelectRenters(Commands<Renter>.SelectGroup(skipCount, _pageSize)).ToList()
-                : SelectRenters(Commands<Renter>.FindAndSelect(tbxSearch.Text, 0, _pageSize)).ToList();
+            var renters = string.IsNullOrWhiteSpace(tbxSearch.Text)
+                ? Commands<Renter>.SelectGroup(skipCount, _pageSize).ToList()
+                : Commands<Renter>.FindAndSelect(tbxSearch.Text, 0, _pageSize).ToList();
+
+            dgRenters.ItemsSource = SelectHumansFromRenters(renters);
 
             UpdateCurrentPage();
         }
 
-        private IEnumerable<Human> SelectRenters(IEnumerable<Renter> renters)
+        private static List<Human?> SelectHumansFromRenters(List<Renter?> renters)
         {
-            return from renter in renters select renter.Human;
+            return renters.Select(renter => Commands<Human>.SelectById(renter.HumanId)).ToList();
         }
 
         private void UpdateCurrentPage()

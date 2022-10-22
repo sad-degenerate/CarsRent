@@ -28,16 +28,16 @@ namespace CarsRent.WPF.Pages.MainFramePages
             cbxRideType.ItemsSource = _rideType.Keys;
             cbxRideType.SelectedIndex = 0;
 
-            UpdateList<Car>(tbxSearchCar.Text, lbxCar, _contract.CarId);
-            UpdateList<Human>(tbxSearchRenter.Text, lbxRenter, _contract.RenterId);
-
-            if (contract == null)
+            if (contract != null)
             {
-                return;
+                FillField(contract);
+                _contract = contract;
             }
+
+            _contract = new Contract();
             
-            FillField(contract);
-            _contract = contract;
+            UpdateList<Car>(tbxSearchCar.Text, lbxCar, _contract.CarId);
+            UpdateList<Renter>(tbxSearchRenter.Text, lbxRenter, _contract.RenterId);
         }
 
         private void UpdateList<T>(string text, ListBox lbx, int? id) where T: class, IBaseModel

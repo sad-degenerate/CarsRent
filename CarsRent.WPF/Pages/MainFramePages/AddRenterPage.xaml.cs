@@ -72,7 +72,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             if (_renter.Id == 0)
             {
+                var renter = new Renter
+                {
+                    Human = _renter
+                };
                 Commands<Human>.Add(_renter);
+                Commands<Renter>.Add(renter);
             }
             else
             {

@@ -44,12 +44,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
             FillFields(car);
             _car = car;
 
-            UpdateList<Renter>(tbxSearchOwner.Text, lbxLandlord, _car.OwnerId);
+            UpdateList<Owner>(tbxSearchOwner.Text, lbxOwner, _car.OwnerId);
         }
 
         private void UpdateList<T>(string text, ListBox lbx, int? id) where T : class, IBaseModel
         {
-            if (text != string.Empty)
+            if (string.IsNullOrWhiteSpace(text) == false)
             {
                 lbx.ItemsSource = Commands<T>.FindAndSelect(text, 0, 3);
             }
@@ -61,11 +61,13 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 list.Add(Commands<T>.SelectById((int)id));
                 list.AddRange(Commands<T>.SelectGroup(0, 3).Where(x => x.Id != id).Take(2));
             }
-
-            list.AddRange(Commands<T>.SelectGroup(0, 3));
-
+            else
+            {
+                list.AddRange(Commands<T>.SelectGroup(0, 3));
+            }
+            
             lbx.ItemsSource = list;
-            lbx.SelectedItem = list.Where(x => x?.Id != id);
+            lbx.SelectedItem = list.Where(x => x?.Id == id);
         }
 
         private void FillFields(Car car)
@@ -115,7 +117,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
             _car.WheelsType = _wheelsType[cbxWheelsType.Text];
             _car.CarStatus = _status[cbxStatus.Text];
-            _car.Owner = lbxLandlord.SelectedItem as Owner;
+            _car.Owner = lbxOwner.SelectedItem as Owner;
 
             var carResults = ModelValidation.Validate(_car);
 
@@ -145,7 +147,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void tbxSearchLandlord_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateList<Renter>(tbxSearchOwner.Text, lbxLandlord, _car.OwnerId);
+            UpdateList<Owner>(tbxSearchOwner.Text, lbxOwner, _car.OwnerId);
         }
     }
 }

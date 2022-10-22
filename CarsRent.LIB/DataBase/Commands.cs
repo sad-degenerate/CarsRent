@@ -32,7 +32,7 @@ namespace CarsRent.LIB.DataBase
             return context.Set<T>().Skip(startPoint).Take(count);
         }
 
-        private static IEnumerable<T> SelectAll()
+        public static IEnumerable<T> SelectAll()
         {
             var context = ApplicationContext.Instance();
             return context.Set<T>();
