@@ -1,9 +1,5 @@
-﻿using CarsRent.LIB.DataBase;
-using CarsRent.LIB.Model;
-using CarsRent.LIB.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CarsRent.LIB.Model;
+using System.Windows;
 using System.Windows.Controls;
 using CarsRent.LIB.Controllers;
 
@@ -20,7 +16,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             Controller = new AddCarPageController(car);
             Controller.CreateComboBoxesValues(ref CbxWheelsType, ref CbxStatus);
 
-            LbxOwner.ItemsSource = Controller.GetOwners(TbxSearchOwner.Text, 0, 3);
+            UpdateItemsSource();
 
             if (Controller._car == null)
             {
@@ -99,9 +95,15 @@ namespace CarsRent.WPF.Pages.MainFramePages
             // }
         }
 
+        private async void UpdateItemsSource()
+        {
+            var list = await Controller.GetOwners(TbxSearchOwner.Text, 0, 3);
+            MessageBox.Show(list.Count.ToString());
+        }
+
         private void tbxSearchOwner_TextChanged(object sender, TextChangedEventArgs e)
         {
-            LbxOwner.ItemsSource = Controller.GetOwners(TbxSearchOwner.Text, 0, 3);
+            UpdateItemsSource();
         }
     }
 }

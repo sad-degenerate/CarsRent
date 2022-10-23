@@ -58,25 +58,27 @@ public class AddCarPageController
         };
     }
 
-    public IEnumerable<Human> GetOwners(string searchText, int startPoint, int count)
+    public ValueTask<List<Human>> GetOwners(string searchText, int startPoint, int count)
     {
-        if (string.IsNullOrWhiteSpace(searchText) == false)
-        {
-            return from owner in BaseCommands<Owner>.FindAndSelect(searchText, startPoint, count) select owner.Human;
-        }
+        // if (string.IsNullOrWhiteSpace(searchText) == false)
+        // {
+        //     return from owner in BaseCommands<Owner>.FindAndSelect(searchText, startPoint, count) select owner.Human;
+        // }
+        //
+        // if (_car == null || _car.OwnerId.HasValue == false)
+        // {
+        //     return from owner in BaseCommands<Owner>.SelectGroup(startPoint, count) select owner.Human;
+        // }
+        //
+        // var list = new List<Human>
+        // {
+        //     BaseCommands<Owner>.SelectById(_car.OwnerId).Human
+        // };
+        // list.AddRange(BaseCommands<Owner>.SelectGroup(startPoint, count)
+        //     .Where(x => x.Id != _car.OwnerId).Select(x => x.Human).ToList());
+        //
+        // return list;
 
-        if (_car == null || _car.OwnerId.HasValue == false)
-        {
-            return from owner in BaseCommands<Owner>.SelectGroup(startPoint, count) select owner.Human;
-        }
-
-        var list = new List<Human>
-        {
-            BaseCommands<Owner>.SelectById(_car.OwnerId).Human
-        };
-        list.AddRange(BaseCommands<Owner>.SelectGroup(startPoint, count)
-            .Where(x => x.Id != _car.OwnerId).Select(x => x.Human).ToList());
-
-        return list;
+        return HumanCommands.SelectAllOwnersAsync();
     }
 }

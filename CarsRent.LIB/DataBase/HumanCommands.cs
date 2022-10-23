@@ -9,7 +9,12 @@ public static class HumanCommands
         var humans = BaseCommands<Human>.SelectAll().ToList();
         return humans.Where(human => IsOwner(human)).ToList();
     }
-    
+
+    public static ValueTask<List<Human>> SelectAllOwnersAsync()
+    {
+        return BaseCommands<Human>.SelectAllAsync();
+    }
+
     private static IEnumerable<Human> SelectAllRenters()
     {
         var humans = BaseCommands<Human>.SelectAll().ToList();

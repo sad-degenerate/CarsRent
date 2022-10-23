@@ -24,6 +24,11 @@ namespace CarsRent.LIB.DataBase
         {
             return ApplicationContext.Instance().Set<T>().ToList();
         }
+        
+        public static ValueTask<List<T>> SelectAllAsync()
+        {
+            return new ValueTask<List<T>>(ApplicationContext.Instance().Set<T>().ToListAsync());
+        }
 
         public static IEnumerable<T> SelectGroup(int startPoint, int count)
         {
