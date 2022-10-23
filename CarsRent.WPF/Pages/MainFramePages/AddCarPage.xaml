@@ -9,7 +9,7 @@
     
     <Grid>
         <ScrollViewer>
-            <StackPanel>
+            <StackPanel Name="Panel">
                 <Label Content="Данные о автомобиле:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
                 <Label x:Name="LblError" Content="" Style="{StaticResource StackPanelErrorLabel}"/>
@@ -58,7 +58,7 @@
 
                 <Label Content="Выберите кому принадлежит машина:" Style="{StaticResource StackPanelProperty}"/>
                 <TextBox x:Name="TbxSearchOwner" Style="{StaticResource StackPanelProperty}" 
-                         TextChanged="tbxSearchLandlord_TextChanged"/>
+                         TextChanged="tbxSearchOwner_TextChanged"/>
                 <ListBox x:Name="LbxOwner" Style="{StaticResource StackPanelProperty}"/>
 
                 <Button Content="Добавить/изменить" Click="btnSave_Click" 

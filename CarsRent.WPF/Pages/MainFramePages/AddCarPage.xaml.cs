@@ -5,149 +5,103 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using CarsRent.LIB.Controllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class AddCarPage : Page
     {
-        private Car _car;
-        private readonly Dictionary<string, WheelsType> _wheelsType;
-        private readonly Dictionary<string, Status> _status;
+        private AddCarPageController Controller;
 
         public AddCarPage(Car car = null)
         {
             InitializeComponent();
+            
+            Controller = new AddCarPageController(car);
+            Controller.CreateComboBoxesValues(ref CbxWheelsType, ref CbxStatus);
 
-            _wheelsType = new Dictionary<string, WheelsType>
+            LbxOwner.ItemsSource = Controller.GetOwners(TbxSearchOwner.Text, 0, 3);
+
+            if (Controller._car == null)
             {
-                { "летние", WheelsType.Summer },
-                { "зимние", WheelsType.Winter },
-            };
-
-            _status = new Dictionary<string, Status>
-            {
-                { "готова", Status.Ready },
-                { "в аренде", Status.OnLease },
-                { "в ремонте", Status.UnderRepair },
-            };
-
-            CbxWheelsType.ItemsSource = _wheelsType.Keys;
-            CbxWheelsType.SelectedIndex = 0;
-            CbxStatus.ItemsSource = _status.Keys;
-            CbxStatus.SelectedIndex = 0;
-
-            if (car == null)
-            {
-                car = new Car();
-            }
-
-            FillFields(car);
-            _car = car;
-
-            UpdateList<Owner>(TbxSearchOwner.Text, LbxOwner, _car.OwnerId);
-        }
-
-        private void UpdateList<T>(string text, ListBox lbx, int? id) where T : class, IBaseModel
-        {
-            if (string.IsNullOrWhiteSpace(text) == false)
-            {
-                lbx.ItemsSource = Commands<T>.FindAndSelect(text, 0, 3);
-            }
-
-            var list = new List<T?>();
-
-            if (id.HasValue)
-            {
-                list.Add(Commands<T>.SelectById((int)id));
-                list.AddRange(Commands<T>.SelectGroup(0, 3).Where(x => x.Id != id).Take(2));
-            }
-            else
-            {
-                list.AddRange(Commands<T>.SelectGroup(0, 3));
+                return;
             }
             
-            lbx.ItemsSource = list;
-            lbx.SelectedItem = list.Where(x => x?.Id == id);
+            FillFields();
         }
-
-        private void FillFields(Car car)
+        
+        private void FillFields()
         {
-            TbxBrand.Text = car.Brand;
-            TbxModel.Text = car.Model;
-            TbxPassportNumber.Text = car.PassportNumber;
-            TbxIssuingDate.Text = car.PassportIssuingDate.ToString("dd.MM.yyyy");
-            TbxVin.Text = car.VIN;
-            TbxBodyNumber.Text = car.BodyNumber;
-            TbxColor.Text = car.Color;
-            TbxYear.Text = car.Year.ToString();
-            TbxEngineNumber.Text = car.EngineNumber;
-            TbxPrice.Text = car.Price.ToString();
-            TbxEngineDisplacement.Text = car.EngineDisplacement.ToString();
-            TbxRegNumber.Text = car.RegistrationNumber;
-
-            CbxWheelsType.SelectedIndex = car.WheelsType == WheelsType.Summer ? 0 : 1;
-
-            CbxStatus.SelectedIndex = car.CarStatus switch
+            var elementCollection = new UIElementCollection(Panel, this);
+            var valuesDict = Controller.CreateCarValuesDict();
+            
+            foreach (var item in elementCollection)
             {
-                Status.Ready => 0,
-                Status.OnLease => 1,
-                _ => 2
-            };
+                switch (item)
+                {
+                    case TextBox textBox:
+                        textBox.Text = valuesDict[textBox.Name];
+                        break;
+                    case ComboBox comboBox when int.TryParse(valuesDict[comboBox.Name], out var index):
+                        comboBox.SelectedIndex = index;
+                        break;
+                }
+            }
         }
 
         private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _car.Brand = TbxBrand.Text;
-            _car.Model = TbxModel.Text;
-            _car.PassportNumber = TbxPassportNumber.Text;
-            _car.VIN = TbxVin.Text;
-            _car.BodyNumber = TbxBodyNumber.Text;
-            _car.Color = TbxColor.Text;
-            _car.EngineNumber = TbxEngineNumber.Text;
-            _car.RegistrationNumber = TbxRegNumber.Text;
-
-            int.TryParse(TbxPrice.Text, out var price);
-            _car.Price = price;
-            int.TryParse(TbxYear.Text, out var year);
-            _car.Year = year;
-            int.TryParse(TbxEngineDisplacement.Text, out var displacement);
-            _car.EngineDisplacement = displacement;
-            DateTime.TryParse(TbxIssuingDate.Text, out var issuingDate);
-            _car.PassportIssuingDate = issuingDate;
-
-            _car.WheelsType = _wheelsType[CbxWheelsType.Text];
-            _car.CarStatus = _status[CbxStatus.Text];
-            _car.Owner = LbxOwner.SelectedItem as Owner;
-
-            var carResults = ModelValidation.Validate(_car);
-
-            if (carResults.Count > 0)
-            {
-                LblError.Content = carResults.First().ToString();
-            }
-            else
-            {
-                AddEditCar();
-                LblError.Content = "";
-                NavigationService.GoBack();
-            }
+            // _car.Brand = TbxBrand.Text;
+            // _car.Model = TbxModel.Text;
+            // _car.PassportNumber = TbxPassportNumber.Text;
+            // _car.VIN = TbxVin.Text;
+            // _car.BodyNumber = TbxBodyNumber.Text;
+            // _car.Color = TbxColor.Text;
+            // _car.EngineNumber = TbxEngineNumber.Text;
+            // _car.RegistrationNumber = TbxRegNumber.Text;
+            //
+            // int.TryParse(TbxPrice.Text, out var price);
+            // _car.Price = price;
+            // int.TryParse(TbxYear.Text, out var year);
+            // _car.Year = year;
+            // int.TryParse(TbxEngineDisplacement.Text, out var displacement);
+            // _car.EngineDisplacement = displacement;
+            // DateTime.TryParse(TbxIssuingDate.Text, out var issuingDate);
+            // _car.PassportIssuingDate = issuingDate;
+            //
+            // _car.WheelsType = _wheelsType[CbxWheelsType.Text];
+            // _car.CarStatus = _status[CbxStatus.Text];
+            // _car.Owner = LbxOwner.SelectedItem as Owner;
+            //
+            // var carResults = ModelValidation.Validate(_car);
+            //
+            // if (carResults.Count > 0)
+            // {
+            //     LblError.Content = carResults.First().ToString();
+            // }
+            // else
+            // {
+            //     AddEditCar();
+            //     LblError.Content = "";
+            //     NavigationService.GoBack();
+            // }
         }
 
         private void AddEditCar()
         {
-            if (_car.Id == 0)
-            {
-                Commands<Car>.Add(_car);
-            }    
-            else
-            {
-                Commands<Car>.Modify(_car);
-            }
+            // if (_car.Id == 0)
+            // {
+            //     Commands<Car>.Add(_car);
+            // }    
+            // else
+            // {
+            //     Commands<Car>.Modify(_car);
+            // }
         }
 
-        private void tbxSearchLandlord_TextChanged(object sender, TextChangedEventArgs e)
+        private void tbxSearchOwner_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateList<Owner>(TbxSearchOwner.Text, LbxOwner, _car.OwnerId);
+            LbxOwner.ItemsSource = Controller.GetOwners(TbxSearchOwner.Text, 0, 3);
         }
     }
 }
