@@ -19,8 +19,11 @@
 
         <Frame Grid.Row="1" Name="SettingsFrame" Grid.Column="0" Grid.ColumnSpan="3" 
                ContentRendered="settingsFrame_ContentRendered"/>
-        <Button x:Name="TemplatesSettings" Content="Настройки образцов" Grid.Column="0" Grid.Row="0" Click="OnSettingsCategoryButtonClick"/>
-        <Button x:Name="DisplaySettings" Content="Отображение" Grid.Column="1" Grid.Row="0" Click="OnSettingsCategoryButtonClick"/>
-        <Button x:Name="OwnersSettings" Content="Настройки арендодателя" Grid.Column="2" Grid.Row="0" Click="OnSettingsCategoryButtonClick"/>
+        <Button x:Name="TemplatesSettings" Content="Настройки образцов" Grid.Column="0" Grid.Row="0" 
+                Click="OnSettingsCategoryButtonClick"/>
+        <Button x:Name="DisplaySettings" Content="Отображение" Grid.Column="1" Grid.Row="0" 
+                Click="OnSettingsCategoryButtonClick"/>
+        <Button x:Name="OwnersSettings" Content="Настройки арендодателя" Grid.Column="2" Grid.Row="0" 
+                Click="OnSettingsCategoryButtonClick"/>
     </Grid>
 </Window>

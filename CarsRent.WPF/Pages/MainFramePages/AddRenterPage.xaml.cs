@@ -76,12 +76,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 {
                     Human = _renter
                 };
-                Commands<Human>.Add(_renter);
-                Commands<Renter>.Add(renter);
+                BaseCommands<Human>.Add(_renter);
+                BaseCommands<Renter>.Add(renter);
             }
             else
             {
-                Commands<Human>.Modify(_renter);
+                BaseCommands<Human>.Modify(_renter);
             }
         }
     }

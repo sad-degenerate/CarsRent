@@ -27,6 +27,9 @@
     <Reference Include="NumbersToText.LIB">
       <HintPath>Libs\NumbersToText.LIB.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework">
+      <HintPath>C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\6.0.9\PresentationFramework.dll</HintPath>
+    </Reference>
     <Reference Include="TemplateDocs.LIB">
       <HintPath>Libs\TemplateDocs.LIB.dll</HintPath>
     </Reference>

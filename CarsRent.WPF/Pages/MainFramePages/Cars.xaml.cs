@@ -3,6 +3,7 @@ using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
 using System.Windows.Controls;
+using CarsRent.LIB.Controllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
@@ -39,7 +40,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private static void DeleteCar(Car car)
         {
-            Commands<Car>.Delete(car);
+            BaseCommands<Car>.Delete(car);
         }
 
         private void btnAdd_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -75,8 +76,8 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
 
             DgCars.ItemsSource = TbxSearch.Text == string.Empty
-                ? Commands<Car>.SelectGroup(skipCount, _pageSize).ToList()
-                : Commands<Car>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
+                ? BaseCommands<Car>.SelectGroup(skipCount, _pageSize).ToList()
+                : BaseCommands<Car>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
 
             UpdateCurrentPage();
         }

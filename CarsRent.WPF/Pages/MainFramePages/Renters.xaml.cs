@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using CarsRent.LIB.Controllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
@@ -35,8 +36,8 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
 
             var renters = string.IsNullOrWhiteSpace(TbxSearch.Text)
-                ? Commands<Renter>.SelectGroup(skipCount, _pageSize).ToList()
-                : Commands<Renter>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
+                ? BaseCommands<Renter>.SelectGroup(skipCount, _pageSize).ToList()
+                : BaseCommands<Renter>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
 
             DgRenters.ItemsSource = SelectHumansFromRenters(renters);
 
@@ -45,7 +46,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private static List<Human?> SelectHumansFromRenters(List<Renter?> renters)
         {
-            return renters.Select(renter => Commands<Human>.SelectById(renter.HumanId)).ToList();
+            return renters.Select(renter => BaseCommands<Human>.SelectById(renter.HumanId)).ToList();
         }
 
         private void UpdateCurrentPage()
@@ -89,10 +90,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             foreach (var renter in human.Renters)
             {
-                Commands<Renter>.Delete(renter);
+                BaseCommands<Renter>.Delete(renter);
             }
             
-            Commands<Human>.Delete(human);
+            BaseCommands<Human>.Delete(human);
         }
 
         private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)

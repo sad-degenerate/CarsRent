@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using CarsRent.LIB.Controllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
@@ -44,8 +45,8 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
 
             DgContracts.ItemsSource = TbxSearch.Text == string.Empty
-                ? Commands<Contract>.SelectGroup(skipCount, _pageSize).ToList()
-                : Commands<Contract>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
+                ? BaseCommands<Contract>.SelectGroup(skipCount, _pageSize).ToList()
+                : BaseCommands<Contract>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
 
             UpdateCurrentPage();
         }
@@ -64,7 +65,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private static void DeleteContract(Contract contract)
         {
-            Commands<Contract>.Delete(contract);
+            BaseCommands<Contract>.Delete(contract);
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)

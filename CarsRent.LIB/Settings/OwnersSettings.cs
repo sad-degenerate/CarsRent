@@ -6,19 +6,11 @@ namespace CarsRent.LIB.Settings
 {
     public static class OwnersSettings
     {
-        public static List<Human?> GetOwners(string searchText, int startPoint, int count)
+        public static IEnumerable<Human> GetOwners(string searchText, int startPoint, int count)
         {
-            var owners = string.IsNullOrWhiteSpace(searchText) 
-                ? Commands<Owner>.SelectGroup(startPoint, count).ToList()
-                : Commands<Owner>.FindAndSelect(searchText, startPoint, count).ToList();
-
-            if (owners.Any())
-            {
-                return owners.Select(owner => Commands<Human>.SelectById(owner.HumanId)).ToList();
-            }
-            
-            Default();
-            return GetOwners(searchText, startPoint, count);
+            return string.IsNullOrWhiteSpace(searchText)
+                ? HumanCommands.SelectOwnersGroup(startPoint, count)
+                : HumanCommands.FindAndSelectOwners(searchText, startPoint, count);
         }
 
         public static string AddOwner(Dictionary<string, string> fields)
@@ -57,8 +49,8 @@ namespace CarsRent.LIB.Settings
                 return humanResults.First().ErrorMessage;
             }
 
-            Commands<Human>.Add(human);
-            Commands<Owner>.Add(owner);
+            BaseCommands<Human>.Add(human);
+            BaseCommands<Owner>.Add(owner);
 
             return string.Empty;
         }
@@ -70,42 +62,18 @@ namespace CarsRent.LIB.Settings
                 return "Вы не выбрали в списке арендодателя.";
             }
             
-            if (Commands<Owner>.SelectGroup(0, 2).Count() < 2)
+            if (BaseCommands<Owner>.SelectGroup(0, 2).Count() < 2)
             {
                 return "Вы не можете удалить единственного арендодателя в списке.";
             }
 
             foreach (var owner in human.Owners)
             {
-                Commands<Owner>.Delete(owner);
+                BaseCommands<Owner>.Delete(owner);
             }
-            Commands<Human>.Delete(human);
+            BaseCommands<Human>.Delete(human);
 
             return string.Empty;
-        }
-
-        public static void Default()
-        {
-            var human = new Human
-            {
-                Surname = "Фамилия",
-                Name = "Имя",
-                Patronymic = "Отчество",
-                PassportNumber = "3434343343",
-                IssuingDate = DateTime.Now,
-                PhoneNumber = "88888888888",
-                RegistrationPlace = "г. Город ул. Улица д. 1 кв. 1",
-                BirthDate = DateTime.Now,
-                IssuingOrganization = "ОРГАНИЗАЦИЯ"
-            };
-
-            var owner = new Owner
-            {
-                Human = human
-            };
-
-            Commands<Human>.Add(human);
-            Commands<Owner>.Add(owner);
         }
     }
 }
