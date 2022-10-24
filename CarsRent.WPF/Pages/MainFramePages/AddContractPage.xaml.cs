@@ -19,11 +19,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             InitializeComponent();
 
-            _rideType = new Dictionary<string, RideType>
-            {
-                { "по городу", RideType.InTheCity },
-                { "за городом", RideType.OutsideTheCity }
-            };
+            
 
             CbxRideType.ItemsSource = _rideType.Keys;
             CbxRideType.SelectedIndex = 0;

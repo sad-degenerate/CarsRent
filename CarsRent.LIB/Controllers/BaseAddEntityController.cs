@@ -7,7 +7,8 @@ namespace CarsRent.LIB.Controllers;
 public abstract class BaseAddEntityController
 {
     protected abstract Dictionary<string, string> CreateValuesRelationDict(IBaseModel item);
-    
+    public abstract ValueTask<string> AddEditEntityAsync(UIElementCollection collection);
+
     protected virtual void SaveItemInDbAsync<T>(T item) where T: class, IBaseModel
     {
         if (item.Id == 0)

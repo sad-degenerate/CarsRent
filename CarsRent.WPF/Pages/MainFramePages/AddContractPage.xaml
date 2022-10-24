@@ -9,7 +9,7 @@
     
     <Grid>
         <ScrollViewer>
-            <StackPanel>
+            <StackPanel Name="Panel">
                 <Label Content="Данные договора:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
                 <Label x:Name="LblError" Content="" Style="{StaticResource StackPanelErrorLabel}"/>
@@ -42,7 +42,7 @@
                          TextChanged="tbxSearchCar_TextChanged"/>
                 <ListBox x:Name="LbxCar" Style="{StaticResource StackPanelProperty}"/>
 
-                <Button Content="Добавить/изменить" Click="btnSave_Click"  
+                <Button Content="Добавить/изменить" Click="btnSave_Click" Name="BtnSave"  
                         Style="{StaticResource StackPanelSaveButton}"/>
             </StackPanel>
         </ScrollViewer>

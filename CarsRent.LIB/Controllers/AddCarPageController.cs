@@ -89,7 +89,7 @@ public class AddCarPageController : BaseAddEntityController
         }
     }
 
-    public ValueTask<string> AddEditCarAsync(UIElementCollection collection)
+    public override ValueTask<string> AddEditEntityAsync(UIElementCollection collection)
     {
         var valuesDict = new Dictionary<string, string>(CreateValuesRelationDict(collection));
 
@@ -135,14 +135,14 @@ public class AddCarPageController : BaseAddEntityController
         var owners = BaseCommands<Owner>.SelectAllAsync().AsTask().Result;
         car.OwnerId = owners.Where(owner => owner.HumanId == humanId).FirstOrDefault().Id;
 
-        var validationResults = ModelValidation.Validate(Car);
+        var validationResults = ModelValidation.Validate(car);
             
         if (validationResults.Any())
         {
             return new ValueTask<string>(validationResults.First().ErrorMessage);
         }
 
-        SaveItemInDbAsync(Car);
+        SaveItemInDbAsync(car);
         
         return new ValueTask<string>(string.Empty);
     }

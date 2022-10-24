@@ -37,7 +37,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             BtnSave.IsEnabled = false;
             
             var collection = new UIElementCollection(Panel, this);
-            var error = await _controller.AddEditCarAsync(collection);
+            var error = await _controller.AddEditEntityAsync(collection);
 
             if (string.IsNullOrWhiteSpace(error))
             {
