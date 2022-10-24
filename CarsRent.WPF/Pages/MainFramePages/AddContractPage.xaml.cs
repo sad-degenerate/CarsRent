@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using CarsRent.LIB.Controllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
@@ -45,18 +44,18 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             if (text != string.Empty)
             {
-                lbx.ItemsSource = BaseCommands<T>.FindAndSelect(text, 0, 3);
+                lbx.ItemsSource = BaseCommands<T>.FindAndSelectAsync(text, 0, 3);
             }
 
             var list = new List<T?>();
 
             if (id.HasValue)
             {
-                list.Add(BaseCommands<T>.SelectById((int)id));
-                list.AddRange(BaseCommands<T>.SelectGroup(0, 3).Where(x => x.Id != id).Take(2));
+                list.Add(BaseCommands<T>.SelectByIdAsync((int)id));
+                list.AddRange(BaseCommands<T>.SelectGroupAsync(0, 3).Where(x => x.Id != id).Take(2));
             }
 
-            list.AddRange(BaseCommands<T>.SelectGroup(0, 3));
+            list.AddRange(BaseCommands<T>.SelectGroupAsync(0, 3));
 
             lbx.ItemsSource = list;
             lbx.SelectedItem = list.Where(x => x.Id != id);
@@ -125,11 +124,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             if (_contract.Id == 0)
             {
-                BaseCommands<Contract>.Add(_contract);
+                BaseCommands<Contract>.AddAsync(_contract);
             }
             else
             {
-                BaseCommands<Contract>.Modify(_contract);
+                BaseCommands<Contract>.ModifyAsync(_contract);
             }
 
             var replace = new ReplacerWordsInContract();

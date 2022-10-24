@@ -13,9 +13,10 @@ namespace CarsRent.WPF.Pages.Settings
             UpdateOwners();
         }
 
-        private void UpdateOwners()
+        private async void UpdateOwners()
         {
-            LbxOwner.ItemsSource = OwnersSettings.GetOwners(TbxSearchOwner.Text, 0, 10).ToList();
+            var list = await OwnersSettings.GetOwners(TbxSearchOwner.Text, 0, 10);
+            LbxOwner.ItemsSource = list;
         }
 
         private void tbxSearchOwner_TextChanged(object sender, TextChangedEventArgs e)

@@ -9,7 +9,7 @@
     
     <Grid>
         <ScrollViewer>
-            <StackPanel>
+            <StackPanel Name="Panel">
                 <Label Content="Данные о арендаторе:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
                 <Label x:Name="LblError" Content="" Style="{StaticResource StackPanelErrorLabel}"/>

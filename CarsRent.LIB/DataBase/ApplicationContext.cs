@@ -5,8 +5,6 @@ namespace CarsRent.LIB.DataBase
 {
     public class ApplicationContext : DbContext
     {
-        private static ApplicationContext _instance;
-        
         public DbSet<Car> Cars { get; set; }
         public DbSet<Human> Humans { get; set; }
         public DbSet<Contract> Contracts { get; set; }
@@ -14,17 +12,6 @@ namespace CarsRent.LIB.DataBase
         public DbSet<Owner> Owners { get; set; }
 
         public ApplicationContext() { }
-
-        public static ApplicationContext Instance()
-        {
-            if (_instance == null)
-            {
-                _instance = new ApplicationContext();
-                _instance.Database.EnsureCreated();
-            }
-
-            return _instance;
-        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

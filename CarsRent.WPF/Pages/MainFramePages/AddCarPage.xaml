@@ -36,32 +36,32 @@
                 <TextBox x:Name="TbxColor" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Год выпуска автомобиля:" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox x:Name="TbxYear" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox Name="TbxYear" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Номер двигателя автомобиля:" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox x:Name="TbxEngineNumber" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox Name="TbxEngineNumber" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Стоимость автомобиля:" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox x:Name="TbxPrice" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox Name="TbxPrice" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Регистрационный номер:" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox x:Name="TbxRegNumber" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox Name="TbxRegNumber" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Тип шин:" Style="{StaticResource StackPanelProperty}"/>
-                <ComboBox x:Name="CbxWheelsType" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
+                <ComboBox Name="CbxWheelsType" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
 
                 <Label Content="Рабочий объем двигателя см куб" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox x:Name="TbxEngineDisplacement" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox Name="TbxEngineDisplacement" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Статус автомобиля:" Style="{StaticResource StackPanelProperty}"/>
-                <ComboBox x:Name="CbxStatus" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
+                <ComboBox Name="CbxStatus" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
 
                 <Label Content="Выберите кому принадлежит машина:" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox x:Name="TbxSearchOwner" Style="{StaticResource StackPanelProperty}" 
+                <TextBox Name="TbxSearchOwner" Style="{StaticResource StackPanelProperty}" 
                          TextChanged="tbxSearchOwner_TextChanged"/>
-                <ListBox x:Name="LbxOwner" Style="{StaticResource StackPanelProperty}"/>
+                <ListBox Name="LbxOwner" Style="{StaticResource StackPanelProperty}"/>
 
-                <Button Content="Добавить/изменить" Click="btnSave_Click" 
+                <Button Content="Добавить/изменить" Click="btnSave_Click" Name="BtnSave" 
                         Style="{StaticResource StackPanelSaveButton}"/>
             </StackPanel>
         </ScrollViewer>

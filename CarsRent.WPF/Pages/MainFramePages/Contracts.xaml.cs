@@ -45,8 +45,8 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
 
             DgContracts.ItemsSource = TbxSearch.Text == string.Empty
-                ? BaseCommands<Contract>.SelectGroup(skipCount, _pageSize).ToList()
-                : BaseCommands<Contract>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
+                ? BaseCommands<Contract>.SelectGroupAsync(skipCount, _pageSize).ToList()
+                : BaseCommands<Contract>.FindAndSelectAsync(TbxSearch.Text, 0, _pageSize).ToList();
 
             UpdateCurrentPage();
         }
@@ -65,7 +65,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private static void DeleteContract(Contract contract)
         {
-            BaseCommands<Contract>.Delete(contract);
+            BaseCommands<Contract>.DeleteAsync(contract);
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)

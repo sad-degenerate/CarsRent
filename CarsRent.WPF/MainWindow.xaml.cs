@@ -17,7 +17,7 @@ namespace CarsRent.WPF
 
         private void StartupDataBaseConnection()
         {
-            ApplicationContext.Instance();
+            var s = new ApplicationContext();
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)

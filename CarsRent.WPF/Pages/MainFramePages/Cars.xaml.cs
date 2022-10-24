@@ -40,7 +40,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private static void DeleteCar(Car car)
         {
-            BaseCommands<Car>.Delete(car);
+            BaseCommands<Car>.DeleteAsync(car);
         }
 
         private void btnAdd_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -76,8 +76,8 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
 
             DgCars.ItemsSource = TbxSearch.Text == string.Empty
-                ? BaseCommands<Car>.SelectGroup(skipCount, _pageSize).ToList()
-                : BaseCommands<Car>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
+                ? BaseCommands<Car>.SelectGroupAsync(skipCount, _pageSize).ToList()
+                : BaseCommands<Car>.FindAndSelectAsync(TbxSearch.Text, 0, _pageSize).ToList();
 
             UpdateCurrentPage();
         }

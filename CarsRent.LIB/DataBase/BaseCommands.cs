@@ -5,56 +5,55 @@ namespace CarsRent.LIB.DataBase
 {
     public static class BaseCommands<T> where T : class, IBaseModel
     {
-        public static void Add(T item)
+        public static void AddAsync(T item)
         {
-            ChangeEntityState(item, EntityState.Added);
+            ChangeEntityStateAsync(item, EntityState.Added);
         }
 
-        public static void Modify(T item)
+        public static void ModifyAsync(T item)
         {
-            ChangeEntityState(item, EntityState.Modified);
+            ChangeEntityStateAsync(item, EntityState.Modified);
         }
 
-        public static void Delete(T item)
+        public static void DeleteAsync(T item)
         {
-            ChangeEntityState(item, EntityState.Deleted);
+            ChangeEntityStateAsync(item, EntityState.Deleted);
         }
-        
-        public static IEnumerable<T> SelectAll()
-        {
-            return ApplicationContext.Instance().Set<T>().ToList();
-        }
-        
+
         public static ValueTask<List<T>> SelectAllAsync()
         {
-            return new ValueTask<List<T>>(ApplicationContext.Instance().Set<T>().ToListAsync());
+            return new ValueTask<List<T>>(new ApplicationContext().Set<T>().ToListAsync());
         }
 
-        public static IEnumerable<T> SelectGroup(int startPoint, int count)
+        public static ValueTask<List<T>> SelectGroupAsync(int startPoint, int count)
         {
-            return SelectAll().Skip(startPoint).Take(count).ToList();
+            var list = SelectAllAsync().AsTask().Result;
+            return new ValueTask<List<T>>(list.Skip(startPoint).Take(count).ToList());
         }
         
-        public static T? SelectById(int? id)
+        public static ValueTask<T?> SelectByIdAsync(int? id)
         {
-            return SelectAll().FirstOrDefault(x => x.Id == id);
+            var list = SelectAllAsync().AsTask().Result;
+            return new ValueTask<T?>(list.FirstOrDefault(x => x.Id == id));
         }
         
-        public static IEnumerable<T> Find(IEnumerable<T> items, string searchText)
+        public static ValueTask<List<T>> FindAsync(IEnumerable<T> items, string searchText)
         {
-            return items.Where(item => IsSearched(item, searchText)).ToList();
+            return new ValueTask<List<T>>(items.Where(item => IsSearched(item, searchText)).ToList());
         }
         
-        public static IEnumerable<T> FindAndSelect(string searchText, int startPoint, int count)
+        public static ValueTask<List<T>> FindAndSelectAsync(string searchText, int startPoint, int count)
         {
-            return Find(SelectAll(), searchText).Skip(startPoint).Take(count).ToList();
+            var list = SelectAllAsync().AsTask().Result;
+            var find = FindAsync(list, searchText).AsTask().Result;
+            return new ValueTask<List<T>>(find.Skip(startPoint).Take(count).ToList());
         }
 
-        private static void ChangeEntityState(T item, EntityState state)
+        private static async void ChangeEntityStateAsync(T item, EntityState state)
         {
-            var context = ApplicationContext.Instance();
+            var context = new ApplicationContext();
             context.Entry(item).State = state;
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
         
         private static bool IsSearched(T item, string searchText)

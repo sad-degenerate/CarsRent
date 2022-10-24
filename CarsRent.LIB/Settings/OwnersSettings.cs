@@ -6,11 +6,11 @@ namespace CarsRent.LIB.Settings
 {
     public static class OwnersSettings
     {
-        public static IEnumerable<Human> GetOwners(string searchText, int startPoint, int count)
+        public static ValueTask<List<Human>> GetOwners(string searchText, int startPoint, int count)
         {
-            return string.IsNullOrWhiteSpace(searchText)
-                ? HumanCommands.SelectOwnersGroup(startPoint, count)
-                : HumanCommands.FindAndSelectOwners(searchText, startPoint, count);
+            return string.IsNullOrWhiteSpace(searchText) 
+                ? HumanCommands.SelectOwnersGroupAsync(startPoint, count) 
+                : HumanCommands.FindAndSelectOwnersAsync(searchText, startPoint, count);
         }
 
         public static string AddOwner(Dictionary<string, string> fields)
@@ -49,8 +49,8 @@ namespace CarsRent.LIB.Settings
                 return humanResults.First().ErrorMessage;
             }
 
-            BaseCommands<Human>.Add(human);
-            BaseCommands<Owner>.Add(owner);
+            BaseCommands<Human>.AddAsync(human);
+            BaseCommands<Owner>.AddAsync(owner);
 
             return string.Empty;
         }
@@ -62,16 +62,16 @@ namespace CarsRent.LIB.Settings
                 return "Вы не выбрали в списке арендодателя.";
             }
             
-            if (BaseCommands<Owner>.SelectGroup(0, 2).Count() < 2)
+            if (HumanCommands.SelectOwnersGroupAsync(0, 2).AsTask().Result.Count < 2)
             {
                 return "Вы не можете удалить единственного арендодателя в списке.";
             }
 
             foreach (var owner in human.Owners)
             {
-                BaseCommands<Owner>.Delete(owner);
+                BaseCommands<Owner>.DeleteAsync(owner);
             }
-            BaseCommands<Human>.Delete(human);
+            BaseCommands<Human>.DeleteAsync(human);
 
             return string.Empty;
         }

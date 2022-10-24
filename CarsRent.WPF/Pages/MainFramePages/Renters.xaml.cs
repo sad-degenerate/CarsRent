@@ -36,8 +36,8 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
 
             var renters = string.IsNullOrWhiteSpace(TbxSearch.Text)
-                ? BaseCommands<Renter>.SelectGroup(skipCount, _pageSize).ToList()
-                : BaseCommands<Renter>.FindAndSelect(TbxSearch.Text, 0, _pageSize).ToList();
+                ? BaseCommands<Renter>.SelectGroupAsync(skipCount, _pageSize).ToList()
+                : BaseCommands<Renter>.FindAndSelectAsync(TbxSearch.Text, 0, _pageSize).ToList();
 
             DgRenters.ItemsSource = SelectHumansFromRenters(renters);
 
@@ -46,7 +46,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private static List<Human?> SelectHumansFromRenters(List<Renter?> renters)
         {
-            return renters.Select(renter => BaseCommands<Human>.SelectById(renter.HumanId)).ToList();
+            return renters.Select(renter => BaseCommands<Human>.SelectByIdAsync(renter.HumanId)).ToList();
         }
 
         private void UpdateCurrentPage()
@@ -90,10 +90,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             foreach (var renter in human.Renters)
             {
-                BaseCommands<Renter>.Delete(renter);
+                BaseCommands<Renter>.DeleteAsync(renter);
             }
             
-            BaseCommands<Human>.Delete(human);
+            BaseCommands<Human>.DeleteAsync(human);
         }
 
         private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)

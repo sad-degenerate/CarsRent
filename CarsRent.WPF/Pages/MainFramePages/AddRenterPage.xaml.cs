@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using CarsRent.LIB.Controllers;
 using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Validation;
@@ -10,78 +11,91 @@ namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class AddRenterPage : Page
     {
-        private Human _renter;
+        private AddRenterPageController _controller;
         public AddRenterPage(Human? renter = null)
         {
             InitializeComponent();
 
-            if (renter == null)
+            _controller = new AddRenterPageController(renter);
+
+            if (_controller.Renter != null)
             {
-                return;
+                FillFields();
             }
-            
-            FillField(renter);
-            _renter = renter;
         }
 
-        private void FillField(Human renter)
+        private void FillFields()
         {
-            TbxSurname.Text = renter.Surname;
-            TbxName.Text = renter.Name;
-            TbxPatronymic.Text = renter.Patronymic;
-            TbxBirthDate.Text = renter.BirthDate.ToString("dd.MM.yyyy");
-            TbxPassportNumber.Text = renter.PassportNumber;
-            TbxIssuingOrganization.Text = renter.IssuingOrganization;
-            TbxIssuingDate.Text = renter.IssuingDate.ToString("dd.MM.yyyy");
-            TbxRegistrationPlace.Text = renter.RegistrationPlace;
-            TbxPhone.Text = renter.PhoneNumber;
+            var elementCollection = new UIElementCollection(Panel, this);
+            var valuesDict = _controller.CreateRenterValuesRelationDict();
+            
+            foreach (var item in elementCollection)
+            {
+                if (item is TextBox textBox)
+                {
+                    textBox.Text = valuesDict[textBox.Name];
+                }
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            _renter ??= new Human();
+            var errors = new List<string>();
 
-            _renter.Name = TbxName.Text;
-            _renter.Surname = TbxSurname.Text;
-            _renter.Patronymic = TbxPatronymic.Text;
-            _renter.PhoneNumber = TbxPhone.Text;
-            _renter.PassportNumber = TbxPassportNumber.Text;
-            _renter.IssuingOrganization = TbxIssuingOrganization.Text;
-            _renter.RegistrationPlace = TbxRegistrationPlace.Text;
-
-            DateTime.TryParse(TbxIssuingDate.Text, out var issuingDate);
-            _renter.IssuingDate = issuingDate;
-            DateTime.TryParse(TbxBirthDate.Text, out var birthDate);
-            _renter.BirthDate = birthDate;
-
-            var renterResults = ModelValidation.Validate(_renter);
-
-            if (renterResults.Count > 0)
+            if (DateTime.TryParse(TbxIssuingDate.Text, out var issuingDate) == false)
             {
-                LblError.Content = renterResults.First().ToString();
+                errors.Add("В поле дата выдачи паспорта введена не дата.");
             }
-            else
+            
+            if (DateTime.TryParse(TbxBirthDate.Text, out var birthDate) == false)
             {
-                AddEditRenter();
-                LblError.Content = "";
-                NavigationService.GoBack();
+                errors.Add("В поле дата рождения введена не дата.");
             }
+
+            if (errors.Any())
+            {
+                LblError.Content = errors.FirstOrDefault();
+                return;
+            }
+
+            var renter = new Human
+            {
+                BirthDate = birthDate,
+                PassportNumber = TbxPassportNumber.Text,
+            };
+            
+            if (LbxOwner.SelectedItem is not Human)
+            {
+                errors.Add("Вы не выбрали владельца автомобиля.");
+            }
+
+            var owner = LbxOwner.SelectedItem as Human;
+            
+            errors.Add(_controller.AddEditCarAsync(renter, owner).AsTask().Result);
+
+            if (errors.Any())
+            {
+                LblError.Content = errors.FirstOrDefault();
+                return;
+            }
+            
+            NavigationService.GoBack();
         }
 
         private void AddEditRenter()
         {
-            if (_renter.Id == 0)
+            if (_controller.Id == 0)
             {
                 var renter = new Renter
                 {
-                    Human = _renter
+                    Human = _controller
                 };
-                BaseCommands<Human>.Add(_renter);
-                BaseCommands<Renter>.Add(renter);
+                BaseCommands<Human>.AddAsync(_controller);
+                BaseCommands<Renter>.AddAsync(renter);
             }
             else
             {
-                BaseCommands<Human>.Modify(_renter);
+                BaseCommands<Human>.ModifyAsync(_controller);
             }
         }
     }
