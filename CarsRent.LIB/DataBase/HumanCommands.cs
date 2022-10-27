@@ -42,36 +42,6 @@ public static class HumanCommands
         return new ValueTask<List<Human>>(find.Skip(startPoint).Take(count).ToList());
     }
 
-    public static void DeleteOwnerAsync(Human human)
-    {
-        var owners = BaseCommands<Owner>.SelectAllAsync().AsTask().Result;
-
-        foreach (var owner in owners.Where(owner => owner.HumanId == human.Id))
-        {
-            BaseCommands<Owner>.DeleteAsync(owner);
-        }
-        
-        BaseCommands<Human>.DeleteAsync(human);
-    }
-    
-    public static void DeleteRenterAsync(Human human)
-    {
-        var renters = BaseCommands<Renter>.SelectAllAsync().AsTask().Result;
-
-        foreach (var renter in renters.Where(renter => renter.HumanId == human.Id))
-        {
-            BaseCommands<Renter>.DeleteAsync(renter);
-        }
-        
-        BaseCommands<Human>.DeleteAsync(human);
-    }
-
-    public static ValueTask<Owner> GetOwnerFromHumanAsync(Human human)
-    {
-        var list = BaseCommands<Owner>.SelectAllAsync().AsTask().Result;
-        return new ValueTask<Owner>(list.Where(owner => owner.HumanId == human.Id).FirstOrDefault());
-    }
-    
     private static ValueTask<bool> IsOwner(Human human)
     {
         var list = BaseCommands<Owner>.SelectAllAsync().AsTask().Result;

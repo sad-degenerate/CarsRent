@@ -1,56 +1,27 @@
-﻿using CarsRent.LIB.DataBase;
-using CarsRent.LIB.Model;
-using CarsRent.LIB.Settings;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CarsRent.LIB.Model;
 using System.Windows;
 using System.Windows.Controls;
+using CarsRent.LIB.Controllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class RentersPage : Page
     {
-        private int _currentPage = 1;
-        private readonly int _pageSize;
+        private readonly RentersPageController _controller;
 
         public RentersPage()
         {
             InitializeComponent();
 
-            var serializator = new SettingsSerializator<DisplaySettings>();
-            var settings = serializator.Deserialize();
-            _pageSize = settings.TableOnePageElementsCount;
+            _controller = new RentersPageController();
+            
+            UpdateDataGrid();
         }
 
-        private void UpdateDataGrid()
+        private async void UpdateDataGrid()
         {
-            int skipCount;
-            if (_currentPage == 1)
-            {
-                skipCount = 0;
-            }
-            else
-            {
-                skipCount = _currentPage * (_pageSize - 1);
-            }
-
-            var renters = string.IsNullOrWhiteSpace(TbxSearch.Text)
-                ? BaseCommands<Renter>.SelectGroupAsync(skipCount, _pageSize).ToList()
-                : BaseCommands<Renter>.FindAndSelectAsync(TbxSearch.Text, 0, _pageSize).ToList();
-
-            DgRenters.ItemsSource = SelectHumansFromRenters(renters);
-
-            UpdateCurrentPage();
-        }
-
-        private static List<Human?> SelectHumansFromRenters(List<Renter?> renters)
-        {
-            return renters.Select(renter => BaseCommands<Human>.SelectByIdAsync(renter.HumanId)).ToList();
-        }
-
-        private void UpdateCurrentPage()
-        {
-            TbxPageNumber.Text = _currentPage.ToString();
+            DgRenters.ItemsSource =  await _controller.GetDataGridItems
+                (TbxSearch.Text, _controller.GetSkipCount(), _controller.PageSize).AsTask();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -68,11 +39,6 @@ namespace CarsRent.WPF.Pages.MainFramePages
             NavigationService.Navigate(new AddRenterPage(renter));
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            UpdateDataGrid();
-        }
-
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             if (DgRenters.SelectedItem is not Human renter)
@@ -81,18 +47,13 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
 
             DeleteRenter(renter);
-
-            UpdateDataGrid();
         }
 
-        private static void DeleteRenter(Human human)
+        private void DeleteRenter(Human renter)
         {
-            foreach (var renter in human.Renters)
-            {
-                BaseCommands<Renter>.DeleteAsync(renter);
-            }
+            _controller.DeleteEntity(renter);
             
-            BaseCommands<Human>.DeleteAsync(human);
+            UpdateDataGrid();
         }
 
         private void tbxSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -102,12 +63,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private void btnPageLeft_Click(object sender, RoutedEventArgs e)
         {
-            GoTo(_currentPage - 1);
+            GoTo(_controller.CurrentPage - 1);
         }
 
         private void btnPageRight_Click(object sender, RoutedEventArgs e)
         {
-            GoTo(_currentPage + 1);
+            GoTo(_controller.CurrentPage + 1);
         }
 
         private void btnGoto_Click(object sender, RoutedEventArgs e)
@@ -127,7 +88,9 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 return;
             }
 
-            _currentPage = pageNumber;
+            _controller.CurrentPage = pageNumber;
+            TbxPageNumber.Text = pageNumber.ToString();
+            
             UpdateDataGrid();
         }
     }

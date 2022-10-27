@@ -30,7 +30,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private async void DeleteCar(Car car)
         {
-            await CarsPageController.DeleteCar(car);
+            _controller.DeleteEntity(car);
 
             MessageBox.Show("Автомобиль удален.", "Удаление.");
             
@@ -60,7 +60,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
         private async void UpdateDataGrid()
         {
             DgCars.ItemsSource = await _controller.GetDataGridItems<Car>
-                    (TbxSearch.Text, _controller.GetSkipCount(), _controller.PageSize).AsTask();
+                (TbxSearch.Text, _controller.GetSkipCount(), _controller.PageSize).AsTask();
         }
 
         private void btnPageLeft_Click(object sender, RoutedEventArgs e)

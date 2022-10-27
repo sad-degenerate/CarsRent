@@ -1,6 +1,4 @@
-﻿using CarsRent.LIB.DataBase;
-using CarsRent.LIB.Model;
-using CarsRent.LIB.Settings;
+﻿using CarsRent.LIB.Settings;
 
 namespace CarsRent.LIB.Controllers;
 
@@ -15,12 +13,6 @@ public class CarsPageController : BaseDataGridViewController
         
         PageSize = settings.TableOnePageElementsCount;
         CurrentPage = 0;
-    }
-
-    public static ValueTask<bool> DeleteCar(Car car)
-    {
-        BaseCommands<Car>.DeleteAsync(car);
-        return new ValueTask<bool>(true);
     }
 
     public int GetSkipCount()
