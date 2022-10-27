@@ -12,8 +12,6 @@
             <StackPanel Name="Panel">
                 <Label Content="Данные договора:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
-                <Label x:Name="LblError" Content="" Style="{StaticResource StackPanelErrorLabel}"/>
-
                 <Label Content="Сумма залога:" Style="{StaticResource StackPanelProperty}"/>
                 <TextBox x:Name="TbxDeposit" Style="{StaticResource StackPanelProperty}"/>
 

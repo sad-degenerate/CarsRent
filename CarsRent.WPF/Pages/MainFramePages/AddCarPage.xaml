@@ -12,8 +12,6 @@
             <StackPanel Name="Panel">
                 <Label Content="Данные о автомобиле:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
-                <Label x:Name="LblError" Content="" Style="{StaticResource StackPanelErrorLabel}"/>
-
                 <Label Content="Марка автомобиля:" Style="{StaticResource StackPanelProperty}"/>
                 <TextBox x:Name="TbxBrand" Style="{StaticResource StackPanelProperty}"/>
 

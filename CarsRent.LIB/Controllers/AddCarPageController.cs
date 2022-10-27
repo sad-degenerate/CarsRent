@@ -7,7 +7,7 @@ namespace CarsRent.LIB.Controllers;
 
 public class AddCarPageController : BaseAddEntityController
 {
-    public Car? Car { get; }
+    private Car? _car;
 
     private readonly Dictionary<string, WheelsType> _wheelsType;
     private readonly Dictionary<string, Status> _status;
@@ -17,17 +17,17 @@ public class AddCarPageController : BaseAddEntityController
         _wheelsType = new Dictionary<string, WheelsType>
         {
             { "летние", WheelsType.Summer },
-            { "зимние", WheelsType.Winter },
+            { "зимние", WheelsType.Winter }
         };
 
         _status = new Dictionary<string, Status>
         {
             { "готова", Status.Ready },
             { "в аренде", Status.OnLease },
-            { "в ремонте", Status.UnderRepair },
+            { "в ремонте", Status.UnderRepair }
         };
 
-        Car = car;
+        _car = car;
     }
 
     public void CreateComboBoxesValues(ref ComboBox wheelsType, ref ComboBox carStatus)
@@ -40,53 +40,36 @@ public class AddCarPageController : BaseAddEntityController
 
     public void FillFields(ref UIElementCollection collection)
     {
-        var valuesDict = CreateValuesRelationDict(Car);
+        var valuesDict = CreateValuesRelationDict(_car);
         
-        base.FillFields(ref collection, valuesDict);
+        FillFields(ref collection, valuesDict);
     }
 
-    public ValueTask<List<Human>> GetOwnersAsync(string searchText, int startPoint, int count)
+    public ValueTask<bool> UpdateOwnersItemsSourceAsync(string searchText, int startPoint, int count, ref ListBox listBox)
     {
         if (string.IsNullOrWhiteSpace(searchText))
         {
-            return HumanCommands.FindAndSelectOwnersAsync(searchText, startPoint, count);
+            listBox.ItemsSource = HumanCommands.FindAndSelectOwnersAsync(searchText, startPoint, count).AsTask().Result;
+            return new ValueTask<bool>(true);
         }
         
-        if (Car == null || Car.OwnerId.HasValue == false)
+        if (_car == null || _car.OwnerId.HasValue == false)
         {
-            return HumanCommands.SelectOwnersGroupAsync(startPoint, count);
+            listBox.ItemsSource = HumanCommands.SelectOwnersGroupAsync(startPoint, count).AsTask().Result;
+            return new ValueTask<bool>(true);
         }
 
-        var owner = BaseCommands<Owner>.SelectByIdAsync(Car.OwnerId).AsTask().Result;
-        var human = BaseCommands<Human>.SelectByIdAsync(owner.HumanId).AsTask().Result;
-        var list = new List<Human>
-        {
-            human
-        };
-        var otherHumans = HumanCommands.SelectOwnersGroupAsync(startPoint, count).AsTask().Result;
-        otherHumans = otherHumans.Where(hum => hum.Id != human.Id).ToList();
-        list.AddRange(otherHumans);
+        var selectedOwner = BaseCommands<Owner>.SelectByIdAsync(_car.OwnerId).AsTask().Result;
+        var selectedHuman = BaseCommands<Human>.SelectByIdAsync(selectedOwner.HumanId).AsTask().Result;
 
-        return new ValueTask<List<Human>>(list);
-    }
+        var humansList = HumanCommands.SelectOwnersGroupAsync(startPoint, count)
+            .AsTask().Result.Where(human => human.Id != selectedHuman.Id).Take(2).ToList();
+        humansList.Add(selectedHuman);
 
-    public void SelectListBoxSelectedOwner(ref ListBox listBox)
-    {
-        if (Car == null || Car.OwnerId.HasValue == false)
-        {
-            return;
-        }
+        listBox.ItemsSource = humansList;
+        listBox.SelectedItem = selectedHuman;
 
-        var owner = BaseCommands<Owner>.SelectByIdAsync(Car.OwnerId).AsTask().Result;
-        var human = BaseCommands<Human>.SelectByIdAsync(owner.HumanId).AsTask().Result;
-
-        foreach (var item in listBox.Items)
-        {
-            if (item is Human hum && hum.Id == human.Id)
-            {
-                listBox.SelectedItem = item;
-            }
-        }
+        return new ValueTask<bool>(true);
     }
 
     public override ValueTask<string> AddEditEntityAsync(UIElementCollection collection)
@@ -113,36 +96,40 @@ public class AddCarPageController : BaseAddEntityController
             return new ValueTask<string>("В поле дата выдачи паспорта автомобиля введена не дата.");
         }
         
-        var car = new Car
+        if (int.TryParse(valuesDict["owner"], out var humanId) == false)
         {
-            Brand = valuesDict["brand"],
-            Model = valuesDict["model"],
-            PassportNumber = valuesDict["passportNumber"],
-            VIN = valuesDict["vin"],
-            BodyNumber = valuesDict["bodyNumber"],
-            Color = valuesDict["color"],
-            EngineNumber = valuesDict["engineNumber"],
-            RegistrationNumber = valuesDict["registrationNumber"],
-            Price = price,
-            Year = year,
-            EngineDisplacement = displacement,
-            PassportIssuingDate = issuingDate,
-            WheelsType = _wheelsType[valuesDict["wheelsType"]],
-            CarStatus = _status[valuesDict["status"]]
-        };
+            return new ValueTask<string>("Вы не выбрали арендодателя.");
+        }
+        
+        var owner = BaseCommands<Owner>.SelectAllAsync().AsTask().Result
+            .Where(owner => owner.HumanId == humanId).FirstOrDefault();
 
-        int.TryParse(valuesDict["owner"], out var humanId);
-        var owners = BaseCommands<Owner>.SelectAllAsync().AsTask().Result;
-        car.OwnerId = owners.Where(owner => owner.HumanId == humanId).FirstOrDefault().Id;
+        _car ??= new Car();
 
-        var validationResults = ModelValidation.Validate(car);
+        _car.Brand = valuesDict["brand"];
+        _car.Model = valuesDict["model"];
+        _car.PassportNumber = valuesDict["passportNumber"];
+        _car.VIN = valuesDict["vin"];
+        _car.BodyNumber = valuesDict["bodyNumber"];
+        _car.Color = valuesDict["color"];
+        _car.EngineNumber = valuesDict["engineNumber"];
+        _car.RegistrationNumber = valuesDict["registrationNumber"];
+        _car.Price = price;
+        _car.Year = year;
+        _car.EngineDisplacement = displacement;
+        _car.PassportIssuingDate = issuingDate;
+        _car.WheelsType = _wheelsType[valuesDict["wheelsType"]];
+        _car.CarStatus = _status[valuesDict["status"]];
+        _car.OwnerId = owner.Id;
+
+        var validationResults = ModelValidation.Validate(_car);
             
         if (validationResults.Any())
         {
             return new ValueTask<string>(validationResults.First().ErrorMessage);
         }
 
-        SaveItemInDbAsync(car);
+        SaveItemInDbAsync(_car);
         
         return new ValueTask<string>(string.Empty);
     }

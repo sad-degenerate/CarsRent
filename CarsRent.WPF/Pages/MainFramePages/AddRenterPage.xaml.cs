@@ -7,13 +7,19 @@ namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class AddRenterPage : Page
     {
-        private AddRenterPageController _controller;
+        private readonly AddRenterPageController _controller;
+        
         public AddRenterPage(Human? renter = null)
         {
             InitializeComponent();
 
             _controller = new AddRenterPageController(renter);
 
+            if (renter == null)
+            {
+                return;
+            }
+            
             var collection = new UIElementCollection(Panel, this);
             _controller.FillFields(ref collection);
         }
@@ -35,7 +41,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 NavigationService.GoBack();
             }
             
-            LblError.Content = error;
+            MessageBox.Show(error, "Не удалось добавить арендатора.");
             
             BtnSave.IsEnabled = true;
         }

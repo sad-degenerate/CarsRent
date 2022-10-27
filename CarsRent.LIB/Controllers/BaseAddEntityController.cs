@@ -21,9 +21,9 @@ public abstract class BaseAddEntityController
         }
     }
 
-    private string DeletePrefix(string fieldName)
+    private static string DeletePrefix(string fieldName)
     {
-        if (fieldName.StartsWith("Tbx") || fieldName.StartsWith("Cbx"))
+        if (fieldName.StartsWith("Tbx") || fieldName.StartsWith("Cbx") || fieldName.StartsWith("Lbx"))
         {
             fieldName = fieldName.Remove(0, 3);
         }
@@ -31,10 +31,10 @@ public abstract class BaseAddEntityController
         var chars = fieldName.ToCharArray();
         chars[0] = char.ToLower(chars[0]);
         
-        return chars.ToString();
+        return chars.ToString() ?? string.Empty;
     }
     
-    protected void FillFields(ref UIElementCollection collection, Dictionary<string, string> valuesDict)
+    protected static void FillFields(ref UIElementCollection collection, Dictionary<string, string> valuesDict)
     {
         foreach (var element in collection)
         {
@@ -43,16 +43,18 @@ public abstract class BaseAddEntityController
                 case TextBox textBox:
                     textBox.Text = valuesDict[DeletePrefix(textBox.Name)];
                     break;
+                
                 case ComboBox comboBox when int.TryParse(valuesDict[DeletePrefix(comboBox.Name)], out var index):
                     comboBox.SelectedIndex = index;
                     break;
+                
                 default:
                     continue;
             }
         }
     }
     
-    protected IEnumerable<KeyValuePair<string, string>> CreateValuesRelationDict(UIElementCollection collection)
+    protected static IEnumerable<KeyValuePair<string, string>> CreateValuesRelationDict(UIElementCollection collection)
     {
         foreach (var item in collection)
         {
@@ -65,10 +67,12 @@ public abstract class BaseAddEntityController
                     name = textBox.Name;
                     value = textBox.Text;
                     break;
+                
                 case ComboBox comboBox:
                     name = comboBox.Name;
                     value = comboBox.SelectionBoxItemStringFormat;
                     break;
+                
                 case ListBox listBox:
                     name = listBox.Name;
                     if (listBox.SelectedItem is IBaseModel baseModel)
@@ -80,6 +84,7 @@ public abstract class BaseAddEntityController
                         value = string.Empty;
                     }
                     break;
+                
                 default:
                     continue;
             }

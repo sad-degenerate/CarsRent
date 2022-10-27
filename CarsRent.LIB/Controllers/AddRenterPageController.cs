@@ -7,18 +7,18 @@ namespace CarsRent.LIB.Controllers;
 
 public class AddRenterPageController : BaseAddEntityController
 {
-    private Human? Renter { get; }
+    private Human? _renter;
 
     public AddRenterPageController(Human? renter)
     {
-        Renter = renter;
+        _renter = renter;
     }
     
     public void FillFields(ref UIElementCollection collection)
     {
-        var valuesDict = CreateValuesRelationDict(Renter);
+        var valuesDict = CreateValuesRelationDict(_renter);
         
-        base.FillFields(ref collection, valuesDict);
+        FillFields(ref collection, valuesDict);
     }
 
     public override ValueTask<string> AddEditEntityAsync(UIElementCollection collection)
@@ -34,28 +34,27 @@ public class AddRenterPageController : BaseAddEntityController
         {
             return new ValueTask<string>("В поле дата рождения введена не дата.");
         }
-        
-        var renter = new Human
-        {
-            Name = valuesDict["name"],
-            Surname = valuesDict["surname"],
-            Patronymic = valuesDict["patronymic"],
-            BirthDate = birthDate,
-            PassportNumber = valuesDict["passportNumber"],
-            IssuingDate = issuingDate,
-            IssuingOrganization = valuesDict["issuingOrganization"],
-            PhoneNumber = valuesDict["phoneNumber"],
-            RegistrationPlace = valuesDict["registrationPlace"]
-        };
 
-        var validationResults = ModelValidation.Validate(renter);
+        _renter ??= new Human();
+
+        _renter.Name = valuesDict["name"];
+        _renter.Surname = valuesDict["surname"];
+        _renter.Patronymic = valuesDict["patronymic"];
+        _renter.BirthDate = birthDate;
+        _renter.PassportNumber = valuesDict["passportNumber"];
+        _renter.IssuingDate = issuingDate;
+        _renter.IssuingOrganization = valuesDict["issuingOrganization"];
+        _renter.PhoneNumber = valuesDict["phoneNumber"];
+        _renter.RegistrationPlace = valuesDict["registrationPlace"];
+
+        var validationResults = ModelValidation.Validate(_renter);
             
         if (validationResults.Any())
         {
             return new ValueTask<string>(validationResults.First().ErrorMessage);
         }
 
-        SaveItemInDbAsync(renter);
+        SaveItemInDbAsync(_renter);
         
         return new ValueTask<string>(string.Empty);
     }
@@ -64,11 +63,11 @@ public class AddRenterPageController : BaseAddEntityController
     {
         if (renter.Id == 0)
         {
+            BaseCommands<Human>.AddAsync(renter);
             BaseCommands<Renter>.AddAsync(new Renter
             {
                 HumanId = renter.Id
             });
-            BaseCommands<Human>.AddAsync(renter);
         }    
         else
         {
@@ -78,10 +77,7 @@ public class AddRenterPageController : BaseAddEntityController
 
     protected override Dictionary<string, string> CreateValuesRelationDict(IBaseModel item)
     {
-        if (item is not Human human)
-        {
-            return new Dictionary<string, string>();
-        }
+        var human = item as Human;
         
         return new Dictionary<string, string>
         {

@@ -1,152 +1,73 @@
-﻿using CarsRent.LIB.DataBase;
-using CarsRent.LIB.Model;
-using CarsRent.LIB.Validation;
-using CarsRent.LIB.Word;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CarsRent.LIB.Model;
 using System.Windows;
 using System.Windows.Controls;
+using CarsRent.LIB.Controllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class AddContractPage : Page
     {
-        private readonly Contract _contract;
-        private readonly Dictionary<string, RideType> _rideType;
+        private readonly AddContractPageController _controller;
 
-        public AddContractPage(Contract contract = null)
+        public AddContractPage(Contract? contract = null)
         {
             InitializeComponent();
 
-            
+            _controller = new AddContractPageController(contract);
+            _controller.CreateComboBoxesValues(ref CbxRideType);
 
-            CbxRideType.ItemsSource = _rideType.Keys;
-            CbxRideType.SelectedIndex = 0;
+            UpdateCarsList();
+            UpdateRentersList();
 
-            if (contract != null)
+            if (contract == null)
             {
-                FillField(contract);
-                _contract = contract;
+                return;
             }
 
-            _contract = new Contract();
-            
-            UpdateList<Car>(TbxSearchCar.Text, LbxCar, _contract.CarId);
-            UpdateList<Renter>(TbxSearchRenter.Text, LbxRenter, _contract.RenterId);
+            var collection = new UIElementCollection(Panel, this);
+            _controller.FillFields(ref collection);
         }
 
-        private void UpdateList<T>(string text, ListBox lbx, int? id) where T: class, IBaseModel
+        private async void UpdateCarsList()
         {
-            if (text != string.Empty)
-            {
-                lbx.ItemsSource = BaseCommands<T>.FindAndSelectAsync(text, 0, 3);
-            }
-
-            var list = new List<T?>();
-
-            if (id.HasValue)
-            {
-                list.Add(BaseCommands<T>.SelectByIdAsync((int)id));
-                list.AddRange(BaseCommands<T>.SelectGroupAsync(0, 3).Where(x => x.Id != id).Take(2));
-            }
-
-            list.AddRange(BaseCommands<T>.SelectGroupAsync(0, 3));
-
-            lbx.ItemsSource = list;
-            lbx.SelectedItem = list.Where(x => x.Id != id);
+            await _controller.UpdateCarsItemsSourceAsync(TbxSearchCar.Text, 0, 3, ref LbxCar);
         }
 
-        private void FillField(Contract contract)
+        private async void UpdateRentersList()
         {
-            TbxDeposit.Text = contract.Deposit.ToString();
-            TbxPrice.Text = contract.Price.ToString();
-            TbxConclusionDate.Text = contract.ConclusionDate.ToString("dd.MM.yyyy");
-            TbxEndDate.Text = contract.EndDate.ToString("dd.MM.yyyy");
-            TbxEndTime.Text = contract.EndTime.ToString("HH:mm");
-
-            CbxRideType.SelectedIndex = contract.RideType == RideType.InTheCity ? 0 : 1;
+            await _controller.UpdateRentersItemsSourceAsync(TbxSearchRenter.Text, 0, 3, ref LbxRenter);
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: убрать
-            if (int.TryParse(TbxDeposit.Text, out var deposit))
-            {
-                _contract.Deposit = deposit;
-            }
-            if (int.TryParse(TbxPrice.Text, out var price))
-            {
-                _contract.Price = price;
-            }
-            if (DateTime.TryParse(TbxConclusionDate.Text, out var conclusiunDate))
-            {
-                _contract.ConclusionDate = conclusiunDate;
-            }
-            if (DateTime.TryParse(TbxEndDate.Text, out var endDate))
-            {
-                _contract.EndDate = endDate;
-            }
-            if (DateTime.TryParse(TbxEndTime.Text, out var endTime))
-            {
-                _contract.EndTime = endTime;
-            }
-
-            _contract.RideType = _rideType[CbxRideType.Text];
-
-            var renter = LbxRenter.SelectedItem as Renter;
-            var car = LbxCar.SelectedItem as Car;
-
-            _contract.Renter = renter;
-            _contract.Car = car;
-            _contract.CarId = car.Id;
-            _contract.RenterId = renter.Id;
-
-            var contractResult = ModelValidation.Validate(_contract);
-
-            if (contractResult.Count > 0)
-            {
-                LblError.Content = contractResult.First().ToString();
-            }
-            else
-            {
-                AddEditContract();
-                LblError.Content = "";
-                NavigationService.GoBack();
-            }
+            AddEditContract();
         }
 
-        private void AddEditContract()
+        private async void AddEditContract()
         {
-            if (_contract.Id == 0)
-            {
-                BaseCommands<Contract>.AddAsync(_contract);
-            }
-            else
-            {
-                BaseCommands<Contract>.ModifyAsync(_contract);
-            }
+            BtnSave.IsEnabled = false;
+            
+            var collection = new UIElementCollection(Panel, this);
+            var error = await _controller.AddEditEntityAsync(collection);
 
-            var replace = new ReplacerWordsInContract();
-
-            try
+            if (string.IsNullOrWhiteSpace(error))
             {
-                replace.Replace(_contract);
+                NavigationService.GoBack();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка");
-            }
+            
+            MessageBox.Show(error, "Не удалось добавить договор.");
+            
+            BtnSave.IsEnabled = true;
         }
 
         private void tbxSearchRenter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateList<Renter>(TbxSearchRenter.Text, LbxRenter, _contract.RenterId);
+            UpdateRentersList();
         }
 
         private void tbxSearchCar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateList<Car>(TbxSearchCar.Text, LbxCar, _contract.CarId);
+            UpdateCarsList();
         }
     }
 }

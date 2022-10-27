@@ -12,8 +12,6 @@
             <StackPanel Name="Panel">
                 <Label Content="Данные о арендаторе:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
-                <Label x:Name="LblError" Content="" Style="{StaticResource StackPanelErrorLabel}"/>
-
                 <Label Content="Фамилия арендатора:" Style="{StaticResource StackPanelProperty}"/>
                 <TextBox x:Name="TbxSurname" Style="{StaticResource StackPanelProperty}"/>
 

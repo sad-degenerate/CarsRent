@@ -1,4 +1,5 @@
-﻿using CarsRent.LIB.Model;
+﻿using System.Windows;
+using CarsRent.LIB.Model;
 using System.Windows.Controls;
 using CarsRent.LIB.Controllers;
 
@@ -8,23 +9,22 @@ namespace CarsRent.WPF.Pages.MainFramePages
     {
         private readonly AddCarPageController _controller;
 
-        public AddCarPage(Car car = null)
+        public AddCarPage(Car? car = null)
         {
             InitializeComponent();
             
             _controller = new AddCarPageController(car);
+            
             _controller.CreateComboBoxesValues(ref CbxWheelsType, ref CbxStatus);
-
             UpdateItemsSource();
 
-            if (_controller.Car == null)
+            if (car == null)
             {
                 return;
             }
             
             var collection = new UIElementCollection(Panel, this);
             _controller.FillFields(ref collection);
-            _controller.SelectListBoxSelectedOwner(ref LbxOwner);
         }
 
         private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -35,7 +35,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
         private async void AddEditCar()
         {
             BtnSave.IsEnabled = false;
-            
+
             var collection = new UIElementCollection(Panel, this);
             var error = await _controller.AddEditEntityAsync(collection);
 
@@ -44,14 +44,14 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 NavigationService.GoBack();
             }
             
-            LblError.Content = error;
+            MessageBox.Show(error, "Не удалось добавить автомобиль.");
             
             BtnSave.IsEnabled = true;
         }
 
         private async void UpdateItemsSource()
         {
-            LbxOwner.ItemsSource = await _controller.GetOwnersAsync(TbxSearchOwner.Text, 0, 3);
+            await _controller.UpdateOwnersItemsSourceAsync(TbxSearchOwner.Text, 0, 3, ref LbxOwner);
         }
 
         private void tbxSearchOwner_TextChanged(object sender, TextChangedEventArgs e)
