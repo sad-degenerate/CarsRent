@@ -8,7 +8,7 @@ namespace CarsRent.LIB.Word
     {
         public void Replace(Contract contract)
         {
-            var templatesSettings = SettingsCommands<TemplatesSettings>.GetSettings();
+            var templatesSettings = SettingsController<TemplatesSettings>.GetSettings();
 
             var outputFolder = Path.Combine(templatesSettings.OutputFolder, 
                 $"{contract.Car.Color} {contract.Car.Brand} {contract.Car.Model}");

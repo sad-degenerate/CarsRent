@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using CarsRent.LIB.DataBase;
+﻿using System.Windows;
 using CarsRent.LIB.Model;
-using CarsRent.LIB.Settings;
 using System.Windows.Controls;
 using CarsRent.LIB.Controllers;
 
@@ -9,24 +7,18 @@ namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class CarsPage : Page
     {
-        private int _currentPage = 1;
-        private readonly int _pageSize;
+        private readonly CarsPageController _controller;
 
         public CarsPage()
         {
             InitializeComponent();
 
-            var serializator = new SettingsSerializator<DisplaySettings>();
-            var settings = serializator.Deserialize();
-            _pageSize = settings.TableOnePageElementsCount;
+            _controller = new CarsPageController();
+            
+            UpdateDataGrid();
         }
 
-        private void UpdateCurrentPage()
-        {
-            TbxPageNumber.Text = _currentPage.ToString();
-        }
-
-        private void btnDelete_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             if (DgCars.SelectedItem is not Car car)
             {
@@ -34,21 +26,23 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
 
             DeleteCar(car);
+        }
 
+        private async void DeleteCar(Car car)
+        {
+            await CarsPageController.DeleteCar(car);
+
+            MessageBox.Show("Автомобиль удален.", "Удаление.");
+            
             UpdateDataGrid();
         }
 
-        private static void DeleteCar(Car car)
-        {
-            BaseCommands<Car>.DeleteAsync(car);
-        }
-
-        private void btnAdd_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new AddCarPage());
         }
 
-        private void btnEdit_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             if (DgCars.SelectedItem is not Car car)
             {
@@ -63,43 +57,25 @@ namespace CarsRent.WPF.Pages.MainFramePages
             UpdateDataGrid();
         }
 
-        private void UpdateDataGrid()
+        private async void UpdateDataGrid()
         {
-            int skipCount;
-            if (_currentPage == 1)
-            {
-                skipCount = 0;
-            }
-            else
-            {
-                skipCount = _currentPage * (_pageSize - 1);
-            }
-
-            DgCars.ItemsSource = TbxSearch.Text == string.Empty
-                ? BaseCommands<Car>.SelectGroupAsync(skipCount, _pageSize).ToList()
-                : BaseCommands<Car>.FindAndSelectAsync(TbxSearch.Text, 0, _pageSize).ToList();
-
-            UpdateCurrentPage();
+            DgCars.ItemsSource = await _controller.GetDataGridItems<Car>
+                    (TbxSearch.Text, _controller.GetSkipCount(), _controller.PageSize).AsTask();
         }
 
-        private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void btnPageLeft_Click(object sender, RoutedEventArgs e)
         {
-            UpdateDataGrid();
+            GoTo(_controller.CurrentPage - 1);
         }
 
-        private void btnPageLeft_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnPageRight_Click(object sender, RoutedEventArgs e)
         {
-            GoTo(_currentPage - 1);
+            GoTo(_controller.CurrentPage + 1);
         }
 
-        private void btnPageRight_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnGoto_Click(object sender, RoutedEventArgs e)
         {
-            GoTo(_currentPage + 1);
-        }
-
-        private void btnGoto_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            if (int.TryParse(TbxPageNumber.Text, out int pageNumber) == false)
+            if (int.TryParse(TbxPageNumber.Text, out var pageNumber) == false)
             {
                 return;
             }
@@ -114,7 +90,9 @@ namespace CarsRent.WPF.Pages.MainFramePages
                 return;
             }
 
-            _currentPage = pageNumber;
+            _controller.CurrentPage = pageNumber;
+            TbxPageNumber.Text = _controller.CurrentPage.ToString();
+            
             UpdateDataGrid();
         }
     }

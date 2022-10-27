@@ -2,7 +2,7 @@
 
 namespace CarsRent.LIB.Settings;
 
-public static class SettingsCommands<T> where T : SettingsBase, IValidatableObject
+public static class SettingsController<T> where T : SettingsBase, IValidatableObject
 {
     public static T GetSettings()
     {

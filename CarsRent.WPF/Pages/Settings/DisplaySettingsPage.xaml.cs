@@ -14,7 +14,7 @@ namespace CarsRent.WPF.Pages.Settings
 
         private void Load()
         {
-            var settings = SettingsCommands<DisplaySettings>.GetSettings();
+            var settings = SettingsController<DisplaySettings>.GetSettings();
             TbxTableOnePageElCount.Text = settings.TableOnePageElementsCount.ToString();
         }
 
@@ -32,7 +32,7 @@ namespace CarsRent.WPF.Pages.Settings
                 TableOnePageElementsCount = onePageCount
             };
 
-            var error = SettingsCommands<DisplaySettings>.SaveSettings(settings);
+            var error = SettingsController<DisplaySettings>.SaveSettings(settings);
 
             if (string.IsNullOrWhiteSpace(error))
             {

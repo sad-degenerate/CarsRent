@@ -14,7 +14,7 @@ namespace CarsRent.WPF.Pages.Settings
 
         private void Load()
         {
-            var settings = SettingsCommands<TemplatesSettings>.GetSettings();
+            var settings = SettingsController<TemplatesSettings>.GetSettings();
             
             TbxActSample.Text = settings.ActSample;
             TbxContractSample.Text = settings.ContractSample;
@@ -32,7 +32,7 @@ namespace CarsRent.WPF.Pages.Settings
                 OutputFolder = TbxOutputFolder.Text
             };
 
-            var error = SettingsCommands<TemplatesSettings>.SaveSettings(settings);
+            var error = SettingsController<TemplatesSettings>.SaveSettings(settings);
 
             if (string.IsNullOrWhiteSpace(error) == false)
             {
