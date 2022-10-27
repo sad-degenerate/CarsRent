@@ -5,7 +5,7 @@ namespace CarsRent.LIB.Controllers;
 
 public abstract class BaseDataGridViewController
 {
-    public virtual ValueTask<List<T>> GetDataGridItems<T>(string searchText, int startPoint, int count) where T : class, IBaseModel
+    public ValueTask<List<T>> GetDataGridItems<T>(string searchText, int startPoint, int count) where T : class, IBaseModel
     {
         return string.IsNullOrWhiteSpace(searchText)
             ? BaseCommands<T>.SelectGroupAsync(startPoint, count)

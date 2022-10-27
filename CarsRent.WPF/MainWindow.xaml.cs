@@ -36,7 +36,7 @@ namespace CarsRent.WPF
 
         private void btnCars_Click(object sender, RoutedEventArgs e)
         {
-            mainFrame.Content = new Cars();
+            mainFrame.Content = new CarsPage();
         }
 
         private void btnContracts_Click(object sender, RoutedEventArgs e)
