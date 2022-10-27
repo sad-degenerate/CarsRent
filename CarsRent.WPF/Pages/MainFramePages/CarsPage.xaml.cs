@@ -7,12 +7,12 @@ using CarsRent.LIB.Controllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
-    public partial class Cars : Page
+    public partial class CarsPage : Page
     {
         private int _currentPage = 1;
         private readonly int _pageSize;
 
-        public Cars()
+        public CarsPage()
         {
             InitializeComponent();
 

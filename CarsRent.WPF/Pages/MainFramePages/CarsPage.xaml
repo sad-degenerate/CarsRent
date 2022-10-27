@@ -1,11 +1,11 @@
-﻿<Page x:Class="CarsRent.WPF.Pages.MainFramePages.Renters"
+﻿<Page x:Class="CarsRent.WPF.Pages.MainFramePages.CarsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Renters" Loaded="Page_Loaded">
+      Title="Cars" Loaded="Page_Loaded">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -27,25 +27,27 @@
 
         <TextBox x:Name="TbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
 
-        <DataGrid x:Name="DgRenters" Grid.Row="1" Grid.RowSpan="5" Grid.Column="0" 
+        <DataGrid x:Name="DgCars" Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" 
                   AutoGenerateColumns="False" SelectionMode="Single" d:DataContext="{d:DesignData }">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Фамилия" Width="15*" 
-                                    Binding="{Binding Path=Surname, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Имя" Width="15*" 
-                                    Binding="{Binding Path=Name, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Отчество" Width="15*"
-                                    Binding="{Binding Path=Patronymic, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Дата рождения" Width="10*" 
-                                    Binding="{Binding Path=BirthDateString, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Серия/номер паспорта" Width="10*" 
+                <DataGridTextColumn Header="Марка" Width="20*"
+                                    Binding="{Binding Path=Brand, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Модель" Width="10*"
+                                    Binding="{Binding Path=Model, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Номер паспорта" Width="10*"
                                     Binding="{Binding Path=PassportNumber, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Дата выдачи паспорта" Width="10*"
-                                    Binding="{Binding Path=IssuingDateString, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Кем выдан паспорт" Width="20*"
-                                    Binding="{Binding Path=IssuingOrganization, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Место регистрации" Width="20*"
-                                    Binding="{Binding Path=RegistrationPlace, Mode=OneWay}"/>
+                <DataGridTextColumn Header="VIN" Width="10*"
+                                    Binding="{Binding Path=VIN, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Цвет" Width="15*"
+                                    Binding="{Binding Path=Color, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Год выпуска" Width="10*"
+                                    Binding="{Binding Path=Year, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Регистрационный номер" Width="10*"
+                                    Binding="{Binding Path=RegistrationNumber, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Стоимость" Width="15*"
+                                    Binding="{Binding Path=Price, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Статус" Width="10*"
+                                    Binding="{Binding Path=CarStatusString, Mode=OneWay}"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -62,8 +64,8 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button Content="Назад" Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
-            <Button Content="Вперед" Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
+            <Button Content="Назад" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Click="btnPageLeft_Click"/>
+            <Button Content="Вперед" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Click="btnPageRight_Click"/>
             <Button Content="Перейти" Grid.Row="1"  Grid.Column="2" Click="btnGoto_Click"/>
             <TextBox x:Name="TbxPageNumber" Grid.Row="0" Grid.Column="2" FontSize="20"/>
         </Grid>

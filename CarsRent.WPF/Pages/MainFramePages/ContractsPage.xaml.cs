@@ -13,12 +13,12 @@ using CarsRent.LIB.Controllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
-    public partial class Contracts : Page
+    public partial class ContractsPage : Page
     {
         private int _currentPage = 1;
         private readonly int _pageSize;
 
-        public Contracts()
+        public ContractsPage()
         {
             InitializeComponent();
 

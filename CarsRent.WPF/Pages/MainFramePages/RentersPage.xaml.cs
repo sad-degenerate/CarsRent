@@ -5,16 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using CarsRent.LIB.Controllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
-    public partial class Renters : Page
+    public partial class RentersPage : Page
     {
         private int _currentPage = 1;
         private readonly int _pageSize;
 
-        public Renters()
+        public RentersPage()
         {
             InitializeComponent();
 
