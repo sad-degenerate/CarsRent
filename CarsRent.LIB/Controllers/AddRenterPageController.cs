@@ -13,26 +13,19 @@ public class AddRenterPageController : BaseAddEntityController
     {
         _renter = renter;
     }
-    
-    public void FillFields(ref UIElementCollection collection)
-    {
-        var valuesDict = CreateValuesRelationDict(_renter);
-        
-        FillFields(ref collection, valuesDict);
-    }
 
-    public override ValueTask<string> AddEditEntityAsync(UIElementCollection collection)
+    public override string AddEditEntity(UIElementCollection collection, Dictionary<string, string> valuesRelDict)
     {
-        var valuesDict = new Dictionary<string, string>(CreateValuesRelationDict(collection));
+        var valuesDict = new Dictionary<string, string>(valuesRelDict);
 
         if (DateTime.TryParse(valuesDict["issuingDate"], out var issuingDate) == false)
         {
-            return new ValueTask<string>("В поле дата выдачи паспорта введена не дата.");
+            return "В поле дата выдачи паспорта введена не дата.";
         }
         
         if (DateTime.TryParse(valuesDict["birthDate"], out var birthDate) == false)
         {
-            return new ValueTask<string>("В поле дата рождения введена не дата.");
+            return "В поле дата рождения введена не дата.";
         }
 
         _renter ??= new Human();
@@ -51,15 +44,15 @@ public class AddRenterPageController : BaseAddEntityController
             
         if (validationResults.Any())
         {
-            return new ValueTask<string>(validationResults.First().ErrorMessage);
+            return validationResults.First().ErrorMessage;
         }
 
-        SaveItemInDbAsync(_renter);
+        SaveItemInDb(_renter);
         
-        return new ValueTask<string>(string.Empty);
+        return string.Empty;
     }
 
-    protected override void SaveItemInDbAsync<Human>(Human renter)
+    protected override void SaveItemInDb<Human>(Human renter)
     {
         if (renter.Id == 0)
         {
@@ -73,23 +66,5 @@ public class AddRenterPageController : BaseAddEntityController
         {
             BaseCommands<Human>.ModifyAsync(renter);
         }
-    }
-
-    protected override Dictionary<string, string> CreateValuesRelationDict(IBaseModel item)
-    {
-        var human = item as Human;
-        
-        return new Dictionary<string, string>
-        {
-            { "name", human.Name },
-            { "surname", human.Surname },
-            { "patronymic", human.Patronymic },
-            { "birthDate", human.BirthDateString },
-            { "passportNumber", human.PassportNumber },
-            { "issuingDate", human.IssuingDateString },
-            { "issuingOrganization", human.IssuingOrganization },
-            { "phoneNumber", human.PhoneNumber },
-            { "registrationPlace", human.RegistrationPlace }
-        };
     }
 }

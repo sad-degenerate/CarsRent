@@ -1,20 +1,24 @@
-﻿using CarsRent.LIB.Model;
+﻿using System.Collections.Generic;
+using CarsRent.LIB.Model;
 using System.Windows;
 using System.Windows.Controls;
 using CarsRent.LIB.Controllers;
+using CarsRent.WPF.ViewControllers;
 
 namespace CarsRent.WPF.Pages.MainFramePages
 {
     public partial class AddContractPage : Page
     {
-        private readonly AddContractPageController _controller;
+        private readonly AddContractPageController _addEditController;
+        private readonly FillingContractFieldsController _fillingFieldsController;
 
         public AddContractPage(Contract? contract = null)
         {
             InitializeComponent();
 
-            _controller = new AddContractPageController(contract);
-            _controller.CreateComboBoxesValues(ref CbxRideType);
+            _addEditController = new AddContractPageController(contract);
+            _fillingFieldsController = new FillingContractFieldsController();
+            _addEditController.CreateComboBoxesValues(ref CbxRideType);
 
             UpdateCarsList();
             UpdateRentersList();
@@ -25,17 +29,18 @@ namespace CarsRent.WPF.Pages.MainFramePages
             }
 
             var collection = new UIElementCollection(Panel, this);
-            _controller.FillFields(ref collection);
+            var valuesRelDict = _fillingFieldsController.CreateValuesRelationDict(contract);
+            _fillingFieldsController.FillFields(ref collection, valuesRelDict);
         }
 
         private async void UpdateCarsList()
         {
-            await _controller.UpdateCarsItemsSourceAsync(TbxSearchCar.Text, 0, 3, ref LbxCar);
+            await _addEditController.UpdateCarsItemsSourceAsync(TbxSearchCar.Text, 0, 3, ref LbxCar);
         }
 
         private async void UpdateRentersList()
         {
-            await _controller.UpdateRentersItemsSourceAsync(TbxSearchRenter.Text, 0, 3, ref LbxRenter);
+            await _addEditController.UpdateRentersItemsSourceAsync(TbxSearchRenter.Text, 0, 3, ref LbxRenter);
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -48,7 +53,8 @@ namespace CarsRent.WPF.Pages.MainFramePages
             BtnSave.IsEnabled = false;
             
             var collection = new UIElementCollection(Panel, this);
-            var error = await _controller.AddEditEntityAsync(collection);
+            var valuesRelDict = new Dictionary<string, string>(_fillingFieldsController.CreateValuesRelationDict(collection));
+            var error = _addEditController.AddEditEntity(collection, valuesRelDict);
 
             if (string.IsNullOrWhiteSpace(error))
             {

@@ -38,13 +38,6 @@ public class AddCarPageController : BaseAddEntityController
         carStatus.SelectedIndex = 0;
     }
 
-    public void FillFields(ref UIElementCollection collection)
-    {
-        var valuesDict = CreateValuesRelationDict(_car);
-        
-        FillFields(ref collection, valuesDict);
-    }
-
     public ValueTask<bool> UpdateOwnersItemsSourceAsync(string searchText, int startPoint, int count, ref ListBox listBox)
     {
         if (string.IsNullOrWhiteSpace(searchText))
@@ -72,33 +65,33 @@ public class AddCarPageController : BaseAddEntityController
         return new ValueTask<bool>(true);
     }
 
-    public override ValueTask<string> AddEditEntityAsync(UIElementCollection collection)
+    public override string AddEditEntity(UIElementCollection collection, Dictionary<string, string> valuesRelDict)
     {
-        var valuesDict = new Dictionary<string, string>(CreateValuesRelationDict(collection));
+        var valuesDict = new Dictionary<string, string>(valuesRelDict);
 
         if (int.TryParse(valuesDict["price"], out var price) == false)
         {
-            return new ValueTask<string>("В поле стоимость автомобиля введено не число.");
+            return "В поле стоимость автомобиля введено не число.";
         }
 
         if (int.TryParse(valuesDict["year"], out var year) == false)
         {
-            return new ValueTask<string>("В поле год выпуска автомобиля введено не число.");
+            return "В поле год выпуска автомобиля введено не число.";
         }
 
         if (int.TryParse(valuesDict["displacement"], out var displacement) == false)
         {
-            return new ValueTask<string>("В поле рабочий объем двигателя автомобиля введено не число.");
+            return "В поле рабочий объем двигателя автомобиля введено не число.";
         }
 
         if (DateTime.TryParse(valuesDict["issuingDate"], out var issuingDate) == false)
         {
-            return new ValueTask<string>("В поле дата выдачи паспорта автомобиля введена не дата.");
+            return "В поле дата выдачи паспорта автомобиля введена не дата.";
         }
         
         if (int.TryParse(valuesDict["owner"], out var humanId) == false)
         {
-            return new ValueTask<string>("Вы не выбрали арендодателя.");
+            return "Вы не выбрали арендодателя.";
         }
         
         var owner = BaseCommands<Owner>.SelectAllAsync().AsTask().Result
@@ -126,37 +119,11 @@ public class AddCarPageController : BaseAddEntityController
             
         if (validationResults.Any())
         {
-            return new ValueTask<string>(validationResults.First().ErrorMessage);
+            return validationResults.First().ErrorMessage;
         }
 
-        SaveItemInDbAsync(_car);
+        base.SaveItemInDb(_car);
         
-        return new ValueTask<string>(string.Empty);
-    }
-
-    protected override Dictionary<string, string> CreateValuesRelationDict(IBaseModel item)
-    {
-        if (item is not Car car)
-        {
-            return new Dictionary<string, string>();
-        }
-
-        return new Dictionary<string, string>
-        {
-            { "brand", car.Brand },
-            { "model", car.Model },
-            { "passportNumber", car.PassportNumber },
-            { "passportIssuingDate", car.PassportIssuingDateString },
-            { "vin", car.VIN },
-            { "bodyNumber", car.BodyNumber },
-            { "color", car.Color },
-            { "year", car.Year.ToString() },
-            { "engineNumber", car.EngineNumber },
-            { "price", car.Price.ToString() },
-            { "engineDisplacement", car.EngineDisplacement.ToString() },
-            { "registrationNumber", car.RegistrationNumber },
-            { "wheels", car.WheelsTypeString },
-            { "status", car.CarStatusString }
-        };
+        return string.Empty;
     }
 }
