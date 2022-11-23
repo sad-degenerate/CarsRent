@@ -1,6 +1,5 @@
 ﻿using CarsRent.LIB.Settings;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Controls;
 
 namespace CarsRent.WPF.Pages.Settings

@@ -22,7 +22,8 @@ namespace CarsRent.LIB.DataBase
 
         public static ValueTask<List<T>> SelectAllAsync()
         {
-            return new ValueTask<List<T>>(new ApplicationContext().Set<T>().ToListAsync());
+            var context = new ApplicationContext();
+            return new ValueTask<List<T>>(context.Set<T>().ToList());
         }
 
         public static ValueTask<List<T>> SelectGroupAsync(int startPoint, int count)
@@ -59,7 +60,6 @@ namespace CarsRent.LIB.DataBase
         private static bool IsSearched(T item, string searchText)
         {
             var searchWords = searchText.Split(' ');
-
             return searchWords.All(word => item.ToString().Contains(word));
         }
     }
