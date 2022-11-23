@@ -9,14 +9,14 @@ public class AddContractPageController : BaseAddEntityController
 {
     private Contract? _contract;
 
-    private readonly Dictionary<string, RideType> _rideType;
+    private readonly Dictionary<RideType, string> _rideType;
         
     public AddContractPageController(Contract? contract)
     {
-        _rideType = new Dictionary<string, RideType>
+        _rideType = new Dictionary<RideType, string>
         {
-            { "по городу", RideType.InTheCity },
-            { "за городом", RideType.OutsideTheCity }
+            { RideType.InTheCity, "по городу" },
+            { RideType.OutsideTheCity, "за городом" }
         };
 
         _contract = contract;
@@ -76,7 +76,7 @@ public class AddContractPageController : BaseAddEntityController
 
     public void CreateComboBoxesValues(ref ComboBox rideType)
     {
-        rideType.ItemsSource = _rideType.Keys;
+        rideType.ItemsSource = _rideType.Values;
         rideType.SelectedIndex = 0;
     }
 
@@ -107,7 +107,7 @@ public class AddContractPageController : BaseAddEntityController
 
         _contract ??= new Contract();
 
-        _contract.RideType = _rideType[valuesDict["rideType"]];
+        _contract.RideType = (RideType)int.Parse(valuesDict["rideType"]);
         
         _contract.Deposit = deposit;
         _contract.Price = price;

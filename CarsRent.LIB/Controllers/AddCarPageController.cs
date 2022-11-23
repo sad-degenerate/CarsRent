@@ -9,22 +9,22 @@ public class AddCarPageController : BaseAddEntityController
 {
     private Car? _car;
 
-    private readonly Dictionary<string, WheelsType> _wheelsType;
-    private readonly Dictionary<string, Status> _status;
+    private readonly Dictionary<WheelsType, string> _wheelsType;
+    private readonly Dictionary<Status, string> _status;
 
     public AddCarPageController(Car? car)
     {
-        _wheelsType = new Dictionary<string, WheelsType>
+        _wheelsType = new Dictionary<WheelsType, string>
         {
-            { "летние", WheelsType.Summer },
-            { "зимние", WheelsType.Winter }
+            { WheelsType.Summer, "летние"  },
+            { WheelsType.Winter, "зимние"  }
         };
 
-        _status = new Dictionary<string, Status>
+        _status = new Dictionary<Status, string>
         {
-            { "готова", Status.Ready },
-            { "в аренде", Status.OnLease },
-            { "в ремонте", Status.UnderRepair }
+            { Status.Ready, "готова" },
+            { Status.OnLease, "в аренде" },
+            { Status.UnderRepair, "в ремонте" }
         };
 
         _car = car;
@@ -32,9 +32,9 @@ public class AddCarPageController : BaseAddEntityController
 
     public void CreateComboBoxesValues(ref ComboBox wheelsType, ref ComboBox carStatus)
     {
-        wheelsType.ItemsSource = _wheelsType.Keys;
+        wheelsType.ItemsSource = _wheelsType.Values;
         wheelsType.SelectedIndex = 0;
-        carStatus.ItemsSource = _status.Keys;
+        carStatus.ItemsSource = _status.Values;
         carStatus.SelectedIndex = 0;
     }
 
@@ -111,8 +111,8 @@ public class AddCarPageController : BaseAddEntityController
         _car.Year = year;
         _car.EngineDisplacement = displacement;
         _car.PassportIssuingDate = issuingDate;
-        _car.WheelsType = _wheelsType[valuesDict["wheelsType"]];
-        _car.CarStatus = _status[valuesDict["status"]];
+        _car.WheelsType = (WheelsType)int.Parse(valuesDict["wheelsType"]);
+        _car.CarStatus = (Status)int.Parse(valuesDict["status"]);
         _car.OwnerId = owner.Id;
 
         var validationResults = ModelValidation.Validate(_car);

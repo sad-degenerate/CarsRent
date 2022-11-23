@@ -35,7 +35,7 @@ public abstract class FillingFieldsController
             
                 case ComboBox comboBox:
                     name = comboBox.Name;
-                    value = comboBox.SelectionBoxItemStringFormat;
+                    value = comboBox.SelectedIndex.ToString();
                     break;
             
                 case ListBox listBox:
