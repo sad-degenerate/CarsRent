@@ -9,7 +9,7 @@
     
     <Grid>
         <ScrollViewer>
-            <StackPanel>
+            <StackPanel Name="Panel">
                 <Label Content="Список арендодателей:" Style="{StaticResource StackPanelProperty}"/>
                 <TextBox x:Name="TbxSearchOwner" Style="{StaticResource StackPanelProperty}" 
                          TextChanged="tbxSearchOwner_TextChanged"/>

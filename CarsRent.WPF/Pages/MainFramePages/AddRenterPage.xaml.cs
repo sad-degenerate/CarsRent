@@ -38,7 +38,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             BtnSave.IsEnabled = false;
             
-            var collection = new UIElementCollection(Panel, this);
+            var collection = Panel.Children;
             var valuesRelDict = new Dictionary<string, string>(_fillingFieldsController.CreateValuesRelationDict(collection));
             var error = _addEditController.AddEditEntity(collection, valuesRelDict);
 

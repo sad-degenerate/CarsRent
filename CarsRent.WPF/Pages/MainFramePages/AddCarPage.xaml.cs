@@ -37,11 +37,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
             AddEditCar();
         }
 
-        private async void AddEditCar()
+        private void AddEditCar()
         {
             BtnSave.IsEnabled = false;
 
-            var collection = new UIElementCollection(Panel, this);
+            var collection = Panel.Children;
             var valuesRelDict = new Dictionary<string, string>(_fillingFieldsController.CreateValuesRelationDict(collection));
             var error = _addEditController.AddEditEntity(collection, valuesRelDict);
 

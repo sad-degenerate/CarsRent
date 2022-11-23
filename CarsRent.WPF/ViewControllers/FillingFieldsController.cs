@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using CarsRent.LIB.Model;
 
@@ -15,10 +16,7 @@ public abstract class FillingFieldsController
             fieldName = fieldName.Remove(0, 3);
         }
 
-        var chars = fieldName.ToCharArray();
-        chars[0] = char.ToLower(chars[0]);
-        
-        return chars.ToString() ?? string.Empty;
+        return char.ToLower(fieldName[0]) + fieldName[1..];
     }
 
     public IEnumerable<KeyValuePair<string, string>> CreateValuesRelationDict(UIElementCollection collection)
@@ -34,12 +32,12 @@ public abstract class FillingFieldsController
                     name = textBox.Name;
                     value = textBox.Text;
                     break;
-
+            
                 case ComboBox comboBox:
                     name = comboBox.Name;
                     value = comboBox.SelectionBoxItemStringFormat;
                     break;
-
+            
                 case ListBox listBox:
                     name = listBox.Name;
                     if (listBox.SelectedItem is IBaseModel baseModel)
@@ -50,13 +48,12 @@ public abstract class FillingFieldsController
                     {
                         value = string.Empty;
                     }
-
                     break;
-
+            
                 default:
                     continue;
             }
-
+            
             yield return new KeyValuePair<string, string>(DeletePrefix(name), value);
         }
     }

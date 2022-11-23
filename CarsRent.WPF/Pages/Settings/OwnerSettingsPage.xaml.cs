@@ -1,6 +1,7 @@
 ﻿using CarsRent.LIB.Settings;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using CarsRent.WPF.ViewControllers;
 
 namespace CarsRent.WPF.Pages.Settings
 {
@@ -25,18 +26,8 @@ namespace CarsRent.WPF.Pages.Settings
 
         private void btnAdd_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var fields = new Dictionary<string, string>
-            {
-                { "surname", TbxSurname.Text },
-                { "name", TbxName.Text },
-                { "patronymic", TbxPatronymic.Text },
-                { "passportNumber", TbxPassportNumber.Text },
-                { "issuingOrganization", TbxIssuingOrganization.Text },
-                { "registrationPlace", TbxRegistrationPlace.Text },
-                { "phone", TbxPhone.Text },
-                { "birthDate", TbxBirthDate.Text },
-                { "issuingDate", TbxIssuingDate.Text }
-            };
+            var controller = new FillingCarFieldsController();
+            var fields = new Dictionary<string, string>(controller.CreateValuesRelationDict(Panel.Children));
 
             var error = OwnersSettings.AddOwner(fields);
 
