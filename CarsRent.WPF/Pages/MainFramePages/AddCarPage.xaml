@@ -43,13 +43,13 @@
                 <TextBox Name="TbxPrice" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Регистрационный номер:" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox Name="TbxRegNumber" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox Name="TbxRegistrationNumber" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Тип шин:" Style="{StaticResource StackPanelProperty}"/>
                 <ComboBox Name="CbxWheelsType" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
 
                 <Label Content="Рабочий объем двигателя см куб" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox Name="TbxEngineDisplacement" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox Name="TbxDisplacement" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Статус автомобиля:" Style="{StaticResource StackPanelProperty}"/>
                 <ComboBox Name="CbxStatus" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
