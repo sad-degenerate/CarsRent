@@ -15,8 +15,6 @@ namespace CarsRent.LIB.Settings
 
         public static string AddOwner(Dictionary<string, string> fields)
         {
-            var owner = new Owner();
-
             if (DateTime.TryParse(fields["birthDate"], out var birthDate) == false)
             {
                 return "Ошибка при обработке даты рождения.";
@@ -40,8 +38,6 @@ namespace CarsRent.LIB.Settings
                 IssuingDate = issuingDate
             };
 
-            owner.Human = human;
-
             var humanResults = ModelValidation.Validate(human);
 
             if (humanResults.Any())
@@ -49,8 +45,11 @@ namespace CarsRent.LIB.Settings
                 return humanResults.First().ErrorMessage;
             }
 
-            BaseCommands<Human>.AddAsync(human);
-            BaseCommands<Owner>.AddAsync(owner);
+            BaseCommands<Human>.Add(human);
+            BaseCommands<Owner>.Add(new Owner()
+            {
+                HumanId = human.Id
+            });
 
             return string.Empty;
         }
@@ -69,9 +68,9 @@ namespace CarsRent.LIB.Settings
 
             foreach (var owner in human.Owners)
             {
-                BaseCommands<Owner>.DeleteAsync(owner);
+                BaseCommands<Owner>.Delete(owner);
             }
-            BaseCommands<Human>.DeleteAsync(human);
+            BaseCommands<Human>.Delete(human);
 
             return string.Empty;
         }

@@ -5,19 +5,19 @@ namespace CarsRent.LIB.DataBase
 {
     public static class BaseCommands<T> where T : class, IBaseModel
     {
-        public static void AddAsync(T item)
+        public static void Add(T item)
         {
-            ChangeEntityStateAsync(item, EntityState.Added);
+            ChangeEntityState(item, EntityState.Added);
         }
 
-        public static void ModifyAsync(T item)
+        public static void Modify(T item)
         {
-            ChangeEntityStateAsync(item, EntityState.Modified);
+            ChangeEntityState(item, EntityState.Modified);
         }
 
-        public static void DeleteAsync(T item)
+        public static void Delete(T item)
         {
-            ChangeEntityStateAsync(item, EntityState.Deleted);
+            ChangeEntityState(item, EntityState.Deleted);
         }
 
         public static ValueTask<List<T>> SelectAllAsync()
@@ -50,11 +50,11 @@ namespace CarsRent.LIB.DataBase
             return new ValueTask<List<T>>(find.Skip(startPoint).Take(count).ToList());
         }
 
-        private static async void ChangeEntityStateAsync(T item, EntityState state)
+        private static void ChangeEntityState(T item, EntityState state)
         {
             var context = new ApplicationContext();
             context.Entry(item).State = state;
-            await context.SaveChangesAsync();
+            context.SaveChanges();
         }
         
         private static bool IsSearched(T item, string searchText)

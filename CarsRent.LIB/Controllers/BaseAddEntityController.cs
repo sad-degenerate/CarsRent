@@ -12,11 +12,11 @@ public abstract class BaseAddEntityController
     {
         if (item.Id == 0)
         {
-            BaseCommands<T>.AddAsync(item);
+            BaseCommands<T>.Add(item);
         }    
         else
         {
-            BaseCommands<T>.ModifyAsync(item);
+            BaseCommands<T>.Modify(item);
         }
     }
 }

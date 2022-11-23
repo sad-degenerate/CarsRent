@@ -56,15 +56,15 @@ public class AddRenterPageController : BaseAddEntityController
     {
         if (renter.Id == 0)
         {
-            BaseCommands<Human>.AddAsync(renter);
-            BaseCommands<Renter>.AddAsync(new Renter
+            BaseCommands<Human>.Add(renter);
+            BaseCommands<Renter>.Add(new Renter
             {
                 HumanId = renter.Id
             });
         }    
         else
         {
-            BaseCommands<Human>.ModifyAsync(renter);
+            BaseCommands<Human>.Modify(renter);
         }
     }
 }

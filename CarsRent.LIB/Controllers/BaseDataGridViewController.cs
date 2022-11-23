@@ -21,6 +21,6 @@ public abstract class BaseDataGridViewController
 
     public virtual void DeleteEntity<T>(T item) where T : class, IBaseModel
     {
-        BaseCommands<T>.DeleteAsync(item);
+        BaseCommands<T>.Delete(item);
     }
 }
