@@ -37,7 +37,7 @@
                 <TextBox x:Name="TbxRegistrationPlace" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Телефон:" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox x:Name="TbxPhone" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxPhoneNumber" Style="{StaticResource StackPanelProperty}"/>
 
                 <Button Content="Добавить/изменить" Click="btnSave_Click" Name="BtnSave"
                         Style="{StaticResource StackPanelSaveButton}"/>

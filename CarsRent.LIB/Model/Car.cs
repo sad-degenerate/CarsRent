@@ -63,8 +63,8 @@ namespace CarsRent.LIB.Model
 
         public virtual ICollection<Contract> Contracts { get; set; }
         
-        public int? OwnerId { get; set; }
         [Required(ErrorMessage = "Вы не выбрали хозяина автомобиля.")]
+        public int? OwnerId { get; set; }
         public virtual Owner Owner { get; set; }
 
         public Car() { }

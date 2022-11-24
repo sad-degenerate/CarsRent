@@ -45,14 +45,16 @@ namespace CarsRent.WPF.Pages.MainFramePages
             var valuesRelDict = new Dictionary<string, string>(_fillingFieldsController.CreateValuesRelationDict(collection));
             var error = _addEditController.AddEditEntity(collection, valuesRelDict);
 
-            if (string.IsNullOrWhiteSpace(error))
+            if (string.IsNullOrWhiteSpace(error) == false)
+            {
+                MessageBox.Show(error, "Не удалось добавить автомобиль.");
+            
+                BtnSave.IsEnabled = true;
+            }
+            else
             {
                 NavigationService.GoBack();
             }
-            
-            MessageBox.Show(error, "Не удалось добавить автомобиль.");
-            
-            BtnSave.IsEnabled = true;
         }
 
         private async void UpdateItemsSource()

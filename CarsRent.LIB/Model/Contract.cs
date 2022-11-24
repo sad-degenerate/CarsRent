@@ -25,12 +25,12 @@ namespace CarsRent.LIB.Model
         [Required(ErrorMessage = "Вы не ввели дату окончания договора")]
         public DateTime EndTime { get; set; }
 
-        public int? CarId { get; set; }
         [Required(ErrorMessage = "Вы не выбрали автомобиль, используемый в этой поездке")]
+        public int? CarId { get; set; }
         public Car Car { get; set; }
 
-        public int? RenterId { get; set; }
         [Required(ErrorMessage = "Вы не выбрали арендатора, участвующего в этой поездке")]
+        public int? RenterId { get; set; }
         public Renter Renter { get; set; }
 
         public Contract() { }

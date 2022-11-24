@@ -88,19 +88,19 @@ public class AddContractPageController : BaseAddEntityController
         {
             return "В поле депозит введено не число.";
         }
-        if (int.TryParse(valuesDict["price"], out var price))
+        if (int.TryParse(valuesDict["price"], out var price) == false)
         {
             return "В поле стоимость поездки введено не число.";
         }
-        if (DateTime.TryParse(valuesDict["conclusionDate"], out var conclusiunDate))
+        if (DateTime.TryParse(valuesDict["conclusionDate"], out var conclusiunDate) == false)
         {
             return "В поле дата заключения договора введена не дата.";
         }
-        if (DateTime.TryParse(valuesDict["endDate"], out var endDate))
+        if (DateTime.TryParse(valuesDict["endDate"], out var endDate) == false)
         {
             return "В поле дата окончания договора введена не дата.";
         }
-        if (DateTime.TryParse(valuesDict["endTime"], out var endTime))
+        if (DateTime.TryParse(valuesDict["endTime"], out var endTime) == false)
         {
             return "В поле время окончания договора введено не время.";
         }
@@ -115,7 +115,7 @@ public class AddContractPageController : BaseAddEntityController
         _contract.EndDate = endDate;
         _contract.EndTime = endTime;
 
-        if (int.TryParse(valuesDict["renter"], out var renterId) == false)
+        if (int.TryParse(valuesDict["renter"], out var humanId) == false)
         {
             return "Вы не выбрали арендатора.";
         }
@@ -124,9 +124,11 @@ public class AddContractPageController : BaseAddEntityController
         {
             return "Вы не выбрали автомобиль.";
         }
-        
+
+        var renters = BaseCommands<Renter>.SelectAllAsync().AsTask().Result;
+
         _contract.CarId = carId;
-        _contract.RenterId = renterId;
+        _contract.RenterId = renters.Where(renter => renter.HumanId == humanId).FirstOrDefault().Id;
 
         var contractResult = ModelValidation.Validate(_contract);
 
