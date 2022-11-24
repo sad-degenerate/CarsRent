@@ -93,5 +93,10 @@ namespace CarsRent.WPF.Pages.MainFramePages
             
             UpdateDataGrid();
         }
+
+        private void RentersPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            UpdateDataGrid();
+        }
     }
 }
