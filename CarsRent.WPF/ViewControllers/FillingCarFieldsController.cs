@@ -26,8 +26,8 @@ public class FillingCarFieldsController : FillingFieldsController
             { "price", car.Price.ToString() },
             { "engineDisplacement", car.EngineDisplacement.ToString() },
             { "registrationNumber", car.RegistrationNumber },
-            { "wheelsType", car.WheelsTypeString },
-            { "status", car.CarStatusString }
+            { "wheelsType", ((int)car.WheelsType).ToString() },
+            { "status", ((int)car.CarStatus).ToString() }
         };
     }
 }

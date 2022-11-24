@@ -16,7 +16,7 @@ public class FillingContractFieldsController : FillingFieldsController
         {
             { "deposit", contract.Deposit.ToString() },
             { "price", contract.Price.ToString() },
-            { "rideType", contract.RideTypeText },
+            { "rideType", ((int)contract.RideType).ToString() },
             { "conclusionDate", contract.ConclusionDateString },
             { "endDate", contract.EndDateString },
             { "endTime", contract.EndTime.ToString("t") }
