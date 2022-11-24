@@ -26,8 +26,8 @@ namespace CarsRent.WPF.Pages.MainFramePages
             {
                 return;
             }
-            
-            var collection = new UIElementCollection(Panel, this);
+
+            var collection = Panel.Children;
             var valuesRelDict = _fillingFieldsController.CreateValuesRelationDict(car);
             _fillingFieldsController.FillFields(ref collection, valuesRelDict);
         }

@@ -79,12 +79,12 @@ public class AddCarPageController : BaseAddEntityController
             return "В поле год выпуска автомобиля введено не число.";
         }
 
-        if (int.TryParse(valuesDict["displacement"], out var displacement) == false)
+        if (int.TryParse(valuesDict["engineDisplacement"], out var displacement) == false)
         {
             return "В поле рабочий объем двигателя автомобиля введено не число.";
         }
 
-        if (DateTime.TryParse(valuesDict["issuingDate"], out var issuingDate) == false)
+        if (DateTime.TryParse(valuesDict["passportIssuingDate"], out var issuingDate) == false)
         {
             return "В поле дата выдачи паспорта автомобиля введена не дата.";
         }

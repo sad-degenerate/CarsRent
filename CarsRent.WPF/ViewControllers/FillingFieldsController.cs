@@ -65,6 +65,10 @@ public abstract class FillingFieldsController
             switch (element)
             {
                 case TextBox textBox:
+                    if (valuesDict.ContainsKey(DeletePrefix(textBox.Name)) == false)
+                    {
+                        continue;
+                    }
                     textBox.Text = valuesDict[DeletePrefix(textBox.Name)];
                     break;
                 

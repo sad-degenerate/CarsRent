@@ -22,7 +22,7 @@
                 <TextBox x:Name="TbxPassportNumber" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Дата выдачи паспорта автомобиля:" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox x:Name="TbxIssuingDate" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxPassportIssuingDate" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="VIN автомобиля:" Style="{StaticResource StackPanelProperty}"/>
                 <TextBox x:Name="TbxVin" Style="{StaticResource StackPanelProperty}"/>
@@ -49,7 +49,7 @@
                 <ComboBox Name="CbxWheelsType" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
 
                 <Label Content="Рабочий объем двигателя см куб" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox Name="TbxDisplacement" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox Name="TbxEngineDisplacement" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Статус автомобиля:" Style="{StaticResource StackPanelProperty}"/>
                 <ComboBox Name="CbxStatus" Style="{StaticResource StackPanelProperty}" IsEditable="False"/>
