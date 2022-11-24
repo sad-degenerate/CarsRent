@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using CarsRent.LIB.Model;
 
@@ -75,7 +74,7 @@ public abstract class FillingFieldsController
                 case ComboBox comboBox when int.TryParse(valuesDict[DeletePrefix(comboBox.Name)], out var index):
                     comboBox.SelectedIndex = index;
                     break;
-                
+
                 default:
                     continue;
             }

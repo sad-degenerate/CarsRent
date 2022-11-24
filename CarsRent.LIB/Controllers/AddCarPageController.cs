@@ -40,9 +40,10 @@ public class AddCarPageController : BaseAddEntityController
 
     public ValueTask<bool> UpdateOwnersItemsSourceAsync(string searchText, int startPoint, int count, ref ListBox listBox)
     {
-        if (string.IsNullOrWhiteSpace(searchText))
+        if (string.IsNullOrWhiteSpace(searchText) == false)
         {
             listBox.ItemsSource = HumanCommands.FindAndSelectOwnersAsync(searchText, startPoint, count).AsTask().Result;
+            SelectHuman(ref listBox);
             return new ValueTask<bool>(true);
         }
         
@@ -54,15 +55,33 @@ public class AddCarPageController : BaseAddEntityController
 
         var selectedOwner = BaseCommands<Owner>.SelectByIdAsync(_car.OwnerId).AsTask().Result;
         var selectedHuman = BaseCommands<Human>.SelectByIdAsync(selectedOwner.HumanId).AsTask().Result;
-
+        
         var humansList = HumanCommands.SelectOwnersGroupAsync(startPoint, count)
             .AsTask().Result.Where(human => human.Id != selectedHuman.Id).Take(2).ToList();
         humansList.Add(selectedHuman);
 
         listBox.ItemsSource = humansList;
-        listBox.SelectedItem = selectedHuman;
+        SelectHuman(ref listBox);
 
         return new ValueTask<bool>(true);
+    }
+
+    private void SelectHuman(ref ListBox listBox)
+    {
+        if (_car == null || _car.OwnerId.HasValue == false)
+        {
+            return;
+        }
+        
+        var selectedOwner = BaseCommands<Owner>.SelectByIdAsync(_car.OwnerId).AsTask().Result;
+        
+        foreach (var item in listBox.ItemsSource)
+        {
+            if (item is Human human && human.Id == selectedOwner.HumanId)
+            {
+                listBox.SelectedItem = item;
+            }
+        }
     }
 
     public override string AddEditEntity(UIElementCollection collection, Dictionary<string, string> valuesRelDict)

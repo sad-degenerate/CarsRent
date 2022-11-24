@@ -24,9 +24,10 @@ public class AddContractPageController : BaseAddEntityController
 
     public ValueTask<bool> UpdateCarsItemsSourceAsync(string searchText, int startPoint, int count, ref ListBox listBox)
     {
-        if (string.IsNullOrWhiteSpace(searchText))
+        if (string.IsNullOrWhiteSpace(searchText) == false)
         {
             listBox.ItemsSource = BaseCommands<Car>.FindAndSelectAsync(searchText, startPoint, count).AsTask().Result;
+            SelectCar(ref listBox);
             return new ValueTask<bool>(true);
         }
         
@@ -43,22 +44,40 @@ public class AddContractPageController : BaseAddEntityController
         carsList.Add(selectedCar);
 
         listBox.ItemsSource = carsList;
-        listBox.SelectedItem = selectedCar;
+        SelectCar(ref listBox);
 
         return new ValueTask<bool>(true);
     }
-    
+
+    private void SelectCar(ref ListBox listBox)
+    {
+        if (_contract == null || _contract.CarId.HasValue == false)
+        {
+            return;
+        }
+        
+        foreach (var item in listBox.ItemsSource)
+        {
+            if (item is Car car && car.Id == _contract.CarId)
+            {
+                listBox.SelectedItem = item;
+            }
+        }
+    }
+
     public ValueTask<bool> UpdateRentersItemsSourceAsync(string searchText, int startPoint, int count, ref ListBox listBox)
     {
-        if (string.IsNullOrWhiteSpace(searchText))
+        if (string.IsNullOrWhiteSpace(searchText) == false)
         {
             listBox.ItemsSource = HumanCommands.FindAndSelectRentersAsync(searchText, startPoint, count).AsTask().Result;
+            SelectHuman(ref listBox);
             return new ValueTask<bool>(true);
         }
         
         if (_contract == null || _contract.RenterId.HasValue == false)
         {
             listBox.ItemsSource = HumanCommands.SelectRentersGroupAsync(startPoint, count).AsTask().Result;
+            return new ValueTask<bool>(true);
         }
 
         var selectedRenter = BaseCommands<Renter>.SelectByIdAsync(_contract.RenterId).AsTask().Result;
@@ -69,9 +88,27 @@ public class AddContractPageController : BaseAddEntityController
         humansList.Add(selectedHuman);
 
         listBox.ItemsSource = humansList;
-        listBox.SelectedItem = selectedHuman;
+        SelectHuman(ref listBox);
 
         return new ValueTask<bool>(true);
+    }
+    
+    private void SelectHuman(ref ListBox listBox)
+    {
+        if (_contract == null || _contract.RenterId.HasValue == false)
+        {
+            return;
+        }
+        
+        var selectedRenter = BaseCommands<Renter>.SelectByIdAsync(_contract.RenterId).AsTask().Result;
+        
+        foreach (var item in listBox.ItemsSource)
+        {
+            if (item is Human human && human.Id == selectedRenter.HumanId)
+            {
+                listBox.SelectedItem = item;
+            }
+        }
     }
 
     public void CreateComboBoxesValues(ref ComboBox rideType)
