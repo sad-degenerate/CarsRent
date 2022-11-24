@@ -1,4 +1,6 @@
-﻿namespace CarsRent.LIB.Model;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CarsRent.LIB.Model;
 
 public class Renter : IBaseModel
 {
@@ -9,8 +11,6 @@ public class Renter : IBaseModel
 
     public Renter() { }
 
-    public override string ToString()
-    {
-        return Human.ToString();
-    }
+    [NotMapped]
+    public string FullName => Human.ToString();
 }

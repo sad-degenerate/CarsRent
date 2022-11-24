@@ -20,8 +20,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
         
         public async void UpdateDataGrid()
         {
-            DgContracts.ItemsSource = await _controller.GetDataGridItems<Contract>
-                (TbxSearch.Text, _controller.GetSkipCount(), _controller.PageSize).AsTask();
+            DgContracts.ItemsSource = await _controller.GetDataGridItems(TbxSearch.Text).AsTask();
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
