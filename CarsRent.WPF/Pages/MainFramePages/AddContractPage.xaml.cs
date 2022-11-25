@@ -48,7 +48,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
             AddEditContract();
         }
 
-        private async void AddEditContract()
+        private void AddEditContract()
         {
             BtnSave.IsEnabled = false;
             

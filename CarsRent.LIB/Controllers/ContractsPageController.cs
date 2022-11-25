@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Windows;
 using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
@@ -61,6 +62,7 @@ public class ContractsPageController : BaseDataGridViewController
 
         if (Directory.Exists(dir) == false)
         {
+            MessageBox.Show($"Не удалось найти директорию: {dir}");
             return;
         }
         
@@ -78,10 +80,18 @@ public class ContractsPageController : BaseDataGridViewController
         {
             return;
         }
+        
+        if (Directory.Exists(outputFolder) == false)
+        {
+            MessageBox.Show($"Не удалось найти директорию: {outputFolder}");
+            return;
+        }
 
         var documentName = $"{contract.ConclusionDate} {contract.Renter.Human.Surname} " +
                            $"{contract.Renter.Human.Name[0]}.{contract.Renter.Human.Patronymic[0]}.";
         var filesPath = Path.Combine(outputFolder, documentName);
+        
+        // TODO: проверка на наличие файлов.
 
         ContractPrinter.Print($"{filesPath} договор.docx", 2);
         ContractPrinter.Print($"{filesPath} акт.docx", 2);

@@ -2,6 +2,7 @@
 using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Validation;
+using CarsRent.LIB.Word;
 
 namespace CarsRent.LIB.Controllers;
 
@@ -175,6 +176,9 @@ public class AddContractPageController : BaseAddEntityController
         }
         
         base.SaveItemInDb(_contract);
+
+        var replacer = new ReplacerWordsInContract();
+        replacer.Replace(_contract);
 
         return string.Empty;
     }
