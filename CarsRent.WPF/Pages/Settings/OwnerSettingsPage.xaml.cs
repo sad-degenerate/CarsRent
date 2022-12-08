@@ -39,16 +39,18 @@ namespace CarsRent.WPF.Pages.Settings
 
             if (string.IsNullOrWhiteSpace(error))
             {
-                LblAddError.Content = string.Empty;
-                LblAddDone.Content = "Арендодатель успешно добавлен.";
                 UpdateOwners();
+                _ownerId = null;
+                
+                LblAddError.Content = string.Empty;
+                LblAddDone.Content = "Арендодатель успешно добавлен/изменен.";
+                LblChooseStatus.Content = "Текущий режим: добавление";
+
                 return;
             }
 
             LblAddDone.Content = string.Empty;
             LblAddError.Content = error;
-
-            _ownerId = null;
         }
 
         private void ButtonDelete_OnClick(object sender, RoutedEventArgs e)
@@ -84,6 +86,7 @@ namespace CarsRent.WPF.Pages.Settings
                 .Where(owner => owner.HumanId == human.Id).FirstOrDefault();
 
             _ownerId = owner.Id;
+            LblChooseStatus.Content = "Текущий режим: редактирование";
         }
     }
 }

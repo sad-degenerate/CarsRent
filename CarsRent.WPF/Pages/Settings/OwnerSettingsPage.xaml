@@ -20,6 +20,7 @@
 
                 <Label x:Name="LblChooseError" Style="{StaticResource StackPanelErrorLabel}"/>
                 <Label x:Name="LblChooseDone" Style="{StaticResource StackPanelPassLabel}"/>
+                <Label x:Name="LblChooseStatus" Style="{StaticResource StackPanelPassLabel}" Content="Текущий режим: добавление"/>
 
                 <Label Content="Добавить нового арендодателя:" Style="{StaticResource StackPanelHeaderLabel}"/>
 
