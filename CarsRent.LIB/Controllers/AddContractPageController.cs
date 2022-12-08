@@ -178,6 +178,13 @@ public class AddContractPageController : BaseAddEntityController
         base.SaveItemInDb(_contract);
 
         var replacer = new ReplacerWordsInContract();
+
+        _contract.Car = BaseCommands<Car>.SelectByIdAsync(_contract.CarId).AsTask().Result;
+        _contract.Car.Owner = BaseCommands<Owner>.SelectByIdAsync(_contract.Car.OwnerId).AsTask().Result;
+        _contract.Car.Owner.Human = BaseCommands<Human>.SelectByIdAsync(_contract.Car.Owner.HumanId).AsTask().Result;
+        _contract.Renter = BaseCommands<Renter>.SelectByIdAsync(_contract.RenterId).AsTask().Result;
+        _contract.Renter.Human = BaseCommands<Human>.SelectByIdAsync(_contract.Renter.HumanId).AsTask().Result;
+
         replacer.Replace(_contract);
 
         return string.Empty;
