@@ -11,7 +11,10 @@ namespace CarsRent.LIB.DataBase
         public DbSet<Renter> Renters { get; set; }
         public DbSet<Owner> Owners { get; set; }
 
-        public ApplicationContext() { }
+        public ApplicationContext()
+        {
+            Database.EnsureCreated();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
