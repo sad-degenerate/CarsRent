@@ -13,7 +13,7 @@ namespace CarsRent.LIB.Settings
                 : HumanCommands.FindAndSelectOwnersAsync(searchText, startPoint, count);
         }
 
-        public static string AddOwner(Dictionary<string, string> fields)
+        public static string AddOwner(Dictionary<string, string> fields, int? id)
         {
             if (DateTime.TryParse(fields["birthDate"], out var birthDate) == false)
             {
@@ -33,7 +33,7 @@ namespace CarsRent.LIB.Settings
                 PassportNumber = fields["passportNumber"],
                 IssuingOrganization = fields["issuingOrganization"],
                 RegistrationPlace = fields["registrationPlace"],
-                PhoneNumber = fields["phone"],
+                PhoneNumber = fields["phoneNumber"],
                 BirthDate = birthDate,
                 IssuingDate = issuingDate
             };
@@ -45,6 +45,19 @@ namespace CarsRent.LIB.Settings
                 return humanResults.First().ErrorMessage;
             }
 
+            if (id.HasValue)
+            {
+                var owner = BaseCommands<Owner>.SelectByIdAsync(id).AsTask().Result;
+                var humanId = owner.HumanId;
+                owner.Human = human;
+                owner.Human.Id = (int)humanId;
+                
+                BaseCommands<Human>.Modify(human);
+                BaseCommands<Owner>.Modify(owner);
+
+                return string.Empty;
+            }
+            
             BaseCommands<Human>.Add(human);
             BaseCommands<Owner>.Add(new Owner()
             {

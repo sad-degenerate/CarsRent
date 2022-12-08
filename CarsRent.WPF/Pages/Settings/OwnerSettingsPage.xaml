@@ -15,7 +15,8 @@
                          TextChanged="tbxSearchOwner_TextChanged"/>
                 <ListBox x:Name="LbxOwner" Style="{StaticResource StackPanelProperty}"/>
 
-                <Button Content="Удалить" Click="btnDelete_Click" Style="{StaticResource StackPanelSaveButton}"/>
+                <Button Content="Удалить" Click="ButtonDelete_OnClick" Style="{StaticResource StackPanelSaveButton}"/>
+                <Button Content="Редактировать" Click="ButtonModify_OnClick" Style="{StaticResource StackPanelSaveButton}"/>
 
                 <Label x:Name="LblChooseError" Style="{StaticResource StackPanelErrorLabel}"/>
                 <Label x:Name="LblChooseDone" Style="{StaticResource StackPanelPassLabel}"/>
@@ -47,12 +48,13 @@
                 <TextBox x:Name="TbxRegistrationPlace" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="Номер телефона:" Style="{StaticResource StackPanelProperty}"/>
-                <TextBox x:Name="TbxPhone" Style="{StaticResource StackPanelProperty}"/>
+                <TextBox x:Name="TbxPhoneNumber" Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="" x:Name="LblAddError" Style="{StaticResource StackPanelErrorLabel}"/>
                 <Label Content="" x:Name="LblAddDone" Style="{StaticResource StackPanelPassLabel}"/>
 
-                <Button Content="Добавить" Click="btnAdd_Click" Style="{StaticResource StackPanelSaveButton}"/>
+                <Button Content="Добавить / редактировать" Click="ButtonAddEdit_OnClick" 
+                        Style="{StaticResource StackPanelSaveButton}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

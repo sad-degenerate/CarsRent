@@ -1,12 +1,18 @@
 ﻿using CarsRent.LIB.Settings;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using CarsRent.LIB.DataBase;
+using CarsRent.LIB.Model;
 using CarsRent.WPF.ViewControllers;
 
 namespace CarsRent.WPF.Pages.Settings
 {
     public partial class OwnerSettingsPage : Page
     {
+        private int? _ownerId;
+        
         public OwnerSettingsPage()
         {
             InitializeComponent();
@@ -24,12 +30,12 @@ namespace CarsRent.WPF.Pages.Settings
             UpdateOwners();
         }
 
-        private void btnAdd_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonAddEdit_OnClick(object sender, RoutedEventArgs e)
         {
-            var controller = new FillingCarFieldsController();
+            var controller = new FillingRenterFieldsController();
             var fields = new Dictionary<string, string>(controller.CreateValuesRelationDict(Panel.Children));
 
-            var error = OwnersSettings.AddOwner(fields);
+            var error = OwnersSettings.AddOwner(fields, _ownerId);
 
             if (string.IsNullOrWhiteSpace(error))
             {
@@ -41,9 +47,11 @@ namespace CarsRent.WPF.Pages.Settings
 
             LblAddDone.Content = string.Empty;
             LblAddError.Content = error;
+
+            _ownerId = null;
         }
 
-        private void btnDelete_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonDelete_OnClick(object sender, RoutedEventArgs e)
         {
             var error = OwnersSettings.DeleteOwner(LbxOwner.SelectedItem);
             
@@ -57,6 +65,25 @@ namespace CarsRent.WPF.Pages.Settings
 
             LblChooseDone.Content = string.Empty;
             LblChooseError.Content = error;
+        }
+
+        private void ButtonModify_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (LbxOwner.SelectedItem is not Human human)
+            {
+                return;
+            }
+
+            var controller = new FillingRenterFieldsController();
+            var valuesRelDict = controller.CreateValuesRelationDict(human);
+            var collection = Panel.Children;
+            
+            controller.FillFields(ref collection, valuesRelDict);
+
+            var owner = BaseCommands<Owner>.SelectAllAsync().AsTask().Result
+                .Where(owner => owner.HumanId == human.Id).FirstOrDefault();
+
+            _ownerId = owner.Id;
         }
     }
 }
