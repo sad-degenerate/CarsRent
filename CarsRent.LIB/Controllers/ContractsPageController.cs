@@ -87,7 +87,7 @@ public class ContractsPageController : BaseDataGridViewController
             return;
         }
 
-        var documentName = $"{contract.ConclusionDate} {contract.Renter.Human.Surname} " +
+        var documentName = $"{contract.ConclusionDate:dd.MM.yyyy} {contract.Renter.Human.Surname} " +
                            $"{contract.Renter.Human.Name[0]}.{contract.Renter.Human.Patronymic[0]}.";
         var filesPath = Path.Combine(outputFolder, documentName);
         
