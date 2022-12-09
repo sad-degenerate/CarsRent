@@ -49,8 +49,7 @@ namespace CarsRent.LIB.Model
             ErrorMessage = "Некорректная стоимость автомобиля")]
         public int Price { get; set; }
         [Required(ErrorMessage = "Вы не ввели регистрационный номер")]
-        [StringLength(20, MinimumLength = 1, 
-            ErrorMessage = "Длинна регистрационного номера автомобиля, должна быть в диапазоне от 1 до 20 символов")]
+        [RegNumber(ErrorMessage = "Неверный формат регистрационного номера.")]
         public string RegistrationNumber { get; set; }
         [Required(ErrorMessage = "Вы не выбрали тип шин")]
         public WheelsType WheelsType { get; set; }
