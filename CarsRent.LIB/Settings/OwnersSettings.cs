@@ -79,7 +79,10 @@ namespace CarsRent.LIB.Settings
                 return "Вы не можете удалить единственного арендодателя в списке.";
             }
 
-            foreach (var owner in human.Owners)
+            var owners = BaseCommands<Owner>.SelectAllAsync().AsTask().Result
+                .Where(owner => owner.HumanId == human.Id);
+
+            foreach (var owner in owners)
             {
                 BaseCommands<Owner>.Delete(owner);
             }
