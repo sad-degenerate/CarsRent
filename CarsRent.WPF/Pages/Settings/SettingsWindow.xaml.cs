@@ -37,6 +37,7 @@ namespace CarsRent.WPF.Pages.Settings
                 "TemplatesSettings" => new TemplatesSettingsPage(),
                 "DisplaySettings" => new DisplaySettingsPage(),
                 "OwnersSettings" => new OwnerSettingsPage(),
+                "PrintSettings" => new PrintSettingsPage(),
                 _ => null
             };
 
