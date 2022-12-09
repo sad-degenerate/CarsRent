@@ -14,13 +14,18 @@
                 <TextBox x:Name="TbxSearchOwner" Style="{StaticResource StackPanelProperty}" 
                          TextChanged="tbxSearchOwner_TextChanged"/>
                 <ListBox x:Name="LbxOwner" Style="{StaticResource StackPanelProperty}"/>
+                
+                <Label x:Name="LblPage" Content="Текущая страница: 1" Style="{StaticResource StackPanelProperty}"/>
+                
+                <Button Content="Вперед" Style="{StaticResource StackPanelSaveButton}" Click="ButtonRight_OnClick"/>
+                <Button Content="Назад" Style="{StaticResource StackPanelSaveButton}" Click="ButtonLeft_OnClick"/>
 
                 <Button Content="Удалить" Click="ButtonDelete_OnClick" Style="{StaticResource StackPanelSaveButton}"/>
                 <Button Content="Редактировать" Click="ButtonModify_OnClick" Style="{StaticResource StackPanelSaveButton}"/>
 
                 <Label x:Name="LblChooseError" Style="{StaticResource StackPanelErrorLabel}"/>
                 <Label x:Name="LblChooseDone" Style="{StaticResource StackPanelPassLabel}"/>
-                <Label x:Name="LblChooseStatus" Style="{StaticResource StackPanelPassLabel}" Content="Текущий режим: добавление"/>
+                <Label x:Name="LblChooseStatus" Style="{StaticResource StackPanelProperty}" Content="Текущий режим: добавление"/>
 
                 <Label Content="Добавить нового арендодателя:" Style="{StaticResource StackPanelHeaderLabel}"/>
 

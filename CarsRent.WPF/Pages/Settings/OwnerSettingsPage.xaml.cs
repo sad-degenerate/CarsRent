@@ -11,6 +11,9 @@ namespace CarsRent.WPF.Pages.Settings
 {
     public partial class OwnerSettingsPage : Page
     {
+        // TODO: брать из настроек
+        private int _pageSize = 10;
+        private int _currentPage = 1;
         private int? _ownerId;
         
         public OwnerSettingsPage()
@@ -21,7 +24,14 @@ namespace CarsRent.WPF.Pages.Settings
 
         private async void UpdateOwners()
         {
-            var list = await OwnersSettings.GetOwners(TbxSearchOwner.Text, 0, 10);
+            var startPoint = 0;
+            if (_currentPage != 1)
+            {
+                startPoint = _currentPage * _pageSize;
+            }
+
+            var list = await OwnersSettings.GetOwners(TbxSearchOwner.Text, startPoint, _pageSize);
+            
             LbxOwner.ItemsSource = list;
         }
 
@@ -87,6 +97,29 @@ namespace CarsRent.WPF.Pages.Settings
 
             _ownerId = owner.Id;
             LblChooseStatus.Content = "Текущий режим: редактирование";
+        }
+
+        private void ButtonRight_OnClick(object sender, RoutedEventArgs e)
+        {
+            PaginationGo(_currentPage + 1);
+        }
+
+        private void ButtonLeft_OnClick(object sender, RoutedEventArgs e)
+        {
+            PaginationGo(_currentPage - 1);
+        }
+
+        private void PaginationGo(int newCurrentPage)
+        {
+            if (newCurrentPage <= 0)
+            {
+                return;
+            }
+
+            _currentPage = newCurrentPage;
+            UpdateOwners();
+
+            LblPage.Content = $"Текщая страница: {_currentPage}";
         }
     }
 }
