@@ -11,19 +11,22 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="90*"/>
         </Grid.RowDefinitions>
 
-        <Frame Grid.Row="1" Name="SettingsFrame" Grid.Column="0" Grid.ColumnSpan="3" 
+        <Frame Grid.Row="1" Name="SettingsFrame" Grid.Column="0" Grid.ColumnSpan="4" 
                ContentRendered="settingsFrame_ContentRendered"/>
         <Button x:Name="TemplatesSettings" Content="Настройки образцов" Grid.Column="0" Grid.Row="0" 
                 Click="OnSettingsCategoryButtonClick"/>
         <Button x:Name="DisplaySettings" Content="Отображение" Grid.Column="1" Grid.Row="0" 
                 Click="OnSettingsCategoryButtonClick"/>
         <Button x:Name="OwnersSettings" Content="Настройки арендодателя" Grid.Column="2" Grid.Row="0" 
+                Click="OnSettingsCategoryButtonClick"/>
+        <Button x:Name="PrintSettings" Content="Настройки печати" Grid.Column="3" Grid.Row="0" 
                 Click="OnSettingsCategoryButtonClick"/>
     </Grid>
 </Window>

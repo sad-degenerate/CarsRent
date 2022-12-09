@@ -90,11 +90,11 @@ public class ContractsPageController : BaseDataGridViewController
         var documentName = $"{contract.ConclusionDate:dd.MM.yyyy} {contract.Renter.Human.Surname} " +
                            $"{contract.Renter.Human.Name[0]}.{contract.Renter.Human.Patronymic[0]}.";
         var filesPath = Path.Combine(outputFolder, documentName);
-        
-        // TODO: проверка на наличие файлов.
 
-        ContractPrinter.Print($"{filesPath} договор.docx", 2);
-        ContractPrinter.Print($"{filesPath} акт.docx", 2);
-        ContractPrinter.Print($"{filesPath} уведомление.docx", 1);
+        var settings = SettingsController<PrintSettings>.GetSettings();
+
+        ContractPrinter.Print($"{filesPath} договор.docx", settings.CopiesCount, settings.DuplexPrint);
+        ContractPrinter.Print($"{filesPath} акт.docx", settings.CopiesCount, settings.DuplexPrint);
+        ContractPrinter.Print($"{filesPath} уведомление.docx", settings.CopiesCount, settings.DuplexPrint);
     }
 }
