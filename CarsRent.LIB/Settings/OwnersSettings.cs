@@ -73,11 +73,6 @@ namespace CarsRent.LIB.Settings
             {
                 return "Вы не выбрали в списке арендодателя.";
             }
-            
-            if (HumanCommands.SelectOwnersGroupAsync(0, 2).AsTask().Result.Count < 2)
-            {
-                return "Вы не можете удалить единственного арендодателя в списке.";
-            }
 
             var owners = BaseCommands<Owner>.SelectAllAsync().AsTask().Result
                 .Where(owner => owner.HumanId == human.Id);
