@@ -16,7 +16,7 @@ public partial class PrintSettingsPage : Page
     {
         var settings = SettingsController<PrintSettings>.GetSettings();
         TbxCopies.Text = settings.CopiesCount.ToString();
-        CbxTwoSidePrint.IsChecked = settings.TwoSidePrint;
+        CbxDuplexPrint.IsChecked = settings.DuplexPrint;
     }
 
     private void Save()
@@ -31,7 +31,7 @@ public partial class PrintSettingsPage : Page
         var settings = new PrintSettings()
         {
             CopiesCount = copies,
-            TwoSidePrint = CbxTwoSidePrint.IsChecked ?? false
+            DuplexPrint = CbxDuplexPrint.IsChecked ?? false
         };
 
         var error = SettingsController<PrintSettings>.SaveSettings(settings);

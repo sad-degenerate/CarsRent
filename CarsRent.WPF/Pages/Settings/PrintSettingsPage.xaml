@@ -18,7 +18,7 @@
                 
                 <Label Content="Двухсторонняя печать:" 
                        Style="{StaticResource StackPanelProperty}"/>
-                <CheckBox x:Name="CbxTwoSidePrint" Content="Включить двухстороннюю печать?" 
+                <CheckBox x:Name="CbxDuplexPrint" Content="Включить двухстороннюю печать?" 
                           Style="{StaticResource StackPanelProperty}"/>
 
                 <Label Content="" x:Name="LblError" Style="{StaticResource StackPanelErrorLabel}"/>

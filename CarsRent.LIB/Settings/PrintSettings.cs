@@ -6,14 +6,14 @@ public class PrintSettings : SettingsBase, IValidatableObject
 {
     public int CopiesCount { get; set; }
     
-    public bool TwoSidePrint { get; set; }
+    public bool DuplexPrint { get; set; }
     
     public override SettingsBase Default()
     {
         return new PrintSettings()
         {
             CopiesCount = 2,
-            TwoSidePrint = true
+            DuplexPrint = true
         };
     }
 
