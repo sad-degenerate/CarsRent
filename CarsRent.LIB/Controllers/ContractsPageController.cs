@@ -93,8 +93,10 @@ public class ContractsPageController : BaseDataGridViewController
         
         // TODO: проверка на наличие файлов.
 
-        ContractPrinter.Print($"{filesPath} договор.docx", 2);
-        ContractPrinter.Print($"{filesPath} акт.docx", 2);
-        ContractPrinter.Print($"{filesPath} уведомление.docx", 1);
+        var settings = SettingsController<PrintSettings>.GetSettings();
+
+        ContractPrinter.Print($"{filesPath} договор.docx", settings.CopiesCount);
+        ContractPrinter.Print($"{filesPath} акт.docx", settings.CopiesCount);
+        ContractPrinter.Print($"{filesPath} уведомление.docx", settings.CopiesCount);
     }
 }
