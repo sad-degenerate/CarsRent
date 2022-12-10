@@ -5,6 +5,13 @@ namespace CarsRent.LIB.DataBase
 {
     public static class BaseCommands<T> where T : class, IBaseModel
     {
+        private static void ChangeEntityState(T item, EntityState state)
+        {
+            var context = new ApplicationContext();
+            context.Entry(item).State = state;
+            context.SaveChanges();
+        }
+        
         public static void Add(T item)
         {
             ChangeEntityState(item, EntityState.Added);
@@ -50,13 +57,6 @@ namespace CarsRent.LIB.DataBase
             return new ValueTask<List<T>>(find.Skip(startPoint).Take(count).ToList());
         }
 
-        private static void ChangeEntityState(T item, EntityState state)
-        {
-            var context = new ApplicationContext();
-            context.Entry(item).State = state;
-            context.SaveChanges();
-        }
-        
         private static bool IsSearched(T item, string searchText)
         {
             var searchWords = searchText.Split(' ');
