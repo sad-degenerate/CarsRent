@@ -27,11 +27,11 @@ namespace CarsRent.LIB.Model
 
         [Required(ErrorMessage = "Вы не выбрали автомобиль, используемый в этой поездке")]
         public int? CarId { get; set; }
-        public Car Car { get; set; }
+        public virtual Car Car { get; set; }
 
         [Required(ErrorMessage = "Вы не выбрали арендатора, участвующего в этой поездке")]
         public int? RenterId { get; set; }
-        public Renter Renter { get; set; }
+        public virtual Renter Renter { get; set; }
 
         public Contract() { }
 

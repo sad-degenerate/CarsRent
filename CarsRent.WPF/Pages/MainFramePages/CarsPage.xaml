@@ -34,13 +34,15 @@
                                     Binding="{Binding Path=Brand, Mode=OneWay}"/>
                 <DataGridTextColumn Header="Модель" Width="10*"
                                     Binding="{Binding Path=Model, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Владелец" Width="10*"
+                                    Binding="{Binding Path=Owner.Human.FullName, Mode=OneWay}"/>
                 <DataGridTextColumn Header="Номер паспорта" Width="10*"
                                     Binding="{Binding Path=PassportNumber, Mode=OneWay}"/>
                 <DataGridTextColumn Header="VIN" Width="10*"
                                     Binding="{Binding Path=VIN, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Цвет" Width="15*"
+                <DataGridTextColumn Header="Цвет" Width="10*"
                                     Binding="{Binding Path=Color, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Год выпуска" Width="10*"
+                <DataGridTextColumn Header="Год выпуска" Width="5*"
                                     Binding="{Binding Path=Year, Mode=OneWay}"/>
                 <DataGridTextColumn Header="Регистрационный номер" Width="10*"
                                     Binding="{Binding Path=RegistrationNumber, Mode=OneWay}"/>
