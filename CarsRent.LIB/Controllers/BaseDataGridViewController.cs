@@ -5,11 +5,9 @@ namespace CarsRent.LIB.Controllers;
 
 public abstract class BaseDataGridViewController
 {
-    public ValueTask<List<T>> GetDataGridItems<T>(string searchText, int startPoint, int count) where T : class, IBaseModel
+    public ValueTask<List<T>> GetDataGridItemsAsync<T>(string searchText, int startPoint, int count) where T : class, IBaseModel
     {
-        return string.IsNullOrWhiteSpace(searchText)
-            ? BaseCommands<T>.SelectGroupAsync(startPoint, count)
-            : BaseCommands<T>.FindAndSelectAsync(searchText, startPoint, count);
+        return new ValueTask<List<T>>(BaseCommands<T>.SelectGroup(startPoint, count, searchText).ToList());
     }
 
     protected int GetSkipCount(int currentPage, int pageSize)

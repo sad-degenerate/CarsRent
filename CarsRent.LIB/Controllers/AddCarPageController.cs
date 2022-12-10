@@ -38,50 +38,29 @@ public class AddCarPageController : BaseAddEntityController
         carStatus.SelectedIndex = 0;
     }
 
-    public ValueTask<bool> UpdateOwnersItemsSourceAsync(string searchText, int startPoint, int count, ref ListBox listBox)
+    public ValueTask<List<Human>> UpdateOwnersItemsSourceAsync(string searchText, int startPoint, int count)
     {
-        if (string.IsNullOrWhiteSpace(searchText) == false)
+        var list = new List<Human>();
+        if (_car != null && _car.OwnerId.HasValue)
         {
-            listBox.ItemsSource = HumanCommands.FindAndSelectOwnersAsync(searchText, startPoint, count).AsTask().Result;
-            SelectHuman(ref listBox);
-            return new ValueTask<bool>(true);
+            list.Add(BaseCommands<Owner>.SelectById(_car.OwnerId).Human);
         }
         
-        if (_car == null || _car.OwnerId.HasValue == false)
-        {
-            listBox.ItemsSource = HumanCommands.SelectOwnersGroupAsync(startPoint, count).AsTask().Result;
-            return new ValueTask<bool>(true);
-        }
-
-        var selectedOwner = BaseCommands<Owner>.SelectByIdAsync(_car.OwnerId).AsTask().Result;
-        var selectedHuman = BaseCommands<Human>.SelectByIdAsync(selectedOwner.HumanId).AsTask().Result;
+        var owners = BaseCommands<Owner>.SelectGroup(startPoint, count, searchText).ToList();
+        var humans = (from owner in owners select owner.Human).ToList();
         
-        var humansList = HumanCommands.SelectOwnersGroupAsync(startPoint, count)
-            .AsTask().Result.Where(human => human.Id != selectedHuman.Id).Take(2).ToList();
-        humansList.Add(selectedHuman);
-
-        listBox.ItemsSource = humansList;
-        SelectHuman(ref listBox);
-
-        return new ValueTask<bool>(true);
+        list.AddRange(humans);
+        return new ValueTask<List<Human>>(list);
     }
 
-    private void SelectHuman(ref ListBox listBox)
+    public int? GetSelectedOwnerId()
     {
         if (_car == null || _car.OwnerId.HasValue == false)
         {
-            return;
+            return null;
         }
-        
-        var selectedOwner = BaseCommands<Owner>.SelectByIdAsync(_car.OwnerId).AsTask().Result;
-        
-        foreach (var item in listBox.ItemsSource)
-        {
-            if (item is Human human && human.Id == selectedOwner.HumanId)
-            {
-                listBox.SelectedItem = item;
-            }
-        }
+
+        return _car.Owner.HumanId;
     }
 
     public override string AddEditEntity(UIElementCollection collection, Dictionary<string, string> valuesRelDict)
@@ -113,7 +92,7 @@ public class AddCarPageController : BaseAddEntityController
             return "Вы не выбрали арендодателя.";
         }
         
-        var owner = BaseCommands<Owner>.SelectAllAsync().AsTask().Result
+        var owner = BaseCommands<Owner>.SelectAll()
             .Where(owner => owner.HumanId == humanId).FirstOrDefault();
 
         _car ??= new Car();

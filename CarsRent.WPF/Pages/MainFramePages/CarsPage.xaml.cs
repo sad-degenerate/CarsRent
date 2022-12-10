@@ -59,7 +59,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private async void UpdateDataGrid()
         {
-            DgCars.ItemsSource = await _controller.GetDataGridItems<Car>
+            DgCars.ItemsSource = await _controller.GetDataGridItemsAsync<Car>
                 (TbxSearch.Text, _controller.GetSkipCount(), _controller.PageSize).AsTask();
         }
 

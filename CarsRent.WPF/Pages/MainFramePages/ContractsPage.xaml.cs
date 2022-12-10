@@ -17,10 +17,11 @@ namespace CarsRent.WPF.Pages.MainFramePages
             
             UpdateDataGrid();
         }
-        
-        public async void UpdateDataGrid()
+
+        private async void UpdateDataGrid()
         {
-            DgContracts.ItemsSource = await _controller.GetDataGridItems(TbxSearch.Text).AsTask();
+            DgContracts.ItemsSource = await _controller.GetDataGridItemsAsync<Contract>
+                (TbxSearch.Text, _controller.GetSkipCount(), _controller.PageSize);
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)

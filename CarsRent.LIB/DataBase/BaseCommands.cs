@@ -27,40 +27,35 @@ namespace CarsRent.LIB.DataBase
             ChangeEntityState(item, EntityState.Deleted);
         }
 
-        public static ValueTask<List<T>> SelectAllAsync()
+        public static IEnumerable<T> SelectAll()
         {
             var context = new ApplicationContext();
-            return new ValueTask<List<T>>(context.Set<T>().ToList());
+            return context.Set<T>();
         }
 
-        public static ValueTask<List<T>> SelectGroupAsync(int startPoint, int count)
+        public static IEnumerable<T> SelectGroup(int startPoint, int count, string searchText = "")
         {
-            var list = SelectAllAsync().AsTask().Result;
-            return new ValueTask<List<T>>(list.Skip(startPoint).Take(count).ToList());
+            var result = string.IsNullOrWhiteSpace(searchText) 
+                ? SelectAll() 
+                : Find(SelectAll(), searchText);
+
+            return result.Skip(startPoint).Take(count);
         }
         
-        public static ValueTask<T?> SelectByIdAsync(int? id)
+        public static T? SelectById(int? id)
         {
-            var list = SelectAllAsync().AsTask().Result;
-            return new ValueTask<T?>(list.FirstOrDefault(x => x.Id == id));
+            return SelectAll().FirstOrDefault(x => x.Id == id);
         }
-        
-        public static ValueTask<List<T>> FindAsync(IEnumerable<T> items, string searchText)
+
+        private static IEnumerable<T> Find(IEnumerable<T> items, string searchText)
         {
-            return new ValueTask<List<T>>(items.Where(item => IsSearched(item, searchText)).ToList());
-        }
-        
-        public static ValueTask<List<T>> FindAndSelectAsync(string searchText, int startPoint, int count)
-        {
-            var list = SelectAllAsync().AsTask().Result;
-            var find = FindAsync(list, searchText).AsTask().Result;
-            return new ValueTask<List<T>>(find.Skip(startPoint).Take(count).ToList());
+            return items.Where(item => IsSearched(item, searchText));
         }
 
         private static bool IsSearched(T item, string searchText)
         {
             var searchWords = searchText.Split(' ');
-            return searchWords.All(word => item.ToString().Contains(word));
+            return searchWords.All(word => item.ToString()!.Contains(word));
         }
     }
 }

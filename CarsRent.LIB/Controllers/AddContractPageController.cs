@@ -23,93 +23,53 @@ public class AddContractPageController : BaseAddEntityController
         _contract = contract;
     }
 
-    public ValueTask<bool> UpdateCarsItemsSourceAsync(string searchText, int startPoint, int count, ref ListBox listBox)
+    public ValueTask<List<Car>> UpdateCarsItemsSourceAsync(string searchText, int startPoint, int count)
     {
-        if (string.IsNullOrWhiteSpace(searchText) == false)
+        var list = new List<Car>();
+        if (_contract != null && _contract.CarId.HasValue)
         {
-            listBox.ItemsSource = BaseCommands<Car>.FindAndSelectAsync(searchText, startPoint, count).AsTask().Result;
-            SelectCar(ref listBox);
-            return new ValueTask<bool>(true);
+            list.Add(BaseCommands<Car>.SelectById(_contract.CarId));
         }
         
-        if (_contract == null || _contract.CarId.HasValue == false)
-        {
-            listBox.ItemsSource = BaseCommands<Car>.SelectGroupAsync(startPoint, count).AsTask().Result;
-            return new ValueTask<bool>(true);
-        }
+        var cars = BaseCommands<Car>.SelectGroup(startPoint, count, searchText).ToList();
 
-        var selectedCar = BaseCommands<Car>.SelectByIdAsync(_contract.CarId).AsTask().Result;
-
-        var carsList = BaseCommands<Car>.SelectGroupAsync(startPoint, count)
-            .AsTask().Result.Where(car => car.Id != selectedCar.Id).Take(2).ToList();
-        carsList.Add(selectedCar);
-
-        listBox.ItemsSource = carsList;
-        SelectCar(ref listBox);
-
-        return new ValueTask<bool>(true);
+        list.AddRange(cars);
+        return new ValueTask<List<Car>>(list);
     }
 
-    private void SelectCar(ref ListBox listBox)
+    public ValueTask<List<Human>> UpdateRentersItemsSourceAsync(string searchText, int startPoint, int count)
     {
-        if (_contract == null || _contract.CarId.HasValue == false)
+        var list = new List<Human>();
+        if (_contract != null && _contract.RenterId.HasValue)
         {
-            return;
+            list.Add(BaseCommands<Renter>.SelectById(_contract.RenterId).Human);
         }
         
-        foreach (var item in listBox.ItemsSource)
-        {
-            if (item is Car car && car.Id == _contract.CarId)
-            {
-                listBox.SelectedItem = item;
-            }
-        }
-    }
-
-    public ValueTask<bool> UpdateRentersItemsSourceAsync(string searchText, int startPoint, int count, ref ListBox listBox)
-    {
-        if (string.IsNullOrWhiteSpace(searchText) == false)
-        {
-            listBox.ItemsSource = HumanCommands.FindAndSelectRentersAsync(searchText, startPoint, count).AsTask().Result;
-            SelectHuman(ref listBox);
-            return new ValueTask<bool>(true);
-        }
+        var renters = BaseCommands<Renter>.SelectGroup(startPoint, count, searchText).ToList();
+        var humans = (from renter in renters select renter.Human).ToList();
         
-        if (_contract == null || _contract.RenterId.HasValue == false)
-        {
-            listBox.ItemsSource = HumanCommands.SelectRentersGroupAsync(startPoint, count).AsTask().Result;
-            return new ValueTask<bool>(true);
-        }
-
-        var selectedRenter = BaseCommands<Renter>.SelectByIdAsync(_contract.RenterId).AsTask().Result;
-        var selectedHuman = BaseCommands<Human>.SelectByIdAsync(selectedRenter.HumanId).AsTask().Result;
-        
-        var humansList = HumanCommands.SelectRentersGroupAsync(startPoint, count).AsTask().Result
-            .Where(hum => hum.Id != selectedHuman.Id).Take(2).ToList();
-        humansList.Add(selectedHuman);
-
-        listBox.ItemsSource = humansList;
-        SelectHuman(ref listBox);
-
-        return new ValueTask<bool>(true);
+        list.AddRange(humans);
+        return new ValueTask<List<Human>>(list);
     }
     
-    private void SelectHuman(ref ListBox listBox)
+    public int? GetSelectedRenterId()
     {
         if (_contract == null || _contract.RenterId.HasValue == false)
         {
-            return;
+            return null;
         }
-        
-        var selectedRenter = BaseCommands<Renter>.SelectByIdAsync(_contract.RenterId).AsTask().Result;
-        
-        foreach (var item in listBox.ItemsSource)
+
+        return _contract.Renter.HumanId;
+    }
+    
+    public int? GetSelectedCarId()
+    {
+        if (_contract == null || _contract.CarId.HasValue == false)
         {
-            if (item is Human human && human.Id == selectedRenter.HumanId)
-            {
-                listBox.SelectedItem = item;
-            }
+            return null;
         }
+
+        return _contract.CarId;
     }
 
     public void CreateComboBoxesValues(ref ComboBox rideType)
@@ -163,10 +123,11 @@ public class AddContractPageController : BaseAddEntityController
             return "Вы не выбрали автомобиль.";
         }
 
-        var renters = BaseCommands<Renter>.SelectAllAsync().AsTask().Result;
+        var renterId = BaseCommands<Renter>.SelectAll()
+            .Where(renter => renter.HumanId == humanId).FirstOrDefault().Id;
 
         _contract.CarId = carId;
-        _contract.RenterId = renters.Where(renter => renter.HumanId == humanId).FirstOrDefault().Id;
+        _contract.RenterId = renterId;
 
         var contractResult = ModelValidation.Validate(_contract);
 
@@ -178,13 +139,6 @@ public class AddContractPageController : BaseAddEntityController
         base.SaveItemInDb(_contract);
 
         var replacer = new ReplacerWordsInContract();
-
-        _contract.Car = BaseCommands<Car>.SelectByIdAsync(_contract.CarId).AsTask().Result;
-        _contract.Car.Owner = BaseCommands<Owner>.SelectByIdAsync(_contract.Car.OwnerId).AsTask().Result;
-        _contract.Car.Owner.Human = BaseCommands<Human>.SelectByIdAsync(_contract.Car.Owner.HumanId).AsTask().Result;
-        _contract.Renter = BaseCommands<Renter>.SelectByIdAsync(_contract.RenterId).AsTask().Result;
-        _contract.Renter.Human = BaseCommands<Human>.SelectByIdAsync(_contract.Renter.HumanId).AsTask().Result;
-
         replacer.Replace(_contract);
 
         return string.Empty;

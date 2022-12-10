@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Windows;
-using CarsRent.LIB.DataBase;
 using CarsRent.LIB.Model;
 using CarsRent.LIB.Settings;
 using CarsRent.LIB.Word;
@@ -19,25 +18,11 @@ public class ContractsPageController : BaseDataGridViewController
         CurrentPage = 1;
     }
 
-    public ValueTask<List<Contract>> GetDataGridItems(string searchedText)
+    public int GetSkipCount()
     {
-        var contracts = base.GetDataGridItems<Contract>(searchedText, 
-            base.GetSkipCount(CurrentPage, PageSize), PageSize).AsTask().Result;
-
-        foreach (var contract in contracts)
-        {
-            var car = BaseCommands<Car>.SelectByIdAsync(contract.CarId).AsTask().Result;
-            var renter = BaseCommands<Renter>.SelectByIdAsync(contract.RenterId).AsTask().Result;
-            var human = BaseCommands<Human>.SelectByIdAsync(renter.HumanId).AsTask().Result;
-
-            contract.Car = car;
-            contract.Renter = renter;
-            contract.Renter.Human = human;
-        }
-
-        return new ValueTask<List<Contract>>(contracts);
+        return base.GetSkipCount(CurrentPage, PageSize);
     }
-    
+
     private string GetDocumentFolder(Contract contract)
     {
         var settings = SettingsController<TemplatesSettings>.GetSettings();

@@ -1,4 +1,5 @@
-﻿using CarsRent.LIB.Model;
+﻿using System.Linq;
+using CarsRent.LIB.Model;
 using System.Windows;
 using System.Windows.Controls;
 using CarsRent.LIB.Controllers;
@@ -20,8 +21,9 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private async void UpdateDataGrid()
         {
-            DgRenters.ItemsSource =  await _controller.GetDataGridItems
-                (TbxSearch.Text, _controller.GetSkipCount(), _controller.PageSize).AsTask();
+            var renters = await _controller.GetDataGridItemsAsync<Renter>
+                (TbxSearch.Text, _controller.GetSkipCount(), _controller.PageSize);
+            DgRenters.ItemsSource = from renter in renters select renter.Human;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)

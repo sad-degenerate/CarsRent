@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using CarsRent.LIB.Model;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,12 +36,44 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private async void UpdateCarsList()
         {
-            await _addEditController.UpdateCarsItemsSourceAsync(TbxSearchCar.Text, 0, 3, ref LbxCar);
+            LbxCar.ItemsSource = await _addEditController.UpdateCarsItemsSourceAsync(TbxSearchCar.Text, 0, 3);
+
+            var selectedItemId = _addEditController.GetSelectedCarId();
+            if (selectedItemId.HasValue == false)
+            {
+                return;
+            }
+
+            foreach (var item in LbxCar.ItemsSource)
+            {
+                if (item is not Car car || car.Id != selectedItemId)
+                {
+                    continue;
+                }
+
+                LbxCar.SelectedItem = item;
+            }
         }
 
         private async void UpdateRentersList()
         {
-            await _addEditController.UpdateRentersItemsSourceAsync(TbxSearchRenter.Text, 0, 3, ref LbxRenter);
+            LbxRenter.ItemsSource = await _addEditController.UpdateRentersItemsSourceAsync(TbxSearchRenter.Text, 0, 3);
+
+            var selectedItemId = _addEditController.GetSelectedRenterId();
+            if (selectedItemId.HasValue == false)
+            {
+                return;
+            }
+
+            foreach (var item in LbxRenter.ItemsSource)
+            {
+                if (item is not Human human || human.Id != selectedItemId)
+                {
+                    continue;
+                }
+
+                LbxCar.SelectedItem = item;
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
