@@ -6,11 +6,12 @@ namespace CarsRent.LIB.Settings
 {
     public static class OwnersSettings
     {
-        public static ValueTask<List<Human>> GetOwners(string searchText, int startPoint, int count)
+        public static ValueTask<List<Human>> GetOwnersAsync(string searchText, int startPoint, int count)
         {
-            return string.IsNullOrWhiteSpace(searchText) 
-                ? HumanCommands.SelectOwnersGroupAsync(startPoint, count) 
-                : HumanCommands.FindAndSelectOwnersAsync(searchText, startPoint, count);
+            var owners = BaseCommands<Owner>.SelectGroup(startPoint, count, searchText).ToList();
+            var humans = (from owner in owners select owner.Human).ToList();
+
+            return new ValueTask<List<Human>>(humans);
         }
 
         public static string AddOwner(Dictionary<string, string> fields, int? id)
@@ -47,7 +48,7 @@ namespace CarsRent.LIB.Settings
 
             if (id.HasValue)
             {
-                var owner = BaseCommands<Owner>.SelectByIdAsync(id).AsTask().Result;
+                var owner = BaseCommands<Owner>.SelectById(id);
                 var humanId = owner.HumanId;
                 owner.Human = human;
                 owner.Human.Id = (int)humanId;
@@ -74,7 +75,7 @@ namespace CarsRent.LIB.Settings
                 return "Вы не выбрали в списке арендодателя.";
             }
 
-            var owners = BaseCommands<Owner>.SelectAllAsync().AsTask().Result
+            var owners = BaseCommands<Owner>.SelectAll()
                 .Where(owner => owner.HumanId == human.Id);
 
             foreach (var owner in owners)

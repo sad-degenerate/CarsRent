@@ -30,7 +30,7 @@ namespace CarsRent.WPF.Pages.Settings
                 startPoint = _currentPage * _pageSize;
             }
 
-            var list = await OwnersSettings.GetOwners(TbxSearchOwner.Text, startPoint, _pageSize);
+            var list = await OwnersSettings.GetOwnersAsync(TbxSearchOwner.Text, startPoint, _pageSize);
             
             LbxOwner.ItemsSource = list;
         }
@@ -92,7 +92,7 @@ namespace CarsRent.WPF.Pages.Settings
             
             controller.FillFields(ref collection, valuesRelDict);
 
-            var owner = BaseCommands<Owner>.SelectAllAsync().AsTask().Result
+            var owner = BaseCommands<Owner>.SelectAll()
                 .Where(owner => owner.HumanId == human.Id).FirstOrDefault();
 
             _ownerId = owner.Id;

@@ -16,13 +16,6 @@ public class RentersPageController : BaseDataGridViewController
         CurrentPage = 1;
     }
 
-    public ValueTask<List<Human>> GetDataGridItems(string searchText, int startPoint, int count)
-    {
-        return string.IsNullOrWhiteSpace(searchText)
-            ? HumanCommands.SelectRentersGroupAsync(startPoint, count)
-            : HumanCommands.FindAndSelectRentersAsync(searchText, startPoint, count);
-    }
-
     public override void DeleteEntity<T>(T item)
     {
         if (item is not Human human)
@@ -30,7 +23,7 @@ public class RentersPageController : BaseDataGridViewController
             return;
         }
 
-        var renters = BaseCommands<Renter>.SelectAllAsync().AsTask().Result
+        var renters = BaseCommands<Renter>.SelectAll()
             .Where(renter => renter.HumanId == human.Id);
 
         foreach (var renter in renters)

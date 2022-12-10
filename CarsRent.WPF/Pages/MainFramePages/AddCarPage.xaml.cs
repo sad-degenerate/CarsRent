@@ -59,7 +59,23 @@ namespace CarsRent.WPF.Pages.MainFramePages
 
         private async void UpdateItemsSource()
         {
-            await _addEditController.UpdateOwnersItemsSourceAsync(TbxSearchOwner.Text, 0, 3, ref LbxOwner);
+            LbxOwner.ItemsSource = await _addEditController.UpdateOwnersItemsSourceAsync(TbxSearchOwner.Text, 0, 3);
+
+            var selectedItemId = _addEditController.GetSelectedOwnerId();
+            if (selectedItemId.HasValue == false)
+            {
+                return;
+            }
+
+            foreach (var item in LbxOwner.ItemsSource)
+            {
+                if (item is not Human human || human.Id != selectedItemId)
+                {
+                    continue;
+                }
+
+                LbxOwner.SelectedItem = item;
+            }
         }
 
         private void tbxSearchOwner_TextChanged(object sender, TextChangedEventArgs e)

@@ -52,19 +52,19 @@ public class AddRenterPageController : BaseAddEntityController
         return string.Empty;
     }
 
-    protected override void SaveItemInDb<Human>(Human renter)
+    protected override void SaveItemInDb<Human>(Human human)
     {
-        if (renter.Id == 0)
+        if (human.Id == 0)
         {
-            BaseCommands<Human>.Add(renter);
+            BaseCommands<Human>.Add(human);
             BaseCommands<Renter>.Add(new Renter
             {
-                HumanId = renter.Id
+                HumanId = human.Id
             });
         }    
         else
         {
-            BaseCommands<Human>.Modify(renter);
+            BaseCommands<Human>.Modify(human);
         }
     }
 }
