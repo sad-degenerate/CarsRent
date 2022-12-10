@@ -52,6 +52,9 @@ namespace CarsRent.LIB.Model
 
         [NotMapped]
         public string IssuingDateString => IssuingDate.ToString("dd.MM.yyyy");
+        
+        [NotMapped]
+        public string FullName => $"{Surname} {Name[0]}.{Patronymic[0]}.";
 
         public override string ToString()
         {

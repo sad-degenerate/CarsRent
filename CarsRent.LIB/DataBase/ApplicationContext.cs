@@ -18,7 +18,10 @@ namespace CarsRent.LIB.DataBase
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=cars_rent;Trusted_Connection=True;");
+            const string connectionString = 
+                @"Server=localhost\SQLEXPRESS;Database=cars_rent;Trusted_Connection=True;TrustServerCertificate=True;";
+            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseLazyLoadingProxies();
         }
     }
 }
