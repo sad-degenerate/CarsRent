@@ -25,31 +25,45 @@ public class AddContractPageController : BaseAddEntityController
 
     public ValueTask<List<Car>> UpdateCarsItemsSourceAsync(string searchText, int startPoint, int count)
     {
-        var list = new List<Car>();
         if (_contract != null && _contract.CarId.HasValue)
         {
-            list.Add(BaseCommands<Car>.SelectById(_contract.CarId));
+            var list = new List<Car>
+            {
+                BaseCommands<Car>.SelectById(_contract.CarId)
+            };
+
+            var suitableCars = BaseCommands<Car>.SelectGroup(startPoint, count, searchText)
+                .Where(x => x.Id != _contract.CarId).ToList();
+            list.AddRange(suitableCars);
+
+            return new ValueTask<List<Car>>(list);
         }
         
         var cars = BaseCommands<Car>.SelectGroup(startPoint, count, searchText).ToList();
 
-        list.AddRange(cars);
-        return new ValueTask<List<Car>>(list);
+        return new ValueTask<List<Car>>(cars);
     }
 
     public ValueTask<List<Human>> UpdateRentersItemsSourceAsync(string searchText, int startPoint, int count)
     {
-        var list = new List<Human>();
         if (_contract != null && _contract.RenterId.HasValue)
         {
-            list.Add(BaseCommands<Renter>.SelectById(_contract.RenterId).Human);
+            var list = new List<Human>
+            {
+                BaseCommands<Renter>.SelectById(_contract.RenterId).Human
+            };
+
+            var suitableRenters = BaseCommands<Renter>.SelectGroup(startPoint, count, searchText)
+                .Where(x => x.Id != _contract.RenterId).ToList();
+            list.AddRange(from renter in suitableRenters select renter.Human);
+
+            return new ValueTask<List<Human>>(list);
         }
         
         var renters = BaseCommands<Renter>.SelectGroup(startPoint, count, searchText).ToList();
         var humans = (from renter in renters select renter.Human).ToList();
         
-        list.AddRange(humans);
-        return new ValueTask<List<Human>>(list);
+        return new ValueTask<List<Human>>(humans);
     }
     
     public int? GetSelectedRenterId()

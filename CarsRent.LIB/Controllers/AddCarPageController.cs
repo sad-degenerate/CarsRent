@@ -40,17 +40,24 @@ public class AddCarPageController : BaseAddEntityController
 
     public ValueTask<List<Human>> UpdateOwnersItemsSourceAsync(string searchText, int startPoint, int count)
     {
-        var list = new List<Human>();
         if (_car != null && _car.OwnerId.HasValue)
         {
-            list.Add(BaseCommands<Owner>.SelectById(_car.OwnerId).Human);
+            var list = new List<Human>
+            {
+                BaseCommands<Owner>.SelectById(_car.OwnerId).Human
+            };
+
+            var suitableOwners = BaseCommands<Owner>.SelectGroup(startPoint, count, searchText)
+                .Where(x => x.Id != _car.OwnerId).ToList();
+            list.AddRange(from owner in suitableOwners select owner.Human);
+
+            return new ValueTask<List<Human>>(list);
         }
         
         var owners = BaseCommands<Owner>.SelectGroup(startPoint, count, searchText).ToList();
         var humans = (from owner in owners select owner.Human).ToList();
         
-        list.AddRange(humans);
-        return new ValueTask<List<Human>>(list);
+        return new ValueTask<List<Human>>(humans);
     }
 
     public int? GetSelectedOwnerId()
