@@ -100,5 +100,12 @@ namespace CarsRent.WPF.Pages.MainFramePages
         {
             UpdateDataGrid();
         }
+
+        private void UpdateStatus(object sender, RoutedEventArgs e)
+        {
+            _controller.UpdateCarsStatus();
+            UpdateDataGrid();
+            MessageBox.Show("Статус всех автомобилей обновлен.");
+        }
     }
 }

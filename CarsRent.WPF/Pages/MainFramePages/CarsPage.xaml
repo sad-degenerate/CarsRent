@@ -17,17 +17,19 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="10*"/>
-            <RowDefinition Height="60*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="50*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
-        <Button Content="Удалить" Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
         <Button Content="Добавить" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Click="btnAdd_Click"/>
         <Button Content="Изменить" Grid.Column="1" Grid.Row="2" Click="btnEdit_Click"/>
+        <Button Content="Удалить" Grid.Column="1" Grid.Row="3" Click="btnDelete_Click"/>
+        <Button Content="Обновить статус" Grid.Column="1" Grid.Row="4" Click="UpdateStatus"/>
 
         <TextBox x:Name="TbxSearch" Grid.Row="0" Grid.Column="0" TextChanged="tbxSearch_TextChanged" FontSize="20"/>
 
-        <DataGrid x:Name="DgCars" Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" 
+        <DataGrid x:Name="DgCars" Grid.Row="1" Grid.RowSpan="5" Grid.Column="0" 
                   AutoGenerateColumns="False" SelectionMode="Single" d:DataContext="{d:DesignData }">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Марка" Width="20*"
@@ -53,7 +55,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Grid.Column="0" Grid.Row="5">
+        <Grid Grid.Column="0" Grid.Row="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="45*"/>
                 <ColumnDefinition Width="10*"/>
