@@ -72,7 +72,7 @@ namespace CarsRent.WPF.Pages.MainFramePages
                     continue;
                 }
 
-                LbxCar.SelectedItem = item;
+                LbxRenter.SelectedItem = item;
             }
         }
 
