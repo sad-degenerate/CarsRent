@@ -153,7 +153,7 @@ public class AddContractPageController : BaseAddEntityController
         base.SaveItemInDb(_contract);
 
         var replacer = new ReplacerWordsInContract();
-        replacer.Replace(_contract);
+        replacer.Replace(BaseCommands<Contract>.SelectById(_contract.Id));
 
         return string.Empty;
     }
